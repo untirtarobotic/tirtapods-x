@@ -100,7 +100,7 @@ namespace ping {
     // maximum update calls equals to number of sensors (five)
 
     unsigned int currentPingValue;
-    unsigned int offset = 3;
+    unsigned int offset = 1;
     unsigned int offsetFar = 20;
 
     switch (state_nextPingSensor) {

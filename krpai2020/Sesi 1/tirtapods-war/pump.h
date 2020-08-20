@@ -16,4 +16,11 @@ namespace pump {
     if (active) digitalWrite(PIN_PUMP, HIGH);
     else digitalWrite(PIN_PUMP, LOW);
   }
+
+  void menyebar (){
+    digitalWrite(PIN_PUMP, HIGH);
+  }
+   void menyebarstop (){
+    digitalWrite(PIN_PUMP, LOW);
+   }
 }

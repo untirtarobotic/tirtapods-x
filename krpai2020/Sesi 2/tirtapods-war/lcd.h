@@ -8,6 +8,7 @@ namespace lcd {
     STANDBY,
     NORMALIZING,
     MOVING_FORWARD,
+    ROCK_AND_ROLL,
     MOVING_BACKWARD,
     SHIFTING_RIGHT,
     SHIFTING_LEFT,
@@ -82,6 +83,9 @@ namespace lcd {
         break;
       case MOVING_FORWARD:
         lcd.print(F("Moving forward v"));
+        break;
+      case ROCK_AND_ROLL:
+        lcd.print(F("Rock & Roll"));
         break;
       case MOVING_BACKWARD:
         lcd.print(F("Moving backward^"));

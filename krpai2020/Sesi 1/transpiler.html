@@ -39,7 +39,7 @@
     function getAngularOfCartesian (x, y, z) {
       const r = getR(y, x)
       const teta = getTeta(y, x)
-      const p = getP(r, 2.5)
+      const p = getP(r, 3)
       const u = getU(p, z)
       const alpha = getAlpha(9, 5, u)
       const gama = p > 0 ? getGama(p, z) : Math.PI + getGama(p, z)
@@ -61,39 +61,39 @@
 
     const leg = {
       L1: {
-        teta: deg => Math.round(convert(deg, Math.PI/4, -500, 1900, false)),
-        beta: deg => Math.round(convert(deg, Math.PI/4, +500, 1500, false)),
+        teta: deg => Math.round(convert(deg, Math.PI/4, -550, 2000, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, +450, 1550, false)),
         alpha: deg => Math.round(convert(deg, Math.PI/4, -500, 2500, false))
       },
 
       L2: {
-        teta: deg => Math.round(convert(deg, Math.PI/4, -500, 1450, false)),
-        beta: deg => Math.round(convert(deg, Math.PI/4, +500, 1550, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, -500, 2450, false))
+        teta: deg => Math.round(convert(deg, Math.PI/4, -450, 1400, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, +470, 1600, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -450, 2450, false))
       },
 
       L3: {
-        teta: deg => Math.round(convert(deg, Math.PI/4, +500, 950, false)),
-        beta: deg => Math.round(convert(deg, Math.PI/4, +500, 1500, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, -500, 2500, false))
+        teta: deg => Math.round(convert(deg, Math.PI/4, +540, 950, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, +450, 1400, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -450, 2500, false))
       },
 
       R1: {
         teta: deg => Math.round(convert(deg, Math.PI/4, +500, 1000, false)),
-        beta: deg => Math.round(convert(deg, Math.PI/4, -500, 1400, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, +500, 400, false))
+        beta: deg => Math.round(convert(deg, Math.PI/4, -460, 1400, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, +480, 420, false))
       },
 
       R2: {
-        teta: deg => Math.round(convert(deg, Math.PI/4, +500, 1500, false)),
-        beta: deg => Math.round(convert(deg, Math.PI/4, -500, 1500, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, +500, 300, false))
+        teta: deg => Math.round(convert(deg, Math.PI/4, +455, 1545, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, -510, 1550, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, +480, 320, false))
       },
 
       R3: {
-        teta: deg => Math.round(convert(deg, Math.PI/4, -500, 1900, false)),
+        teta: deg => Math.round(convert(deg, Math.PI/4, -480, 1840, false)),
         beta: deg => Math.round(convert(deg, Math.PI/4, -500, 1400, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, +580, 400, false))
+        alpha: deg => Math.round(convert(deg, Math.PI/4, +550, 300, false))
       }
     }
 
@@ -184,6 +184,45 @@
       ]
     }
 
+    const new_steps_forward_higher = {
+      L1: [
+        [6, 2.5, -6.5],
+        [6, 2.5, -6.5],
+        [6, 5.5, -2.5],
+        [6, 5.5, -6.5],
+      ],
+      L2: [
+        [6.6,  1.5, -2.5],
+        [6.6,  1.5, -6.5],
+        [6.6, -1.5, -6.5],
+        [6.6, -1.5, -6.5],
+      ],
+      L3: [
+        [6, 5.5, -6.5],
+        [6, 5.5, -6.5],
+        [6, 2.5, -2.5],
+        [6, 2.5, -6.5],
+      ],
+      R1: [
+        [6, 5.5, -2.5],
+        [6, 5.5, -6.5],
+        [6, 2.5, -6.5],
+        [6, 2.5, -6.5],
+      ],
+      R2: [
+        [6.6, -1.5, -6.5],
+        [6.6, -1.5, -6.5],
+        [6.6,  1.5, -2.5],
+        [6.6,  1.5, -6.5],
+      ],
+      R3: [
+        [6, 2.5, -2.5],
+        [6, 2.5, -6.5],
+        [6, 5.5, -6.5],
+        [6, 5.5, -6.5],
+      ]
+    }
+   
     const new_steps_backward = {
       L1: [
         [6, 5.5, -6.5],
@@ -251,7 +290,7 @@
       R2: [
         [6.6, 1.5, -6.5],
         [6.6, 1.5, -6.5],
-        [6.6, -1.5, -3.5],
+        [6.6, -1.5, -4.5],
         [6.6, -1.5, -6.5],
       ],
       R3: [
@@ -282,7 +321,7 @@
         [6.5, 3.5, -6.5],
       ],
       R1: [
-        [6.5, 3.5, -3.5],
+        [6.5, 3.5, -4.5],
         [6.5, 3.5, -6.5],
         [5.5, 4.5, -6.5],
         [5.5, 4.5, -6.5],
@@ -333,7 +372,7 @@
         [6.6, 1.5, -6.5],
       ],
       R3: [
-        [7.5, 2.5, -3.5],
+        [7.5, 2.5, -4.5],
         [7.5, 2.5, -6.5],
         [4.5, 5.5, -6.5],
         [4.5, 5.5, -6.5],
@@ -672,6 +711,7 @@
       makeCode(new_steps_normalize, 'ssc_normalize') + `\n` +
       makeCodeSync(new_steps_normalize, 'ssc_normalize_sync') + `\n` +
       makeCode(new_steps_forward_low, 'ssc_forward_low') + `\n` +
+      makeCode(new_steps_forward_higher, 'ssc_forward_higher') + `\n` +
       makeCode(new_steps_forward, 'ssc_forward') + `\n` +
       makeCodeSync(new_steps_forward, 'ssc_forward_sync') + `\n` +
       makeCode(new_steps_backward, 'ssc_backward') + `\n` +

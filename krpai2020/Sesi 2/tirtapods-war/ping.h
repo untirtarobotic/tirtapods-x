@@ -100,57 +100,56 @@ namespace ping {
     // maximum update calls equals to number of sensors (five)
 
     unsigned int currentPingValue;
-    unsigned int offset = 0;
+    unsigned int offset = 2;
     unsigned int offsetFar = 20;
 
     switch (state_nextPingSensor) {
       case PING_A:
         currentPingValue = read_ping(ULTRA_A_TRIG, ULTRA_A_ECHO);
         near_a = currentPingValue < (9 + offset);
-        far_a = currentPingValue < (10 + offsetFar);
+        far_a = currentPingValue < (8 + offsetFar);
         isOnSRWR = currentPingValue < (14 + offset);
         state_nextPingSensor = PING_B;
         break;
       case PING_B:
         currentPingValue = read_ping(ULTRA_B_TRIG, ULTRA_B_ECHO);
         near_b = currentPingValue < (12 + offset);
-        far_b = currentPingValue < (10 + offsetFar);
+        far_b = currentPingValue < (8 + offsetFar);
         state_nextPingSensor = PING_C;
         break;
       case PING_C:
         currentPingValue = read_ping(ULTRA_C_TRIG, ULTRA_C_ECHO);
         near_c = currentPingValue < (12 + offset);
-        far_c = currentPingValue < (10 + offsetFar);
+        far_c = currentPingValue < (8 + offsetFar);
         state_nextPingSensor = PING_D;
         break;
       case PING_D:
         currentPingValue = read_ping(ULTRA_D_TRIG, ULTRA_D_ECHO);
         near_d = currentPingValue < (12 + offset);
-        far_d = currentPingValue < (10 + offsetFar);
+        far_d = currentPingValue < (8 + offsetFar);
         state_nextPingSensor = PING_E;
         break;
       case PING_E:
         currentPingValue = read_ping(ULTRA_E_TRIG, ULTRA_E_ECHO);
         near_e = currentPingValue < (9 + offset);
-        far_e = currentPingValue < (10 + offsetFar);
+        far_e = currentPingValue < (8 + offsetFar);
         isOnSLWR = currentPingValue < (14 + offset);
         state_nextPingSensor = PING_A;
         break;
     }
   }
 
-  bool checkShouldFollowLeft() {
+  bool checkShouldFollow() {
     update();
     update();
     update();
     update();
     update();
 
-    if (ping::far_e || ping::far_d) {
+    if (!ping::far_e || !ping::far_d) {
       return true;
-    } else {
-      return false;
     }
+   return false;
   }
 
   bool save2pump () {

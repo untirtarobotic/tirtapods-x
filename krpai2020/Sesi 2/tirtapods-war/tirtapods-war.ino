@@ -335,16 +335,22 @@ bool detectLine () {
       currentFakeCounter = millis();
       legs::rotateCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 8000) {
+    while ((currentFakeCounter - startFakeCounter) < 10000) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
       legs::rotateCCW();
     }
     while ((currentFakeCounter - startFakeCounter) < 13000) {
+      lcd::message(1, lcd::MOVING_BACKWARD);
+      currentFakeCounter = millis();
+      legs::backward();
+    }
+    while ((currentFakeCounter - startFakeCounter) < 16000) {
       lcd::message(1, lcd::SHIFTING_LEFT);
       currentFakeCounter = millis();
       legs::shiftLeft();
     }
+    
     ping::update();
     ping::update();
     ping::update();
@@ -753,7 +759,7 @@ void traceRoute () {
   } else {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CCW);
-    legs::rotateCCW(1600);
+    legs::rotateCCW(1000);
     ping::update();
     ping::update();
     ping::update();
@@ -778,7 +784,7 @@ void traceRouteInverse () {
   } else {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CW);
-    legs::rotateCW(1600);
+    legs::rotateCW(1000);
     ping::update();
     ping::update();
     ping::update();

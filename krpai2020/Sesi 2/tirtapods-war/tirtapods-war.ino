@@ -358,7 +358,7 @@ bool detectLine () {
     return true;
   }
 
-  if (line::isDetected && CounterRead == 1) {
+  if (line::isDetected && CounterRead == 3) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -439,7 +439,7 @@ bool detectLine () {
     return true;
   }
 
-  if (line::isDetected && CounterRead == 3) { //fake
+  if (line::isDetected && CounterRead == 1) { //fake
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -464,7 +464,7 @@ bool detectLine () {
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 14900) { // Nabrak tembok tengah
+    while ((currentCounter - startCounter) < 14100) { // Nabrak tembok tengah
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();

@@ -439,7 +439,7 @@ bool detectLine () {
     return true;
   }
 
-  if (line::isDetected && CounterRead == 3 ) {
+  if (line::isDetected && CounterRead == 3) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();

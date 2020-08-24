@@ -296,7 +296,7 @@ bool avoidWall (bool inverse = false) {
 }
 
 bool detectLine () {
-  if (line::isDetected && CounterRead == 0) {
+  if (line::isDetected && CounterRead == 1) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -439,7 +439,7 @@ bool detectLine () {
     return true;
   }
 
-  if (line::isDetected && CounterRead == 1) { //fake
+  if (line::isDetected && CounterRead == 0) { //simulation number
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -454,27 +454,28 @@ bool detectLine () {
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 10800) { // maju
+    while ((currentCounter - startCounter) < 10800) { // maju oke
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 11300) { // lurusin dikit
+    while ((currentCounter - startCounter) < 11300) { // lurusin dikit oke
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
+      //======================================issues here =======
     }
-    while ((currentCounter - startCounter) < 14100) { // Nabrak tembok tengah
+    while ((currentCounter - startCounter) < 14100) { // 14100 beres oke
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 15600) {// ???
+    while ((currentCounter - startCounter) < 15200) {// Oke
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 18300) { //!!! Issues here ini udah masuk ruangan lhoo!!!
+    while ((currentCounter - startCounter) < 19000) { //!!! Issues here ini udah masuk ruangan lhoo!!!
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();

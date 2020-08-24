@@ -52,7 +52,7 @@ void loop () {
       state_isInitialized = true;
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
-      while ((currentCounter - startCounter) < 3000){
+      while ((currentCounter - startCounter) < 3000) {
         lcd::message(1, lcd::ROTATING_CCW);
         currentCounter = millis();
         legs::rotateCCW();
@@ -78,7 +78,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall(true)) return;
       if (flameDetection()) return;
-//      if (!avoid3Ladder(true)) return;
+      //      if (!avoid3Ladder(true)) return;
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
     } else {
@@ -88,7 +88,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall()) return;
       if (flameDetection()) return;
-//      if (!avoid3Ladder()) return;
+      //      if (!avoid3Ladder()) return;
       if (!getCloser2SRWR()) return;
       traceRoute();
     }
@@ -340,7 +340,7 @@ bool detectLine () {
       currentFakeCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 15000) {
+    while ((currentFakeCounter - startFakeCounter) < 15000) { // Ga efektif disini
       lcd::message(1, lcd::MOVING_FORWARD);
       currentFakeCounter = millis();
       legs::forward();
@@ -349,7 +349,7 @@ bool detectLine () {
       lcd::message(1, lcd::ROTATING_CW);
       currentFakeCounter = millis();
       legs::rotateCW();
-    } 
+    }
     ping::update();
     ping::update();
     ping::update();
@@ -474,7 +474,7 @@ bool detectLine () {
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 18300) {
+    while ((currentCounter - startCounter) < 18300) { //!!! Issues here
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -484,7 +484,7 @@ bool detectLine () {
       currentCounter = millis();
       legs::rotateCCW();
     }
-     while ((currentCounter - startCounter) < 24300) {
+    while ((currentCounter - startCounter) < 22800) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();

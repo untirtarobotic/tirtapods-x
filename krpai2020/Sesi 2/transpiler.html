@@ -660,6 +660,10 @@
     function makeCode (steps, fname, timing) {
       let iteration = [0, 1, 2, 3]
 
+      if (!timing) {
+        timing = 200
+      }
+
       const legCombo = [
         'state_isComboBUp = true',
         'state_isComboBUp = false',
@@ -692,8 +696,7 @@
     function makeCodeSync (steps, fname, timing) {
       let iteration = [0, 1, 2, 3]
 
-      if (!timing){
-        timing = 200;
+
       }
 
       if (!steps) {

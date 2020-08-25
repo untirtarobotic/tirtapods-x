@@ -657,8 +657,12 @@
       return Array(num).fill('  ').join('')
     }
 
-    function makeCode (steps, fname) {
+    function makeCode (steps, fname, timing) {
       let iteration = [0, 1, 2, 3]
+
+      if (!timing) {
+        timing = 200
+      }
 
       const legCombo = [
         'state_isComboBUp = true',
@@ -680,13 +684,17 @@
             .map(({ degs, chosen }) => (`${pcodes[chosen].teta}${leg[chosen].teta(degs.teta)} ${pcodes[chosen].beta}${leg[chosen].beta(degs.beta)} ${pcodes[chosen].alpha}${leg[chosen].alpha(degs.alpha)}`))
             .join(' ')
           )
-          .map((codes, index) => (`${tlevel(2)}case ${index}:\n${tlevel(3)}com.println(F("${codes} T200"));\n${tlevel(3)}${legCombo[index]};\n${tlevel(3)}state_nextStep = ${(index == (iteration.length - 1) ? 0 : index + 1)};\n${tlevel(3)}break;`))
+          .map((codes, index) => (`${tlevel(2)}case ${index}:\n${tlevel(3)}com.println(F("${codes} T${timing}"));\n${tlevel(3)}${legCombo[index]};\n${tlevel(3)}state_nextStep = ${(index == (iteration.length - 1) ? 0 : index + 1)};\n${tlevel(3)}break;`))
           .join("\n")
       }\n${tlevel(1)}}\n${tlevel(0)}}\n`
     }
 
-    function makeCodeSync (steps, fname) {
+    function makeCodeSync (steps, fname, timing) {
       let iteration = [0, 1, 2, 3]
+
+      if (!timing) {
+        timing = 200
+      }
 
       if (!steps) {
         iteration = []
@@ -701,7 +709,7 @@
             .map(({ degs, chosen }) => (`${pcodes[chosen].teta}${leg[chosen].teta(degs.teta)} ${pcodes[chosen].beta}${leg[chosen].beta(degs.beta)} ${pcodes[chosen].alpha}${leg[chosen].alpha(degs.alpha)}`))
             .join(' ')
           )
-          .map((codes, index) => (`${tlevel(1)}com.println(F("${codes} T200")); delay(200);`))
+          .map((codes, index) => (`${tlevel(1)}com.println(F("${codes} T${timing}")); delay(${timing});`))
           .join("\n")
       }\n${tlevel(0)}}\n`
     }
@@ -711,7 +719,7 @@
       makeCode(new_steps_normalize, 'ssc_normalize') + `\n` +
       makeCodeSync(new_steps_normalize, 'ssc_normalize_sync') + `\n` +
       makeCode(new_steps_forward_low, 'ssc_forward_low') + `\n` +
-      makeCode(new_steps_forward_higher, 'ssc_forward_higher') + `\n` +
+      makeCode(new_steps_forward_higher, 'ssc_forward_higher', 400) + `\n` +
       makeCode(new_steps_forward, 'ssc_forward') + `\n` +
       makeCodeSync(new_steps_forward, 'ssc_forward_sync') + `\n` +
       makeCode(new_steps_backward, 'ssc_backward') + `\n` +

@@ -195,9 +195,97 @@ bool avoid3Ladder (bool inverse = false) {
 
     return false;
   }
-
   return true;
 }
+
+bool avoidWall (bool inverse = false) {
+  short int minPos = 0;
+  short int maxPos = 8;
+  bool minPosFound = false;
+  bool maxPosFound = false;
+
+  if (!minPosFound && ping::near_a) {
+    minPos = 0;
+    minPosFound = true;
+  }
+  if (!minPosFound && ping::near_b) {
+    minPos = 2;
+    minPosFound = true;
+  }
+  if (!minPosFound && ping::near_c) {
+    minPos = 4;
+    minPosFound = true;
+  }
+  if (!minPosFound && ping::near_d) {
+    minPos = 6;
+    minPosFound = true;
+  }
+  if (!minPosFound && ping::near_e) {
+    minPos = 8;
+    minPosFound = true;
+  }
+
+  if (!maxPosFound && ping::near_e) {
+    maxPos = 8;
+    maxPosFound = true;
+  }
+  if (!maxPosFound && ping::near_d) {
+    maxPos = 6;
+    maxPosFound = true;
+  }
+  if (!maxPosFound && ping::near_c) {
+    maxPos = 4;
+    maxPosFound = true;
+  }
+  if (!maxPosFound && ping::near_b) {
+    maxPos = 2;
+    maxPosFound = true;
+  }
+  if (!maxPosFound && ping::near_a) {
+    maxPos = 0;
+    maxPosFound = true;
+  }
+
+  if (!minPosFound || !maxPosFound) return true; // this means wall is successfully avoided, if it's not then continue below
+
+  short int avg = (maxPos + minPos) / 2;
+
+  if (avg < 1) {
+    lcd::message(0, lcd::WALL_ON_RIGHT);
+    lcd::message(1, lcd::SHIFTING_LEFT);
+    legs::shiftLeft();
+  } else if (1 <= avg && avg <= 3) {
+    lcd::message(0, lcd::WALL_ON_RIGHT);
+    lcd::message(1, lcd::ROTATING_CCW);
+    legs::rotateCCW();
+  } else if (3 < avg && avg < 5) {
+    lcd::message(0, lcd::WALL_ON_FRONT);
+
+    if ((maxPos - minPos) == 0) {
+      lcd::message(1, lcd::MOVING_BACKWARD);
+      legs::backward(); // wall surface is flat
+    } else {
+      lcd::message(1, lcd::ROTATING_CW);
+
+      if (inverse) {
+        legs::rotateCCW(); // wall surface detected is not flat
+      } else {
+        legs::rotateCW(); // wall surface detected is not flat
+      }
+    }
+  } else if (5 <= avg && avg <= 7) {
+    lcd::message(0, lcd::WALL_ON_LEFT);
+    lcd::message(1, lcd::ROTATING_CW);
+    legs::rotateCW();
+  } else if (avg > 7) {
+    lcd::message(0, lcd::WALL_ON_LEFT);
+    lcd::message(1, lcd::SHIFTING_RIGHT);
+    legs::shiftRight();
+  }
+
+  return false;
+}
+
 
 bool detectLine() {
     if (line::isDetected && CounterRead == 0) {
@@ -582,6 +670,7 @@ bool detectLine() {
     }
     return true;
   }
+}
 
 bool flameDetection () {
   if (flame::is_right && (ping::near_b || ping::near_a)) {

@@ -10,7 +10,7 @@ namespace line {
   }
 
   void update () {
-    if (analogRead(PIN_LINE_SENSOR) > 40 || analogRead(PIN_LINE_SENSOR2) > 40) {
+    if (analogRead(PIN_LINE_SENSOR) >= 900 || analogRead(PIN_LINE_SENSOR2) >= 900) {
       isDetected = true;
     } else {
       isDetected = false;

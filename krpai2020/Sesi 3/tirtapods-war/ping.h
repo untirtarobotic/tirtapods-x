@@ -139,18 +139,17 @@ namespace ping {
     }
   }
 
-  bool checkShouldFollowLeft () {
+  bool checkShouldFollow() {
     update();
     update();
     update();
     update();
     update();
 
-    if (ping::far_e || ping::far_d) {
+    if (!ping::far_e || !ping::far_d) {
       return true;
-    } else {
-      return false;
     }
+   return false;
   }
 
   bool save2pump () {

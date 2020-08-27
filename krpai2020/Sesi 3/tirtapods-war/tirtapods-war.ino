@@ -46,7 +46,7 @@ void loop () {
 
     if (!state_isInitialized) {
       state_startTime = millis();
-      state_isInversed = ping::checkShouldFollowLeft();
+      state_isInversed = ping::checkShouldFollow();
       state_isInitialized = true;
     }
 
@@ -129,71 +129,71 @@ void standBy () {
   lcd::message(1, lcd::BLANK);
   legs::normalize();
 }
-bool avoid3Ladder (bool inverse = false) {
-  if (proxy::isDetectingSomething && !ping::far_c) {
-    lcd::message(0, lcd::THERE_IS_OBSTACLE);
-
-    unsigned int startCounter = millis();
-    unsigned int currentCounter = millis();
-
-    if (!legs::isNormalized) {
-      legs::normalize();
-      return false;
-    }
-
-    while ((currentCounter - startCounter) <= 1600) {
-      legs::rotateCWLess();
-      ping::update();
-      currentCounter = millis();
-
-      if (ping::far_c) {
-        return false;
-      }
-    }
-
-    while ((currentCounter - startCounter) <= 4800) {
-      legs::rotateCCWLess();
-      ping::update();
-      currentCounter = millis();
-
-      if (ping::far_c) {
-        return false;
-      }
-    }
-
-    while ((currentCounter - startCounter) <= 6400) {
-      legs::rotateCWLess();
-      ping::update();
-      currentCounter = millis();
-
-      if (ping::far_c) {
-        return false;
-      }
-    }
-
-    if (inverse) {
-      while ((currentCounter - startCounter) <= (7200 + 6 * 800)) {
-        legs::forwardHigher();
-        currentCounter = millis();
-      }
-
-    } else {
-      while ((currentCounter - startCounter) <= (7200 + 6 * 800)) {
-        legs::rotateCCW();
-        currentCounter = millis();
-      }
-    }
-
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-
-    return false;
-  }
-  return true;
-}
+//bool avoid3Ladder (bool inverse = false) {
+//  if (proxy::isDetectingSomething && !ping::far_c) {
+//    lcd::message(0, lcd::THERE_IS_OBSTACLE);
+//
+//    unsigned int startCounter = millis();
+//    unsigned int currentCounter = millis();
+//
+//    if (!legs::isNormalized) {
+//      legs::normalize();
+//      return false;
+//    }
+//
+//    while ((currentCounter - startCounter) <= 1600) {
+//      legs::rotateCWLess();
+//      ping::update();
+//      currentCounter = millis();
+//
+//      if (ping::far_c) {
+//        return false;
+//      }
+//    }
+//
+//    while ((currentCounter - startCounter) <= 4800) {
+//      legs::rotateCCWLess();
+//      ping::update();
+//      currentCounter = millis();
+//
+//      if (ping::far_c) {
+//        return false;
+//      }
+//    }
+//
+//    while ((currentCounter - startCounter) <= 6400) {
+//      legs::rotateCWLess();
+//      ping::update();
+//      currentCounter = millis();
+//
+//      if (ping::far_c) {
+//        return false;
+//      }
+//    }
+//
+//    if (inverse) {
+//      while ((currentCounter - startCounter) <= (7200 + 6 * 800)) {
+//        legs::forwardHigher();
+//        currentCounter = millis();
+//      }
+//
+//    } else {
+//      while ((currentCounter - startCounter) <= (7200 + 6 * 800)) {
+//        legs::rotateCCW();
+//        currentCounter = millis();
+//      }
+//    }
+//
+//    ping::update();
+//    ping::update();
+//    ping::update();
+//    ping::update();
+//    ping::update();
+//
+//    return false;
+//  }
+//  return true;
+//}
 bool avoidWall (bool inverse = false) {
   short int minPos = 0;
   short int maxPos = 8;

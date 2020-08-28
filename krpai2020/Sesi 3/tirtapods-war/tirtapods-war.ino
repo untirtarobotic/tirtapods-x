@@ -65,7 +65,7 @@ void loop () {
       // if (detectLine()) return;
       if (!avoidWall(true)) return;
       if (flameDetection()) return;
-      if (!avoid3Ladder(true)) return;
+//      if (!avoid3Ladder(true)) return;
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
     } else {
@@ -75,7 +75,7 @@ void loop () {
       // if (detectLine()) return;
       if (!avoidWall()) return;
       if (flameDetection()) return;
-      if (!avoid3Ladder()) return;
+//      if (!avoid3Ladder()) return;
       if (!getCloser2SRWR()) return;
       traceRoute();
     }

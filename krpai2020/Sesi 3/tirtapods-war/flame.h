@@ -40,9 +40,9 @@ namespace flame {
     unsigned int flame_d = analogRead(PIN_PHOTODIODE_D);
     unsigned int flame_e = analogRead(PIN_PHOTODIODE_E);
 
-    is_right = flame_b > 900;
-    is_center = flame_c > 900;
-    is_left = flame_d > 900;
+    is_right = flame_b > 950;
+    is_center = flame_c > 950;
+    is_left = flame_d > 950;
 
     activateIndicator(is_right || is_center || is_left);
   }

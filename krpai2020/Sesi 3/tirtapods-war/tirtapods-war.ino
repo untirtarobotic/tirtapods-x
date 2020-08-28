@@ -139,7 +139,7 @@ bool avoid3Ladder (bool inverse = false) {
     while ((currentCounter - startCounter) <= 1600) {
       legs::rotateCWLess();
       ping::update();
-      currentCounter = millis()
+      currentCounter = millis();
       if (ping::far_c) {
         return false;
       }
@@ -718,7 +718,12 @@ bool flameDetection () {
         unsigned int currentCounter = millis();
 
         while ((currentCounter - startCounter) < 1650) {
+          currentCounter = millis();
           legs::backward();
+        }
+        while ((currentCounter - startCounter) < 4650) {
+          currentCounter = millis();
+          legs::rotateCCW();
         }
       } else {
         lcd::message(1, lcd::MOVING_FORWARD);

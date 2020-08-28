@@ -63,8 +63,8 @@ void loop () {
         state_lastSWR = millis();
       }
       // if (detectLine()) return;
-      if (!avoidWall(true)) return;
       if (flameDetection()) return;
+      if (!avoidWall(true)) return;
       //      if (!avoid3Ladder(true)) return;
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
@@ -73,8 +73,8 @@ void loop () {
         state_lastSWR = millis();
       }
       // if (detectLine()) return;
-      if (!avoidWall()) return;
       if (flameDetection()) return;
+      if (!avoidWall()) return;
       //      if (!avoid3Ladder()) return;
       if (!getCloser2SRWR()) return;
       traceRoute();
@@ -675,14 +675,14 @@ bool flameDetection () {
   if (flame::is_right && !flame::is_left && !flame::is_center) {
     lcd::message(0, lcd::FIRE_ON_RIGHT);
     lcd::message(1, lcd::ROTATING_CW);
-    legs::rotateCWLess();
+    legs::rotateCW();
     return true;
   }
 
   if (flame::is_left && !flame::is_right && !flame::is_center) {
     lcd::message(0, lcd::FIRE_ON_LEFT);
     lcd::message(1, lcd::ROTATING_CCW);
-    legs::rotateCCWLess();
+    legs::rotateCCW();
     return true;
   }
 

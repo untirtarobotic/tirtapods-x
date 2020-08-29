@@ -71,7 +71,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall(true)) return;
       //      if (!state_wascrossedline(true)) return;
-      if (flameDetection()) return;
+//      if (flameDetection()) return;
       //      if (!avoidObstacle(true)) return;
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
@@ -82,7 +82,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall()) return;
       //      if (!state_wascrossedline()) return;
-      if (flameDetection()) return;
+//      if (flameDetection()) return;
       //
 
       if (!getCloser2SRWR()) return;

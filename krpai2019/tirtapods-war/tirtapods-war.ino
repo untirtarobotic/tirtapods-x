@@ -44,7 +44,7 @@ void loop () {
 
     if (!state_isInitialized) {
       state_startTime = millis();
-      state_isInversed = ping::checkShouldFollowLeft();
+      state_isInversed = ping::checkShouldFollow();
       state_isInitialized = true;
     }
 
@@ -67,7 +67,7 @@ void loop () {
 
       if (!avoidWall(true)) return;
       if (flameDetection()) return;
-      if (!avoidObstacle(true)) return;
+//      if (!avoidObstacle(true)) return;
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
     } else {
@@ -77,7 +77,7 @@ void loop () {
 
       if (!avoidWall()) return;
       if (flameDetection()) return;
-      if (!avoidObstacle()) return;
+//      if (!avoidObstacle()) return;
       if (!getCloser2SRWR()) return;
       traceRoute();
     }
@@ -316,13 +316,13 @@ bool flameDetection () {
   if (flame::is_center) {
     lcd::message(0, lcd::FIRE_ON_CENTER);
 
-    if (ping::near_b) {
-      lcd::message(1, lcd::ROTATING_CCW);
-      legs::rotateCCWLess();
-    } else if (ping::near_d) {
-      lcd::message(1, lcd::ROTATING_CW);
-      legs::rotateCWLess();
-    } else {
+//    if (ping::near_b) {
+//      lcd::message(1, lcd::ROTATING_CCW);
+//      legs::rotateCCWLess();
+//    } else if (ping::near_d) {
+//      lcd::message(1, lcd::ROTATING_CW);
+//      legs::rotateCWLess();
+//    } else {
       if (proxy::isDetectingSomething) {
         lcd::message(1, lcd::EXTINGUISHING);
         pump::extinguish(1000);
@@ -331,13 +331,17 @@ bool flameDetection () {
         unsigned int currentCounter = millis();
 
         while ((currentCounter - startCounter) < 1650) {
+          currentCounter = millis();
           legs::backward();
+        }
+        while ((currentCounter - startCounter) < 6650) {
+          currentCounter = millis();
+          legs::rotateCCW();
         }
       } else {
         lcd::message(1, lcd::MOVING_FORWARD);
         legs::forward();
       }
-    }
 
     return true;
   }
@@ -380,8 +384,8 @@ void traceRoute () {
     legs::turnLeft();
   } else {
     lcd::message(0, lcd::NO_PATH);
-    lcd::message(1, lcd::ROTATING_CCW);
-    legs::rotateCCW(1600);
+    lcd::message(1, lcd::ROTATING_CW);
+    legs::rotateCW(500);
     ping::update();
     ping::update();
     ping::update();

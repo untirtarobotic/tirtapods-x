@@ -53,7 +53,6 @@ void loop () {
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
       while ((currentCounter - startCounter) < 3000) {
-        lcd::message(1, lcd::ROTATING_CCW);
         currentCounter = millis();
         legs::rotateCCW();
       }
@@ -78,7 +77,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall(true)) return;
       if (flameDetection()) return;
-      //      if (!avoid3Ladder(true)) return;
+      if (!avoid3Ladder(true)) return;
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
     } else {
@@ -88,7 +87,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall()) return;
       if (flameDetection()) return;
-      //      if (!avoid3Ladder()) return;
+      if (!avoid3Ladder()) return;
       if (!getCloser2SRWR()) return;
       traceRoute();
     }
@@ -183,7 +182,7 @@ bool avoid3Ladder (bool inverse = false) {
     }
 
     if (inverse) {
-      while ((currentCounter - startCounter) <= (6400 + 6 * 800)) {
+      while ((currentCounter - startCounter) <= (6400 + 10 * 800)) {
         legs::forwardHigher();
         currentCounter = millis();
       }

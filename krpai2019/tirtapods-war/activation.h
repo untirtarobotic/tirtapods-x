@@ -75,9 +75,9 @@ namespace activation {
       isMenuChanged = false;
     }
 
-    if (digitalRead(PIN_SOUND_ACTIVATION) == LOW && !isMenu) {
-      isON = true;
-      isLowMove = false;
-    }
+//    if (digitalRead(PIN_SOUND_ACTIVATION) == LOW && !isMenu) {
+//      isON = true;
+//      isLowMove = false;
+//    }
   }
 }

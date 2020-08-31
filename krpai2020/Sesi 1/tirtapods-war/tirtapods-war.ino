@@ -562,17 +562,17 @@ bool detectLine() {
     }
     unsigned int startFakeCounter = millis();
     unsigned int currentFakeCounter = millis();
-    while ((currentFakeCounter - startFakeCounter) < 4000) {
-      lcd::message(1, lcd::SHIFTING_RIGHT);
+    while ((currentFakeCounter - startFakeCounter) < 2500) {
+      lcd::message(1, lcd::ROTATING_CW);
       currentFakeCounter = millis();
-      legs::shiftRight();
+      legs::rotateCW();
     }
-     while ((currentFakeCounter - startFakeCounter) < 6000) {
+     while ((currentFakeCounter - startFakeCounter) < 5500) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 9000) {
+    while ((currentFakeCounter - startFakeCounter) < 8500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentFakeCounter = millis();
       legs::forward();

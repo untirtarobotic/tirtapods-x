@@ -32,7 +32,7 @@ void newComboB () {
 
   // RIGHT LEGS
   Leg.println(F("#20P2000 #21P940 #22P900 T200"));
-  Leg.println(F("#24P1900 #25P1040 #26P800 T200"));
+  Leg.println(F("#24P1850 #25P1040 #26P800 T200"));
   Leg.println(F("#28P1800 #29P900 #30P850 T200"));
 
   delay(200);

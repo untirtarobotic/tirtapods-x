@@ -7,7 +7,7 @@
 #include "lcd.h"
 #include "line.h"
 
-bool state_isInversed = false;
+bool state_isInversed = false; //true = SLWR, false = SRWR
 bool state_isInitialized = false;
 unsigned int state_startTime = 0;
 unsigned int state_lastSWR = 0;
@@ -176,7 +176,7 @@ bool avoid3Ladder (bool inverse = false) {
     }
 
     if (inverse) {
-      while ((currentCounter - startCounter) <= (6400 + 10 * 800)) {
+      while ((currentCounter - startCounter) <= (6400 + 8 * 800)) {
         legs::forwardHigher();
         currentCounter = millis();
       }
@@ -193,7 +193,7 @@ bool avoid3Ladder (bool inverse = false) {
     ping::update();
     ping::update();
     ping::update();
-   
+    state_isInversed = false;
     return false;
   }
 

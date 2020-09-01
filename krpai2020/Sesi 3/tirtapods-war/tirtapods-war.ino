@@ -70,7 +70,7 @@ void loop () {
       }
       if (detectLine()) return;
       if (!avoidWall(true)) return;
-//      if (flameDetection()) return;
+      if (flameDetection()) return;
       if (!avoid3Ladder(true)) return;
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
@@ -80,7 +80,7 @@ void loop () {
       }
       if (detectLine()) return;
       if (!avoidWall()) return;
-//      if (flameDetection()) return;
+      if (flameDetection()) return;
       if (!avoid3Ladder()) return;
       if (!getCloser2SRWR()) return;
       traceRoute();
@@ -193,7 +193,7 @@ bool avoid3Ladder (bool inverse = false) {
     ping::update();
     ping::update();
     ping::update();
-    
+   
     return false;
   }
 

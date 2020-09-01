@@ -146,10 +146,10 @@ namespace ping {
     update();
     update();
 
-    if (!ping::far_e || !ping::far_d) {
-      return true;
+    if (!ping::far_a || !ping::far_b) {
+      return false;
     }
-   return false;
+   return true;
   }
 
   bool save2pump () {

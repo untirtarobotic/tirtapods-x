@@ -100,7 +100,7 @@ namespace ping {
     // maximum update calls equals to number of sensors (five)
 
     unsigned int currentPingValue;
-    unsigned int offset = 3;
+    unsigned int offset = 0;
     unsigned int offsetFar = 20;
 
     switch (state_nextPingSensor) {
@@ -146,11 +146,10 @@ namespace ping {
     update();
     update();
 
-    if (ping::far_a && ping::far_b) {
+    if (!ping::far_e || !ping::far_d) {
       return true;
-    } else {
-      return false;
     }
+   return false;
   }
 
   bool save2pump () {

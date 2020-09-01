@@ -193,6 +193,7 @@ bool avoid3Ladder (bool inverse = false) {
     ping::update();
     ping::update();
     ping::update();
+    
     return false;
   }
 
@@ -288,8 +289,9 @@ bool avoidWall (bool inverse = false) {
 }
 
 bool detectLine () {
-  if (line::isDetected)
-  CounterRead += 1;
+  if (line::isDetected){
+    CounterRead += 1;
+  }
   if (line::isDetected && CounterRead == 4){
     state_isInversed = true;
   }
@@ -344,14 +346,6 @@ bool flameDetection () {
 
   if (flame::is_center) {
     lcd::message(0, lcd::FIRE_ON_CENTER);
-
-    if (ping::near_b) {
-      lcd::message(1, lcd::ROTATING_CCW);
-      legs::rotateCCWLess();
-    } else if (ping::near_d) {
-      lcd::message(1, lcd::ROTATING_CW);
-      legs::rotateCWLess();
-    } else {
       if (proxy::isDetectingSomething) {
         lcd::message(1, lcd::EXTINGUISHING);
         pump::extinguish(1000);
@@ -360,14 +354,17 @@ bool flameDetection () {
         unsigned int currentCounter = millis();
 
         while ((currentCounter - startCounter) < 1650) {
-          currentCounter;
+          currentCounter = millis();
           legs::backward();
+        }
+        while ((currentCounter - startCounter) < 6650){
+          currentCounter = millis();
+          legs::rotateCCW();
         }
       } else {
         lcd::message(1, lcd::MOVING_FORWARD);
         legs::forward();
       }
-    }
 
     return true;
   }

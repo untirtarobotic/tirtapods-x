@@ -219,7 +219,7 @@
     function getAngularOfCartesian (x, y, z) {
       const r = getR(y, x)
       const teta = getTeta(y, x)
-      const p = getP(r, 2.5)
+      const p = getP(r, 3)
       const u = getU(p, z)
       const alpha = getAlpha(9, 5, u)
       const gama = p > 0 ? getGama(p, z) : Math.PI + getGama(p, z)
@@ -230,7 +230,7 @@
 
     function testView (x, y, z) {
       const angulars = getAngularOfCartesian(x, y, z)
-      const COXA = calculateCoxa(angulars.teta, 2.5)
+      const COXA = calculateCoxa(angulars.teta, 3)
       const FEMUR = calculateFemur(COXA, angulars.beta, 5)
       const TIBIA = calculateTibia(FEMUR, angulars.alpha, 9)
       return {
@@ -264,41 +264,41 @@
     }
 
     const leg = {
-    	L1: {
-    		teta: deg => Math.round(convert(deg, Math.PI/4, -500, 2000, false)),
-    		beta: deg => Math.round(convert(deg, Math.PI/4, +400, 1350, false)),
-    		alpha: deg => Math.round(convert(deg, Math.PI/4, -400, 2300, false))
-    	},
+      L1: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, -550, 2000, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, +450, 1550, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -500, 2500, false))
+      },
 
-    	L2: {
-    		teta: deg => Math.round(convert(deg, Math.PI/4, -500, 1500, false)),
-    		beta: deg => Math.round(convert(deg, Math.PI/4, +400, 1450, false)),
-    		alpha: deg => Math.round(convert(deg, Math.PI/4, -400, 2100, false))
-    	},
+      L2: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, -400, 1400, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, +470, 1600, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -450, 2450, false))
+      },
 
-    	L3: {
-    		teta: deg => Math.round(convert(deg, Math.PI/4, +400, 1100, false)),
-    		beta: deg => Math.round(convert(deg, Math.PI/4, +400, 1500, false)),
-    		alpha: deg => Math.round(convert(deg, Math.PI/4, -500, 2500, false))
-    	},
+      L3: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, +450, 950, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, +450, 1400, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -450, 2500, false))
+      },
 
-    	R1: {
-    		teta: deg => Math.round(convert(deg, Math.PI/4, +500, 1000, false)),
-    		beta: deg => Math.round(convert(deg, Math.PI/4, -500, 1500, false)),
-    		alpha: deg => Math.round(convert(deg, Math.PI/4, +500, 500, false))
-    	},
+      R1: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, +500, 1000, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, -460, 1400, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, +480, 420, false))
+      },
 
-    	R2: {
-    		teta: deg => Math.round(convert(deg, Math.PI/4, +400, 1350, false)),
-    		beta: deg => Math.round(convert(deg, Math.PI/4, -400, 1350, false)),
-    		alpha: deg => Math.round(convert(deg, Math.PI/4, +400, 620, false))
-    	},
+      R2: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, +500, 1400, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, -460, 1500, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, +400, 400, false))
+      },
 
-    	R3: {
-    		teta: deg => Math.round(convert(deg, Math.PI/4, -400, 1800, false)),
-    		beta: deg => Math.round(convert(deg, Math.PI/4, -400, 1400, false)),
-    		alpha: deg => Math.round(convert(deg, Math.PI/4, +400, 500, false))
-    	}
+      R3: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, -500, 1800, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, -500, 1400, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, +550, 300, false))
+      }
     }
 
     const pcodes = {
@@ -310,43 +310,122 @@
     	R3: { teta: '#24P', beta: '#25P', alpha: '#26P' },
     }
 
-    // forward
+    //StandBy
+    // let steps = {
+    //   L1: [
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //   ],
+    //   L2: [
+    //     [6.6, 0, -4.5],
+    //     [6.6, 0, -4.5],
+    //     [6.6, 0, -4.5],
+    //     [6.6, 0, -4.5],
+    //   ],
+    //   L3: [
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //   ],
+    //   R1: [
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //   ],
+    //   R2: [
+    //     [6.6, 0, -4.5],
+    //     [6.6, 0, -4.5],
+    //     [6.6, 0, -4.5],
+    //     [6.6, 0, -4.5],
+    //   ],
+    //   R3: [
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //     [6, 4, -4.5],
+    //   ]
+    // }
+    // // forward
+    // let steps = {
+    // 	L1: [
+    //     [6, 3, -6],
+    //     [6, 1, -6],
+    //     [6, 3, -4],
+    //     [6, 5, -6],
+    //   ],
+    // 	L2: [
+    //     [6.6, 0, -4],
+    //     [6.6, 2, -6],
+    //     [6.6, 0, -6],
+    //     [6.6, -2, -6],
+    //   ],
+    // 	L3: [
+    //     [6, 3, -6],
+    //     [6, 5, -6],
+    //     [6, 3, -4],
+    //     [6, 1, -6],
+    //   ],
+    // 	R1: [
+    //     [6, 3, -4],
+    //     [6, 5, -6],
+    //     [6, 3, -6],
+    //     [6, 1, -6],
+    //   ],
+    // 	R2: [
+    //     [6.6, 0, -6],
+    //     [6.6, -2, -6],
+    //     [6.6, 0, -4],
+    //     [6.6, 2, -6],
+    //   ],
+    // 	R3: [
+    //     [6, 3, -4],
+    //     [6, 1, -6],
+    //     [6, 3, -6],
+    //     [6, 5, -6],
+    //   ]
+    // }
+    
+    // Move Forward Higher
     let steps = {
-    	L1: [
-        [6, 3, -6],
-        [6, 1, -6],
-        [6, 3, -4],
-        [6, 5, -6],
+      L1: [
+        [6, 2.5, -7.5],
+        [6, 2.5, -7.5],
+        [6, 5.5, -2.5],
+        [6, 5.5, -7.5],
       ],
-    	L2: [
-        [6.6, 0, -4],
-        [6.6, 2, -6],
-        [6.6, 0, -6],
-        [6.6, -2, -6],
+      L2: [
+        [6.6,  1.5, -2.5],
+        [6.6,  1.5, -7.5],
+        [6.6, -1.5, -7.5],
+        [6.6, -1.5, -7.5],
       ],
-    	L3: [
-        [6, 3, -6],
-        [6, 5, -6],
-        [6, 3, -4],
-        [6, 1, -6],
+      L3: [
+        [6, 5.5, -7.5],
+        [6, 5.5, -7.5],
+        [6, 2.5, -2.5],
+        [6, 2.5, -7.5],
       ],
-    	R1: [
-        [6, 3, -4],
-        [6, 5, -6],
-        [6, 3, -6],
-        [6, 1, -6],
+      R1: [
+        [6, 5.5, -2.5],
+        [6, 5.5, -7.5],
+        [6, 2.5, -7.5],
+        [6, 2.5, -7.5],
       ],
-    	R2: [
-        [6.6, 0, -6],
-        [6.6, -2, -6],
-        [6.6, 0, -4],
-        [6.6, 2, -6],
+      R2: [
+        [6.6, -1.5, -7.5],
+        [6.6, -1.5, -7.5],
+        [6.6,  1.5, -2.5],
+        [6.6,  1.5, -7.5],
       ],
-    	R3: [
-        [6, 3, -4],
-        [6, 1, -6],
-        [6, 3, -6],
-        [6, 5, -6],
+      R3: [
+        [6, 2.5, -2.5],
+        [6, 2.5, -7.5],
+        [6, 5.5, -7.5],
+        [6, 5.5, -7.5],
       ]
     }
 

@@ -8,8 +8,5 @@ void setup() {
 }
 
 void loop() {
-  Serial.print(analogRead(PIN_LINE_SENSOR));
-  Serial.print(" ");
-  Serial.println(analogRead(PIN_LINE_SENSOR2));
-  delay(200);
+
 }

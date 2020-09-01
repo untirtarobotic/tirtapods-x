@@ -157,7 +157,7 @@ bool avoid3Ladder (bool inverse = false) {
       }
     }
 
-    while ((currentCounter - startCounter) <= 5000) {
+    while ((currentCounter - startCounter) <= 4800) {
       legs::rotateCCWLess();
       ping::update();
       currentCounter = millis();

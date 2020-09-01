@@ -147,9 +147,9 @@ namespace ping {
     update();
 
     if (!ping::far_a || !ping::far_b) {
-      return false;
+      return true;
     }
-   return true;
+   return false;
   }
 
   bool save2pump () {

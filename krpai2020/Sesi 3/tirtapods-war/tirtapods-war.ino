@@ -7,24 +7,22 @@
 #include "lcd.h"
 #include "line.h"
 
-bool state_isInversed = true;
+bool state_isInversed = false;
 bool state_isInitialized = false;
 unsigned int state_startTime = 0;
 unsigned int state_lastSWR = 0;
 
+int CurrentState = 0;
 int CounterRead = 0;
-bool CurrentState;
 
 bool avoidWall(bool inverse = false);
 bool flameDetection();
 bool avoid3Ladder(bool inverse = false);
 bool getCloser2SRWR(bool inverse = false);
-bool state_wascrossedline(bool inverse = false);
 void traceRoute();
 void traceRouteInversed();
 
 void setup () {
-//  Serial.begin(9600);
   ping::setup();
   proxy::setup();
   flame::setup();
@@ -33,10 +31,12 @@ void setup () {
   activation::setup();
   lcd::setup();
   line::setup();
+
+  Serial.begin(9600);
 }
 
 void loop () {
-//  Serial.println (CounterRead);
+  Serial.println (CounterRead);
   activation::update();
 
   if (activation::isON) {
@@ -48,7 +48,7 @@ void loop () {
 
     if (!state_isInitialized) {
       state_startTime = millis();
-      state_isInversed = ping::checkShouldFollowRight();
+      state_isInversed = ping::checkShouldFollow();
       state_isInitialized = true;
     }
 
@@ -70,8 +70,7 @@ void loop () {
       }
       if (detectLine()) return;
       if (!avoidWall(true)) return;
-      //      if (!state_wascrossedline(true)) return;
-      if (flameDetection()) return;
+//      if (flameDetection()) return;
       if (!avoid3Ladder(true)) return;
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
@@ -81,8 +80,7 @@ void loop () {
       }
       if (detectLine()) return;
       if (!avoidWall()) return;
-      //      if (!state_wascrossedline()) return;
-      if (flameDetection()) return;
+//      if (flameDetection()) return;
       if (!avoid3Ladder()) return;
       if (!getCloser2SRWR()) return;
       traceRoute();
@@ -178,10 +176,11 @@ bool avoid3Ladder (bool inverse = false) {
     }
 
     if (inverse) {
-      while ((currentCounter - startCounter) <= (6400 + 6 * 800)) {
+      while ((currentCounter - startCounter) <= (6400 + 10 * 800)) {
         legs::forwardHigher();
         currentCounter = millis();
       }
+
     } else {
       while ((currentCounter - startCounter) <= (6400 + 6 * 800)) {
         legs::rotateCCW;
@@ -194,7 +193,6 @@ bool avoid3Ladder (bool inverse = false) {
     ping::update();
     ping::update();
     ping::update();
-
     return false;
   }
 
@@ -289,17 +287,14 @@ bool avoidWall (bool inverse = false) {
   return false;
 }
 
-bool detectLine() {
-  if (line::isDetected){
-    CounterRead += 1;
-  }
+bool detectLine () {
+  if (line::isDetected)
+  CounterRead += 1;
   if (line::isDetected && CounterRead == 4){
     state_isInversed = true;
-    return true;
   }
   if (line::isDetected && CounterRead == 5){
     state_isInversed = false;
-    return true;
   }
   return false;
 }
@@ -365,12 +360,8 @@ bool flameDetection () {
         unsigned int currentCounter = millis();
 
         while ((currentCounter - startCounter) < 1650) {
-          currentCounter = millis();
+          currentCounter;
           legs::backward();
-        }
-        while ((currentCounter - startCounter) < 6650) {
-          currentCounter = millis();
-          legs::rotateCCW();
         }
       } else {
         lcd::message(1, lcd::MOVING_FORWARD);
@@ -419,8 +410,8 @@ void traceRoute () {
     legs::turnLeft();
   } else {
     lcd::message(0, lcd::NO_PATH);
-    lcd::message(1, lcd::ROTATING_CW);
-    legs::rotateCW(1600);
+    lcd::message(1, lcd::ROTATING_CCW);
+    legs::rotateCCW(1000);
     ping::update();
     ping::update();
     ping::update();
@@ -445,7 +436,7 @@ void traceRouteInverse () {
   } else {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CW);
-    legs::rotateCW(1600);
+    legs::rotateCW(1000);
     ping::update();
     ping::update();
     ping::update();

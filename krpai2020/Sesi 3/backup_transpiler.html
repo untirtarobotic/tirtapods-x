@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Tirtapod SSC Transpiler</title>
+</head>
+<body>
+  <pre id="transpiled" style="width: 100%; font-size: 8pt; font-family: consolas;"></pre>
+
+  <script>
+    function getR (y, x) {
+      return Math.sqrt(Math.pow(y, 2) + Math.pow(x, 2))
+    }
+
+    function getTeta (y, x) {
+      return Math.atan(y/x)
+    }
+
+    function getP (r, c) {
+      return (r - c)
+    }
+
+    function getU (p, z) {
+      return Math.sqrt(Math.pow(p, 2) + Math.pow(z, 2))
+    }
+
+    function getAlpha (t, f, u) {
+      return Math.acos((Math.pow(t, 2) + Math.pow(f, 2) - Math.pow(u, 2))/(2 * t * f))
+    }
+
+    function getGama (p, z) {
+      return Math.atan(-z/p)
+    }
+
+    function getBeta (t, f, u, alpha, gama) {
+      return Math.acos((Math.pow(u, 2) + Math.pow(f, 2) - Math.pow(t, 2))/(2 * f * u)) - gama
+    }
+
+    function getAngularOfCartesian (x, y, z) {
+      const r = getR(y, x)
+      const teta = getTeta(y, x)
+      const p = getP(r, 2.5)
+      const u = getU(p, z)
+      const alpha = getAlpha(9, 5, u)
+      const gama = p > 0 ? getGama(p, z) : Math.PI + getGama(p, z)
+      const beta = getBeta(9, 5, u, alpha, gama)
+
+      return { teta, beta, alpha, gama, x, y, z, r, p, u }
+    }
+
+    function radian2Deg (rad) {
+      return rad * 180 / Math.PI
+    }
+
+    function convert (teta, inDeg, inIO, offset, reversed) {
+      let result = (inIO/inDeg) * teta
+      return reversed
+        ? offset - result
+        : offset + result
+    }
+
+    const leg = {
+      L1: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, -500, 1900, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, +500, 1500, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -500, 2500, false))
+      },
+
+      L2: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, -500, 1450, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, +500, 1550, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -500, 2450, false))
+      },
+
+      L3: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, +500, 950, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, +500, 1500, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -500, 2500, false))
+      },
+
+      R1: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, +500, 1000, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, -500, 1400, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, +500, 400, false))
+      },
+
+      R2: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, +500, 1500, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, -500, 1500, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, +500, 300, false))
+      },
+
+      R3: {
+        teta: deg => Math.round(convert(deg, Math.PI/4, -500, 1900, false)),
+        beta: deg => Math.round(convert(deg, Math.PI/4, -500, 1400, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, +580, 400, false))
+      }
+    }
+
+    const pcodes = {
+      L1: { teta: '#4P', beta: '#5P', alpha: '#6P' },
+      L2: { teta: '#8P', beta: '#9P', alpha: '#10P' },
+      L3: { teta: '#12P', beta: '#13P', alpha: '#14P' },
+      R1: { teta: '#20P', beta: '#21P', alpha: '#22P' },
+      R2: { teta: '#24P', beta: '#25P', alpha: '#26P' },
+      R3: { teta: '#28P', beta: '#29P', alpha: '#30P' },
+    }
+
+    const new_steps_forward = {
+      L1: [
+        [6, 2.5, -6.5],
+        [6, 2.5, -6.5],
+        [6, 5.5, -4.5],
+        [6, 5.5, -6.5],
+      ],
+      L2: [
+        [6.6,  1.5, -4.5],
+        [6.6,  1.5, -6.5],
+        [6.6, -1.5, -6.5],
+        [6.6, -1.5, -6.5],
+      ],
+      L3: [
+        [6, 5.5, -6.5],
+        [6, 5.5, -6.5],
+        [6, 2.5, -4.5],
+        [6, 2.5, -6.5],
+      ],
+      R1: [
+        [6, 5.5, -4.5],
+        [6, 5.5, -6.5],
+        [6, 2.5, -6.5],
+        [6, 2.5, -6.5],
+      ],
+      R2: [
+        [6.6, -1.5, -6.5],
+        [6.6, -1.5, -6.5],
+        [6.6,  1.5, -4.5],
+        [6.6,  1.5, -6.5],
+      ],
+      R3: [
+        [6, 2.5, -4.5],
+        [6, 2.5, -6.5],
+        [6, 5.5, -6.5],
+        [6, 5.5, -6.5],
+      ]
+    }
+
+    const new_steps_forward_low = {
+      L1: [
+        [6, 2.5, -4.5],
+        [6, 2.5, -4.5],
+        [6, 5.5, -4.5],
+        [6, 5.5, -4.5],
+      ],
+      L2: [
+        [6.6,  1.5, -4.5],
+        [6.6,  1.5, -4.5],
+        [6.6, -1.5, -4.5],
+        [6.6, -1.5, -4.5],
+      ],
+      L3: [
+        [6, 5.5, -4.5],
+        [6, 5.5, -4.5],
+        [6, 2.5, -4.5],
+        [6, 2.5, -4.5],
+      ],
+      R1: [
+        [6, 5.5, -4.5],
+        [6, 5.5, -4.5],
+        [6, 2.5, -4.5],
+        [6, 2.5, -4.5],
+      ],
+      R2: [
+        [6.6, -1.5, -4.5],
+        [6.6, -1.5, -4.5],
+        [6.6,  1.5, -4.5],
+        [6.6,  1.5, -4.5],
+      ],
+      R3: [
+        [6, 2.5, -4.5],
+        [6, 2.5, -4.5],
+        [6, 5.5, -4.5],
+        [6, 5.5, -4.5],
+      ]
+    }
+
+    const new_steps_backward = {
+      L1: [
+        [6, 5.5, -6.5],
+        [6, 5.5, -6.5],
+        [6, 2.5, -4.5],
+        [6, 2.5, -6.5],
+      ],
+      L2: [
+        [6.6, -1.5, -4.5],
+        [6.6, -1.5, -6.5],
+        [6.6,  1.5, -6.5],
+        [6.6,  1.5, -6.5],
+      ],
+      L3: [
+        [6, 2.5, -6.5],
+        [6, 2.5, -6.5],
+        [6, 5.5, -4.5],
+        [6, 5.5, -6.5],
+      ],
+      R1: [
+        [6, 2.5, -4.5],
+        [6, 2.5, -6.5],
+        [6, 5.5, -6.5],
+        [6, 5.5, -6.5],
+      ],
+      R2: [
+        [6.6,  1.5, -6.5],
+        [6.6,  1.5, -6.5],
+        [6.6, -1.5, -4.5],
+        [6.6, -1.5, -6.5],
+      ],
+      R3: [
+        [6, 5.5, -4.5],
+        [6, 5.5, -6.5],
+        [6, 2.5, -6.5],
+        [6, 2.5, -6.5],
+      ]
+    }
+
+    const new_steps_rotate_cw = {
+      L1: [
+        [7.5, 2.5, -6.5],
+        [7.5, 2.5, -6.5],
+        [4.5, 5.5, -4.5],
+        [4.5, 5.5, -6.5],
+      ],
+      L2: [
+        [6.6, 1.5, -4.5],
+        [6.6, 1.5, -6.5],
+        [6.6, -1.5, -6.5],
+        [6.6, -1.5, -6.5],
+      ],
+      L3: [
+        [4.5, 5.5, -6.5],
+        [4.5, 5.5, -6.5],
+        [7.5, 2.5, -4.5],
+        [7.5, 2.5, -6.5],
+      ],
+      R1: [
+        [7.5, 2.5, -4.5],
+        [7.5, 2.5, -6.5],
+        [4.5, 5.5, -6.5],
+        [4.5, 5.5, -6.5],
+      ],
+      R2: [
+        [6.6, 1.5, -6.5],
+        [6.6, 1.5, -6.5],
+        [6.6, -1.5, -4.5],
+        [6.6, -1.5, -6.5],
+      ],
+      R3: [
+        [4.5, 5.5, -4.5],
+        [4.5, 5.5, -6.5],
+        [7.5, 2.5, -6.5],
+        [7.5, 2.5, -6.5],
+      ]
+    }
+
+    const new_steps_rotate_cw_less = {
+      L1: [
+        [6.5, 3.5, -6.5],
+        [6.5, 3.5, -6.5],
+        [5.5, 4.5, -4.5],
+        [5.5, 4.5, -6.5],
+      ],
+      L2: [
+        [6.6, 0.5, -4.5],
+        [6.6, 0.5, -6.5],
+        [6.6, -0.5, -6.5],
+        [6.6, -0.5, -6.5],
+      ],
+      L3: [
+        [5.5, 4.5, -6.5],
+        [5.5, 4.5, -6.5],
+        [6.5, 3.5, -4.5],
+        [6.5, 3.5, -6.5],
+      ],
+      R1: [
+        [6.5, 3.5, -4.5],
+        [6.5, 3.5, -6.5],
+        [5.5, 4.5, -6.5],
+        [5.5, 4.5, -6.5],
+      ],
+      R2: [
+        [6.6, 0.5, -6.5],
+        [6.6, 0.5, -6.5],
+        [6.6, -0.5, -4.5],
+        [6.6, -0.5, -6.5],
+      ],
+      R3: [
+        [5.5, 4.5, -4.5],
+        [5.5, 4.5, -6.5],
+        [6.5, 3.5, -6.5],
+        [6.5, 3.5, -6.5],
+      ]
+    }
+
+    const new_steps_rotate_ccw = {
+      L1: [
+        [4.5, 5.5, -6.5],
+        [4.5, 5.5, -6.5],
+        [7.5, 2.5, -4.5],
+        [7.5, 2.5, -6.5],
+      ],
+      L2: [
+        [6.6, -1.5, -4.5],
+        [6.6, -1.5, -6.5],
+        [6.6, 1.5, -6.5],
+        [6.6, 1.5, -6.5],
+      ],
+      L3: [
+        [7.5, 2.5, -6.5],
+        [7.5, 2.5, -6.5],
+        [4.5, 5.5, -4.5],
+        [4.5, 5.5, -6.5],
+      ],
+      R1: [
+        [4.5, 5.5, -4.5],
+        [4.5, 5.5, -6.5],
+        [7.5, 2.5, -6.5],
+        [7.5, 2.5, -6.5],
+      ],
+      R2: [
+        [6.6, -1.5, -6.5],
+        [6.6, -1.5, -6.5],
+        [6.6, 1.5, -4.5],
+        [6.6, 1.5, -6.5],
+      ],
+      R3: [
+        [7.5, 2.5, -4.5],
+        [7.5, 2.5, -6.5],
+        [4.5, 5.5, -6.5],
+        [4.5, 5.5, -6.5],
+      ]
+    }
+
+    const new_steps_rotate_ccw_less = {
+      L1: [
+        [5.5, 4.5, -6.5],
+        [5.5, 4.5, -6.5],
+        [6.5, 3.5, -4.5],
+        [6.5, 3.5, -6.5],
+      ],
+      L2: [
+        [6.6, -0.5, -4.5],
+        [6.6, -0.5, -6.5],
+        [6.6, 0.5, -6.5],
+        [6.6, 0.5, -6.5],
+      ],
+      L3: [
+        [6.5, 3.5, -6.5],
+        [6.5, 3.5, -6.5],
+        [5.5, 4.5, -4.5],
+        [5.5, 4.5, -6.5],
+      ],
+      R1: [
+        [5.5, 4.5, -4.5],
+        [5.5, 4.5, -6.5],
+        [6.5, 3.5, -6.5],
+        [6.5, 3.5, -6.5],
+      ],
+      R2: [
+        [6.6, -0.5, -6.5],
+        [6.6, -0.5, -6.5],
+        [6.6, 0.5, -4.5],
+        [6.6, 0.5, -6.5],
+      ],
+      R3: [
+        [6.5, 3.5, -4.5],
+        [6.5, 3.5, -6.5],
+        [5.5, 4.5, -6.5],
+        [5.5, 4.5, -6.5],
+      ]
+    }
+
+    const new_steps_right = {
+      L1: [
+        [8, 4, -6.5],
+        [8, 4, -6.5],
+        [5, 4, -4.5],
+        [5, 4, -6.5],
+      ],
+      L2: [
+        [5.6, 0, -4.5],
+        [5.6, 0, -6.5],
+        [8.6, 0, -6.5],
+        [8.6, 0, -6.5],
+      ],
+      L3: [
+        [8, 4, -6.5],
+        [8, 4, -6.5],
+        [5, 4, -4.5],
+        [5, 4, -6.5],
+      ],
+      R1: [
+        [8, 4, -4.5],
+        [8, 4, -6.5],
+        [5, 4, -6.5],
+        [5, 4, -6.5],
+      ],
+      R2: [
+        [5.6, 0, -6.5],
+        [5.6, 0, -6.5],
+        [8.6, 0, -4.5],
+        [8.6, 0, -6.5],
+      ],
+      R3: [
+        [8, 4, -4.5],
+        [8, 4, -6.5],
+        [5, 4, -6.5],
+        [5, 4, -6.5],
+      ]
+    }
+
+    const new_steps_left = {
+      L1: [
+        [5, 4, -6.5],
+        [5, 4, -6.5],
+        [8, 4, -4.5],
+        [8, 4, -6.5],
+      ],
+      L2: [
+        [8.6, 0, -4.5],
+        [8.6, 0, -6.5],
+        [5.6, 0, -6.5],
+        [5.6, 0, -6.5],
+      ],
+      L3: [
+        [5, 4, -6.5],
+        [5, 4, -6.5],
+        [8, 4, -4.5],
+        [8, 4, -6.5],
+      ],
+      R1: [
+        [5, 4, -4.5],
+        [5, 4, -6.5],
+        [8, 4, -6.5],
+        [8, 4, -6.5],
+      ],
+      R2: [
+        [8.6, 0, -6.5],
+        [8.6, 0, -6.5],
+        [5.6, 0, -4.5],
+        [5.6, 0, -6.5],
+      ],
+      R3: [
+        [5, 4, -4.5],
+        [5, 4, -6.5],
+        [8, 4, -6.5],
+        [8, 4, -6.5],
+      ]
+    }
+
+    const new_steps_normalize = {
+      L1: [
+        [6, 4, -4.5],
+        [6, 4, -6.5],
+        null,
+        null,
+      ],
+      L2: [
+        null,
+        null,
+        [6.6, 0, -4.5],
+        [6.6, 0, -6.5],
+      ],
+      L3: [
+        [6, 4, -4.5],
+        [6, 4, -6.5],
+        null,
+        null,
+      ],
+      R1: [
+        null,
+        null,
+        [6, 4, -4.5],
+        [6, 4, -6.5],
+      ],
+      R2: [
+        [6.6, 0, -4.5],
+        [6.6, 0, -6.5],
+        null,
+        null,
+      ],
+      R3: [
+        null,
+        null,
+        [6, 4, -4.5],
+        [6, 4, -6.5],
+      ]
+    }
+
+    const new_steps_turn_right = {
+      L1: [
+        [6, 2.5, -6.5],
+        [6, 2.5, -6.5],
+        [4.5, 5.5, -4.5],
+        [4.5, 5.5, -6.5],
+      ],
+      L2: [
+        [6.6,  1.5, -4.5],
+        [6.6,  1.5, -6.5],
+        [6.6, -1.5, -6.5],
+        [6.6, -1.5, -6.5],
+      ],
+      L3: [
+        [6, 5.5, -6.5],
+        [6, 5.5, -6.5],
+        [7.5, 2.5, -4.5],
+        [7.5, 2.5, -6.5],
+      ],
+      R1: [
+        [6, 5.5, -4.5],
+        [6, 5.5, -6.5],
+        [4.5, 5.5, -6.5],
+        [4.5, 5.5, -6.5],
+      ],
+      R2: [
+        [6.6, -1.5, -6.5],
+        [6.6, -1.5, -6.5],
+        [6.6, -1.5, -4.5],
+        [6.6, -1.5, -6.5],
+      ],
+      R3: [
+        [6, 2.5, -4.5],
+        [6, 2.5, -6.5],
+        [7.5, 2.5, -6.5],
+        [7.5, 2.5, -6.5],
+      ]
+    }
+
+    const new_steps_turn_left = {
+      L1: [
+        [6, 2.5, -6.5],
+        [6, 2.5, -6.5],
+        [7.5, 2.5, -4.5],
+        [7.5, 2.5, -6.5],
+      ],
+      L2: [
+        [6.6, 1.5, -4.5],
+        [6.6, 1.5, -6.5],
+        [6.6, 1.5, -6.5],
+        [6.6, 1.5, -6.5],
+      ],
+      L3: [
+        [6, 5.5, -6.5],
+        [6, 5.5, -6.5],
+        [4.5, 5.5, -4.5],
+        [4.5, 5.5, -6.5],
+      ],
+      R1: [
+        [6, 5.5, -4.5],
+        [6, 5.5, -6.5],
+        [7.5, 2.5, -6.5],
+        [7.5, 2.5, -6.5],
+      ],
+      R2: [
+        [6.6, -1.5, -6.5],
+        [6.6, -1.5, -6.5],
+        [6.6,  1.5, -4.5],
+        [6.6,  1.5, -6.5],
+      ],
+      R3: [
+        [6, 2.5, -4.5],
+        [6, 2.5, -6.5],
+        [4.5, 5.5, -6.5],
+        [4.5, 5.5, -6.5],
+      ]
+    }
+
+    const new_steps_standby = {
+      L1: [
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+      ],
+      L2: [
+        [6.6, 0, -4.5],
+        [6.6, 0, -4.5],
+        [6.6, 0, -4.5],
+        [6.6, 0, -4.5],
+      ],
+      L3: [
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+      ],
+      R1: [
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+      ],
+      R2: [
+        [6.6, 0, -4.5],
+        [6.6, 0, -4.5],
+        [6.6, 0, -4.5],
+        [6.6, 0, -4.5],
+      ],
+      R3: [
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+        [6, 4, -4.5],
+      ]
+    }
+
+    function tlevel (num) {
+      num += 1
+      return Array(num).fill('  ').join('')
+    }
+
+    function makeCode (steps, fname) {
+      let iteration = [0, 1, 2, 3]
+
+      const legCombo = [
+        'state_isComboBUp = true',
+        'state_isComboBUp = false',
+        'state_isComboAUp = true',
+        'state_isComboAUp = false',
+      ];
+
+      if (!steps) {
+        iteration = []
+      }
+
+      return `${tlevel(0)}void ${fname} () {\n${tlevel(1)}switch (state_nextStep) {\n` + `${
+        iteration
+          .map(i => Object
+            .keys(steps)
+            .filter(key => steps[key][i])
+            .map(key => ({ degs: getAngularOfCartesian(steps[key][i][0], steps[key][i][1], steps[key][i][2]), chosen: key }))
+            .map(({ degs, chosen }) => (`${pcodes[chosen].teta}${leg[chosen].teta(degs.teta)} ${pcodes[chosen].beta}${leg[chosen].beta(degs.beta)} ${pcodes[chosen].alpha}${leg[chosen].alpha(degs.alpha)}`))
+            .join(' ')
+          )
+          .map((codes, index) => (`${tlevel(2)}case ${index}:\n${tlevel(3)}com.println(F("${codes} T200"));\n${tlevel(3)}${legCombo[index]};\n${tlevel(3)}state_nextStep = ${(index == (iteration.length - 1) ? 0 : index + 1)};\n${tlevel(3)}break;`))
+          .join("\n")
+      }\n${tlevel(1)}}\n${tlevel(0)}}\n`
+    }
+
+    function makeCodeSync (steps, fname) {
+      let iteration = [0, 1, 2, 3]
+
+      if (!steps) {
+        iteration = []
+      }
+
+      return `${tlevel(0)}void ${fname} () {\n${
+        iteration
+          .map(i => Object
+            .keys(steps)
+            .filter(key => steps[key][i])
+            .map(key => ({ degs: getAngularOfCartesian(steps[key][i][0], steps[key][i][1], steps[key][i][2]), chosen: key }))
+            .map(({ degs, chosen }) => (`${pcodes[chosen].teta}${leg[chosen].teta(degs.teta)} ${pcodes[chosen].beta}${leg[chosen].beta(degs.beta)} ${pcodes[chosen].alpha}${leg[chosen].alpha(degs.alpha)}`))
+            .join(' ')
+          )
+          .map((codes, index) => (`${tlevel(1)}com.println(F("${codes} T200")); delay(200);`))
+          .join("\n")
+      }\n${tlevel(0)}}\n`
+    }
+
+    document.querySelector('#transpiled').innerHTML = `${tlevel(0)}// START OF CODE GENERATED\n\n` +
+      makeCode(new_steps_standby, 'ssc_standby') + `\n` +
+      makeCode(new_steps_normalize, 'ssc_normalize') + `\n` +
+      makeCodeSync(new_steps_normalize, 'ssc_normalize_sync') + `\n` +
+      makeCode(new_steps_forward_low, 'ssc_forward_low') + `\n` +
+      makeCode(new_steps_forward, 'ssc_forward') + `\n` +
+      makeCodeSync(new_steps_forward, 'ssc_forward_sync') + `\n` +
+      makeCode(new_steps_backward, 'ssc_backward') + `\n` +
+      makeCodeSync(new_steps_backward, 'ssc_backward_sync') + `\n` +
+      makeCode(new_steps_right, 'ssc_shiftRight') + `\n` +
+      makeCode(new_steps_left, 'ssc_shiftLeft') + `\n` +
+      makeCode(new_steps_rotate_cw, 'ssc_rotateCW') + `\n` +
+      makeCodeSync(new_steps_rotate_cw, 'ssc_rotateCW_sync') + `\n` +
+      makeCode(new_steps_rotate_ccw, 'ssc_rotateCCW') + `\n` +
+      makeCodeSync(new_steps_rotate_ccw, 'ssc_rotateCCW_sync') + `\n` +
+      makeCode(new_steps_rotate_cw_less, 'ssc_rotateCWLess') + `\n` +
+      makeCode(new_steps_rotate_ccw_less, 'ssc_rotateCCWLess') + `\n` +
+      makeCode(new_steps_turn_right, 'ssc_turnRight') + `\n` +
+      makeCode(new_steps_turn_left, 'ssc_turnLeft') + `\n${tlevel(0)}// END OF GENERATED\n`;
+  </script>
+</body>
+</html>

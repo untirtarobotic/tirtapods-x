@@ -14,6 +14,7 @@ unsigned int state_lastSWR = 0;
 
 int CurrentState = 0;
 int CounterRead = 0;
+int CounterTangga = 0;
 
 bool avoidWall(bool inverse = false);
 bool flameDetection();
@@ -139,62 +140,60 @@ bool avoid3Ladder (bool inverse = false) {
 
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
+//
+//    if (!legs::isNormalized) {
+//      legs::normalize();
+//      return false;
+//    }
+//
+//    while ((currentCounter - startCounter) <= 1600) {
+//      legs::rotateCWLess();
+//      ping::update();
+//      currentCounter = millis();
+//
+//      if (ping::far_c) {
+//        return false;
+//      }
+//    }
+//
+//    while ((currentCounter - startCounter) <= 4800) {
+//      legs::rotateCCWLess();
+//      ping::update();
+//      currentCounter = millis();
+//
+//      if (ping::far_c) {
+//        return false;
+//      }
+//    }
+//
+//    while ((currentCounter - startCounter) <= 6400) {
+//      legs::rotateCWLess();
+//      ping::update();
+//      currentCounter = millis();
+//
+//      if (ping::far_c) {
+//        return false;
+//      }
+//    }
 
-    if (!legs::isNormalized) {
-      legs::normalize();
-      return false;
-    }
-
-    while ((currentCounter - startCounter) <= 1600) {
-      legs::rotateCWLess();
-      ping::update();
-      currentCounter = millis();
-
-      if (ping::far_c) {
-        return false;
-      }
-    }
-
-    while ((currentCounter - startCounter) <= 4800) {
-      legs::rotateCCWLess();
-      ping::update();
-      currentCounter = millis();
-
-      if (ping::far_c) {
-        return false;
-      }
-    }
-
-    while ((currentCounter - startCounter) <= 6400) {
-      legs::rotateCWLess();
-      ping::update();
-      currentCounter = millis();
-
-      if (ping::far_c) {
-        return false;
-      }
-    }
-
-    if (inverse) {
+    if (inverse && CounterTangga == 0 ) {
+      CounterTangga += 1;
       while ((currentCounter - startCounter) <= (6400 + 8 * 800)) {
         legs::forwardHigher();
         currentCounter = millis();
       }
 
-    } else {
-      while ((currentCounter - startCounter) <= (6400 + 6 * 800)) {
-        legs::rotateCCW;
-        currentCounter = millis();
-      }
+    } 
+    else {
+      CounterTangga += 1;
     }
-
     ping::update();
     ping::update();
     ping::update();
     ping::update();
     ping::update();
     state_isInversed = false;
-    return false;
+    return true;
   }
 
   return true;

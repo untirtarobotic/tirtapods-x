@@ -15,6 +15,7 @@ unsigned int state_lastSWR = 0;
 int CurrentState = 0;
 int CounterRead = 0;
 int CounterTangga = 0;
+int CounterFire = 0;
 
 bool avoidWall(bool inverse = false);
 bool flameDetection();
@@ -290,16 +291,22 @@ bool avoidWall (bool inverse = false) {
 bool detectLine () {
   if (line::isDetected){
     CounterRead += 1;
+    lcd::message(0, lcd::LINE_DETECTED);
   }
-  if (line::isDetected && CounterRead == 4){
+  return true;
+  if (line::isDetected && CounterRead == 2){
+    CounterRead += 1;
     state_isInversed = true;
   }
-  if (line::isDetected && CounterRead == 5){
+  if (line::isDetected && CounterRead == 3){
+    CounterRead += 1;
     state_isInversed = false;
   }
-  return false;
+  if (line::isDetected && CounterRead == 4){
+    CounterRead += 1;
+    state_isInversed = true;
+  }
 }
-
 bool flameDetection () {
   if (flame::is_right && (ping::near_b || ping::near_a)) {
     lcd::message(0, lcd::FIRE_ON_RIGHT);
@@ -360,7 +367,26 @@ bool flameDetection () {
           currentCounter = millis();
           legs::rotateCCW();
         }
-      } else {
+        CounterFire += 1;
+      }
+      if (proxy::isDetectingSomething && CounterFire == 2){
+        lcd::message(1, lcd::EXTINGUISHING);
+        pump::extinguish(1000);
+
+        unsigned int startCounter = millis();
+        unsigned int currentCounter = millis();
+
+        while ((currentCounter - startCounter) < 1650) {
+          currentCounter = millis();
+          legs::backward();
+        }
+        while ((currentCounter - startCounter) < 6650){
+          currentCounter = millis();
+          legs::rotateCCW();
+        }
+        state_isInversed = false;
+        }
+      else {
         lcd::message(1, lcd::MOVING_FORWARD);
         legs::forward();
       }

@@ -179,7 +179,7 @@ bool avoid3Ladder (bool inverse = false) {
 
     if (inverse && CounterTangga == 0 ) {
       CounterTangga += 1;
-      while ((currentCounter - startCounter) <= (6400 + 6 * 800)) {
+      while ((currentCounter - startCounter) <= (7300 + 5 * 800)) {
         legs::forwardHigher();
         currentCounter = millis();
       }
@@ -410,7 +410,7 @@ bool flameDetection () {
           currentCounter = millis();
           legs::backward();
         }
-        while ((currentCounter - startCounter) < 6650){
+        while ((currentCounter - startCounter) < 7650){
           currentCounter = millis();
           legs::rotateCCW();
         }
@@ -432,11 +432,11 @@ bool flameDetection () {
         unsigned int startCounter = millis();
         unsigned int currentCounter = millis();
 
-        while ((currentCounter - startCounter) < 1650) {
+        while ((currentCounter - startCounter) < 3000) {
           currentCounter = millis();
           legs::backward();
         }
-        while ((currentCounter - startCounter) < 6650){
+        while ((currentCounter - startCounter) < 9000){
           currentCounter = millis();
           legs::rotateCCW();
         }
@@ -513,8 +513,8 @@ void traceRoute () {
     legs::turnLeft();
   } else {
     lcd::message(0, lcd::NO_PATH);
-    lcd::message(1, lcd::ROTATING_CW);
-    legs::rotateCW(500);
+    lcd::message(1, lcd::ROTATING_CCW);
+    legs::rotateCCW(200);
     ping::update();
     ping::update();
     ping::update();

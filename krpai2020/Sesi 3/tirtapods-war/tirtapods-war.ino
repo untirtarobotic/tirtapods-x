@@ -397,9 +397,9 @@ bool flameDetection () {
     return true;
   }
 
-  if (flame::is_center) {
+  if (flame::is_center && CounterFire == 0) {
     lcd::message(0, lcd::FIRE_ON_CENTER);
-      if (proxy::isDetectingSomething && CounterFire == 0) {
+      if (proxy::isDetectingSomething) {
         lcd::message(1, lcd::EXTINGUISHING);
         pump::extinguish(1000);
 
@@ -416,7 +416,45 @@ bool flameDetection () {
         }
         CounterFire += 1;
       }
-      if (proxy::isDetectingSomething && CounterFire == 2){
+      else {
+        lcd::message(1, lcd::MOVING_FORWARD);
+        legs::forward();
+      }
+    return true;
+  }
+  
+  if (flame::is_center && CounterFire == 1) {
+    lcd::message(0, lcd::FIRE_ON_CENTER);
+      if (proxy::isDetectingSomething) {
+        lcd::message(1, lcd::EXTINGUISHING);
+        pump::extinguish(1000);
+
+        unsigned int startCounter = millis();
+        unsigned int currentCounter = millis();
+
+        while ((currentCounter - startCounter) < 1650) {
+          currentCounter = millis();
+          legs::backward();
+        }
+        while ((currentCounter - startCounter) < 6650){
+          currentCounter = millis();
+          legs::rotateCCW();
+        }
+        CounterFire += 1;
+      }
+      else {
+        lcd::message(1, lcd::MOVING_FORWARD);
+        legs::forward();
+      }
+    return true;
+  }
+  
+  if (flame::is_center && CounterFire == 2) {
+    lcd::message(0, lcd::FIRE_ON_CENTER);
+      if (proxy::isDetectingSomething) {
+        lcd::message(1, lcd::EXTINGUISHING);
+        pump::extinguish(1000);
+
         unsigned int startCounter = millis();
         unsigned int currentCounter = millis();
 
@@ -429,15 +467,14 @@ bool flameDetection () {
           legs::rotateCCW();
         }
         state_isInversed = false;
-        }
+      }
+       
       else {
         lcd::message(1, lcd::MOVING_FORWARD);
         legs::forward();
       }
-
     return true;
   }
-
   return false;
 }
 

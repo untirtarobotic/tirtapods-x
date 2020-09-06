@@ -137,9 +137,6 @@ void standBy () {
 bool avoid3Ladder (bool inverse = false) {
   if (proxy::isDetectingSomething && !ping::far_c) {
     lcd::message(0, lcd::THERE_IS_OBSTACLE);
-    
-    unsigned int startCounter = millis();
-    unsigned int currentCounter = millis();
 //    if (!legs::isNormalized) {
 //      legs::normalize();
 //      return false;
@@ -175,13 +172,15 @@ bool avoid3Ladder (bool inverse = false) {
 //      }
 //    }
     if (inverse) {
+      unsigned int startCounter = millis();
+      unsigned int currentCounter = millis();
       while ((currentCounter - startCounter) <= (7300 + 5 * 800)) {
         legs::forwardHigher();
         currentCounter = millis();
       }
     }
     ping::update();
-    ping::update();
+    ping::update(); 
     ping::update();
     ping::update();
     ping::update();

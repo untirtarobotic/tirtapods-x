@@ -307,7 +307,7 @@ bool detectLine () {
     ping::update();
     ping::update();
     ping::update();
-    state_isInversed = true;
+    state_isInversed = false;
     return true;
   }
   if (line::isDetected && CounterRead == 3){
@@ -447,14 +447,13 @@ bool flameDetection () {
           legs::rotateCCW();
         }
         CounterFire += 1;
-      }
         ping::update();
         ping::update(); 
         ping::update();
         ping::update();
         ping::update();
         state_isInversed = false;
-      else {
+  }else {
         lcd::message(1, lcd::MOVING_FORWARD);
         legs::forward();
       }

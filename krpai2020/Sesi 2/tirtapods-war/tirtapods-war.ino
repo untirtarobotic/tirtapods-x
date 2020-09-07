@@ -50,13 +50,7 @@ void loop () {
       state_startTime = millis();
       state_isInversed = ping::checkShouldFollow();
       state_isInitialized = true;
-      unsigned int startCounter = millis();
-      unsigned int currentCounter = millis();
-      while ((currentCounter - startCounter) < 3000) {
-        currentCounter = millis();
-        legs::rotateCCW();
       }
-    }
 
     ping::update();
     proxy::update();
@@ -140,69 +134,66 @@ void standBy () {
 }
 
 bool avoid3Ladder (bool inverse = false) {
-  if (proxy::isDetectingSomething && !ping::far_c) {
+  if (proxy::isDetectingSomething && !ping::far_c && CurrentState==0 ) {
     lcd::message(0, lcd::THERE_IS_OBSTACLE);
-
-    unsigned int startCounter = millis();
-    unsigned int currentCounter = millis();
-
-    if (!legs::isNormalized) {
-      legs::normalize();
-      return false;
-    }
-
-    while ((currentCounter - startCounter) <= 1600) {
-      legs::rotateCWLess();
-      ping::update();
-      currentCounter = millis();
-
-      if (ping::far_c) {
-        return false;
-      }
-    }
-
-    while ((currentCounter - startCounter) <= 4800) {
-      legs::rotateCCWLess();
-      ping::update();
-      currentCounter = millis();
-
-      if (ping::far_c) {
-        return false;
-      }
-    }
-
-    while ((currentCounter - startCounter) <= 6400) {
-      legs::rotateCWLess();
-      ping::update();
-      currentCounter = millis();
-
-      if (ping::far_c) {
-        return false;
-      }
-    }
-
+    CurrentState++;
+//    if (!legs::isNormalized) {
+//      legs::normalize();
+//      return false;
+//    }
+//
+//    while ((currentCounter - startCounter) <= 1600) {
+//      legs::rotateCWLess();
+//      ping::update();
+//      currentCounter = millis();
+//
+//      if (ping::far_c) {
+//        return false;
+//      }
+//    }
+//
+//    while ((currentCounter - startCounter) <= 4800) {
+//      legs::rotateCCWLess();
+//      ping::update();
+//      currentCounter = millis();
+//
+//      if (ping::far_c) {
+//        return false;
+//      }
+//    }
+//
+//    while ((currentCounter - startCounter) <= 6400) {
+//      legs::rotateCWLess();
+//      ping::update();
+//      currentCounter = millis();
+//
+//      if (ping::far_c) {
+//        return false;
+//      }
+//    }
     if (inverse) {
-      while ((currentCounter - startCounter) <= (6400 + 10 * 800)) {
+      unsigned int startCounter = millis();
+      unsigned int currentCounter = millis();
+      while ((currentCounter - startCounter) <= (14400)) {
         legs::forwardHigher();
         currentCounter = millis();
       }
-
-    } else {
-      while ((currentCounter - startCounter) <= (6400 + 6 * 800)) {
-        legs::rotateCCW;
+      while ((currentCounter - startCounter) <= (15400)) {
+        legs::rotateCCW();
+        currentCounter = millis();
+      }
+      while ((currentCounter - startCounter) <= (19400)) {
+        legs::forward();
         currentCounter = millis();
       }
     }
-
+    ping::update();
+    ping::update(); 
     ping::update();
     ping::update();
     ping::update();
-    ping::update();
-    ping::update();
-    proxy::isDetectingSomething = digitalRead(PIN_PROXIMITY) == HIGH;
-    return false;
+    return true;
   }
-
   return true;
 }
 
@@ -294,7 +285,7 @@ bool avoidWall (bool inverse = false) {
   return false;
 }
 
-bool detectLine () {
+bool detectLine() {
   if (line::isDetected && CounterRead == 0) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -684,22 +675,22 @@ bool detectLine () {
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 19000) {
+    while ((currentCounter - startCounter) < 17000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 26000) {
-      lcd::message(1, lcd::ROCK_AND_ROLL);
+    while ((currentCounter - startCounter) < 19500) {
+      lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
-      legs::forwardHigher();
+      legs::rotateCW();
     }
     ping::update();
     ping::update();
     ping::update();
     ping::update();
     ping::update();
-    state_isInversed = true;
+    state_isInversed = false;
     return true;
   }
   return false;

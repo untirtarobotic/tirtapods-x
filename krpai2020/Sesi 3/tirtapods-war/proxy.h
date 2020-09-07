@@ -2,7 +2,6 @@
 
 namespace proxy {
   bool isDetectingSomething = false;
-  int CounterStairs = 0;
 
   void setup () {
     pinMode(PIN_PROXIMITY, INPUT);
@@ -15,9 +14,6 @@ namespace proxy {
   }
 
   void update () {
-    if(digitalRead(PIN_PROXIMITY) == LOW && CounterStairs == 0){
-    isDetectingSomething;
-    CounterStairs = 1;
+    isDetectingSomething = digitalRead(PIN_PROXIMITY) == LOW;
     }
   }
-}

@@ -12,7 +12,7 @@ bool state_isInitialized = false;
 unsigned int state_startTime = 0;
 unsigned int state_lastSWR = 0;
 
-int CurrentState = 0;
+// int CurrentState = 0;
 int CounterRead = 0;
 int CounterFire = 0;
 
@@ -187,7 +187,6 @@ bool avoid3Ladder (bool inverse = false) {
     state_isInversed = false;
     return true;
   }
-
   return true;
 }
 

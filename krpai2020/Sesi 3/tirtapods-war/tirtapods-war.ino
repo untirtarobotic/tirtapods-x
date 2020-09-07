@@ -14,7 +14,6 @@ unsigned int state_lastSWR = 0;
 
 int CurrentState = 0;
 int CounterRead = 0;
-int CounterTangga = 0;
 int CounterFire = 0;
 
 bool avoidWall(bool inverse = false);
@@ -136,12 +135,9 @@ void standBy () {
 }
 
 bool avoid3Ladder (bool inverse = false) {
-  if (proxy::isDetectingSomething && !ping::far_c) {
+  if (proxy::isDetectingSomething && !ping::far_c && CurrentState==0 ) {
     lcd::message(0, lcd::THERE_IS_OBSTACLE);
-
-    unsigned int startCounter = millis();
-    unsigned int currentCounter = millis();
-//
+    CurrentState++;
 //    if (!legs::isNormalized) {
 //      legs::normalize();
 //      return false;
@@ -176,27 +172,22 @@ bool avoid3Ladder (bool inverse = false) {
 //        return false;
 //      }
 //    }
-
-    if (inverse && CounterTangga == 0 ) {
-      CounterTangga += 1;
+    if (inverse) {
+      unsigned int startCounter = millis();
+      unsigned int currentCounter = millis();
       while ((currentCounter - startCounter) <= (7300 + 5 * 800)) {
         legs::forwardHigher();
         currentCounter = millis();
       }
-
-    } 
-    else {
-      CounterTangga += 2;
     }
     ping::update();
-    ping::update();
+    ping::update(); 
     ping::update();
     ping::update();
     ping::update();
     state_isInversed = false;
     return true;
   }
-
   return true;
 }
 
@@ -311,7 +302,12 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-    state_isInversed = true;
+    ping::update();
+    ping::update(); 
+    ping::update();
+    ping::update();
+    ping::update();
+    state_isInversed = false;
     return true;
   }
   if (line::isDetected && CounterRead == 3){
@@ -324,6 +320,11 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
+    ping::update();
+    ping::update(); 
+    ping::update();
+    ping::update();
+    ping::update();
     state_isInversed = false;
     return true;
   }
@@ -337,6 +338,11 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
+    ping::update();
+    ping::update(); 
+    ping::update();
+    ping::update();
+    ping::update();
     state_isInversed = true;
     return true;
   }
@@ -441,8 +447,13 @@ bool flameDetection () {
           legs::rotateCCW();
         }
         CounterFire += 1;
-      }
-      else {
+        ping::update();
+        ping::update(); 
+        ping::update();
+        ping::update();
+        ping::update();
+        state_isInversed = false;
+  }else {
         lcd::message(1, lcd::MOVING_FORWARD);
         legs::forward();
       }
@@ -466,6 +477,11 @@ bool flameDetection () {
           currentCounter = millis();
           legs::rotateCCW();
         }
+        ping::update();
+        ping::update(); 
+        ping::update();
+        ping::update();
+        ping::update();
         state_isInversed = false;
       }
        

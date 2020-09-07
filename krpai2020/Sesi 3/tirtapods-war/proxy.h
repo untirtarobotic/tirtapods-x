@@ -15,5 +15,5 @@ namespace proxy {
 
   void update () {
     isDetectingSomething = digitalRead(PIN_PROXIMITY) == LOW;
+    }
   }
-}

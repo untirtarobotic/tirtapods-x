@@ -7,7 +7,7 @@ void setup() {
 }
 
 void loop() {
-  newComboB();
+  newComboA();
 }
 
 void newComboA () {

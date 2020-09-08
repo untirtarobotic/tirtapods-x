@@ -7,18 +7,18 @@ void setup() {
 }
 
 void loop() {
-  newComboB();
+  newComboA();
 }
 
 void newComboA () {
   // LEFT LEGS
-  Leg.println("#4P1450 #5P1550 #6P1500 T200");
+  Leg.println("#4P1400 #5P1550 #6P1500 T200");
   Leg.println("#8P1450 #9P1600 #10P1600 T200");
-  Leg.println(F("#12P1400 #13P1400 #14P1600 T200"));
+  Leg.println(F("#12P1450 #13P1400 #14P1600 T200"));
 
   // RIGHT LEGS
   Leg.println(F("#20P1500 #21P1400 #22P1380 T200"));
-  Leg.println(F("#24P1400 #25P1600 #26P1350 T200"));
+  Leg.println(F("#24P1400 #25P1500 #26P1250 T200"));
   Leg.println(F("#28P1300 #29P1400 #30P1400 T200"));
 
   delay(200);

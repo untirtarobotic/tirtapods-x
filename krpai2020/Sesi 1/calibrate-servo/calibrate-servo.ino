@@ -13,7 +13,7 @@ void loop() {
 void newComboA () {
   // LEFT LEGS
   Leg.println("#4P1400 #5P1550 #6P1500 T200");
-  Leg.println("#8P1450 #9P1600 #10P1600 T200");
+  Leg.println("#8P1450 #9P1600 #10P1400 T200");
   Leg.println(F("#12P1450 #13P1400 #14P1600 T200"));
 
   // RIGHT LEGS
@@ -27,7 +27,7 @@ void newComboA () {
 void newComboB () {
   // LEFT LEGS
   Leg.println("#4P900 #5P2000 #6P2000 T200");
-  Leg.println("#8P1000 #9P2070 #10P2000 T200");
+  Leg.println("#8P1000 #9P2070 #10P1850 T200");
   Leg.println(F("#12P950 #13P1850 #14P2050 T200"));
 
   // RIGHT LEGS

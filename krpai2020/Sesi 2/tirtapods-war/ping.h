@@ -11,8 +11,11 @@
 
 namespace ping {
   bool near_a = false;
+  bool near_a2 = false;
   bool near_b = false;
+  bool near_b2 = false;
   bool near_c = false;
+  bool near_c2 = false;
   bool near_d = false;
   bool near_e = false;
   bool far_a = false;
@@ -107,6 +110,7 @@ namespace ping {
       case PING_A:
         currentPingValue = read_ping(ULTRA_A_TRIG, ULTRA_A_ECHO);
         near_a = currentPingValue < (9 + offset);
+        near_a2 = currentPingValue < (16 + offset);
         far_a = currentPingValue < (8 + offsetFar);
         isOnSRWR = currentPingValue < (14 + offset);
         state_nextPingSensor = PING_B;
@@ -114,12 +118,14 @@ namespace ping {
       case PING_B:
         currentPingValue = read_ping(ULTRA_B_TRIG, ULTRA_B_ECHO);
         near_b = currentPingValue < (12 + offset);
+        near_b2 = currentPingValue < (29 + offset);
         far_b = currentPingValue < (8 + offsetFar);
         state_nextPingSensor = PING_C;
         break;
       case PING_C:
         currentPingValue = read_ping(ULTRA_C_TRIG, ULTRA_C_ECHO);
         near_c = currentPingValue < (12 + offset);
+        near_c2 = currentPingValue < (21 + offset);
         far_c = currentPingValue < (8 + offsetFar);
         state_nextPingSensor = PING_D;
         break;

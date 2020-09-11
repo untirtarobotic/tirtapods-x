@@ -424,12 +424,11 @@ bool detectLine() {
     while ((currentCounter - startCounter) < 2500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
-      legs::forward();
     }
     while ((currentCounter - startCounter) < 5000) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
-      legs::rotateCCW();
+      avoidWall(false);
     }
     while ((currentCounter - startCounter) < 10000) {
       lcd::message(1, lcd::MOVING_FORWARD);

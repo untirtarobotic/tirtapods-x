@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 #include "ping.h"
 #include "proxy.h"
 #include "flame.h"

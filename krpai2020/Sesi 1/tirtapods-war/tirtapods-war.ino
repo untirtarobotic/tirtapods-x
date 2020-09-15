@@ -707,7 +707,7 @@ void traceRoute () {
   } else {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CCW);
-    legs::rotateCCW(1600);
+    legs::rotateCCW(1000);
     ping::update();
     ping::update();
     ping::update();
@@ -732,7 +732,7 @@ void traceRouteInverse () {
   } else {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CW);
-    legs::rotateCW(1600);
+    legs::rotateCW(1000);
     ping::update();
     ping::update();
     ping::update();

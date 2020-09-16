@@ -21,7 +21,7 @@ bool avoid3Ladder(bool inverse = false);
 bool getCloser2SRWR(bool inverse = false);
 void traceRoute();
 void traceRouteInversed();
-
+// s
 void setup () {
   ping::setup();
   proxy::setup();
@@ -34,7 +34,7 @@ void setup () {
 
   Serial.begin(9600);
 }
-
+// s
 void loop () {
   Serial.println (CounterRead);
   activation::update();

@@ -480,7 +480,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::normalize();
     }
-    while ((currentCounter - startCounter) < 10500) {
+    while ((currentCounter - startCounter) < 10300) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -492,7 +492,7 @@ bool detectLine() {
       currentFakeCounter = millis();
       legs::rotateCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 3500) {
+    while ((currentFakeCounter - startFakeCounter) < 3800) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentFakeCounter = millis();
       legs::forward();

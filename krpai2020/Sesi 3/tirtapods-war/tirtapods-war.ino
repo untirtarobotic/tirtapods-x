@@ -307,7 +307,7 @@ bool detectLine () {
     ping::update();
     ping::update();
     ping::update();
-    state_isInversed = false;
+    state_isInversed = true;
     return true;
   }
   if (line::isDetected && CounterRead == 3){
@@ -344,6 +344,29 @@ bool detectLine () {
     ping::update();
     ping::update();
     state_isInversed = true;
+    return true;
+  }
+  if (line::isDetected && CounterRead == 5){
+    CounterRead += 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 700) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    while ((currentCounter - startCounter) < 1700){
+      lcd::message(1, lcd::SHIFTING_RIGHT);
+      currentCounter = millis();
+      legs::shiftRight();
+    }
+    ping::update();
+    ping::update(); 
+    ping::update();
+    ping::update();
+    ping::update();
+    state_isInversed = false;
     return true;
   }
   if (line::isDetected && CounterRead !=0 && CounterRead !=2 && CounterRead !=3 && CounterRead !=4 ){
@@ -445,6 +468,10 @@ bool flameDetection () {
         while ((currentCounter - startCounter) < 9000){
           currentCounter = millis();
           legs::rotateCCW();
+        }
+        while ((currentCounter - startCounter) < 11000){
+          currentCounter = millis();
+          legs::shiftRight();
         }
         CounterFire += 1;
         ping::update();

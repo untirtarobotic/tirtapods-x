@@ -369,7 +369,7 @@ bool detectLine () {
     state_isInversed = false;
     return true;
   }
-  if (line::isDetected && CounterRead !=0 && CounterRead !=2 && CounterRead !=3 && CounterRead !=4 ){
+  if (line::isDetected && CounterRead !=0 && CounterRead !=2 && CounterRead !=3 && CounterRead !=4 && CounterRead !=5 ){
     CounterRead += 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();

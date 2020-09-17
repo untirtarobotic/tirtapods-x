@@ -351,15 +351,10 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 700) {
+    while ((currentCounter - startCounter) < 400) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
-    }
-    while ((currentCounter - startCounter) < 1700){
-      lcd::message(1, lcd::SHIFTING_RIGHT);
-      currentCounter = millis();
-      legs::shiftRight();
     }
     ping::update();
     ping::update(); 

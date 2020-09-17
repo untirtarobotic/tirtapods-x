@@ -432,6 +432,10 @@ bool flameDetection () {
         lcd::message(1, lcd::EXTINGUISHING);
         pump::extinguish(1000);
 
+        if (flame::state_isIndicatorOn){
+          digitalWrite(PIN_FLAME_INDICATOR, HIGH);
+        }
+
         unsigned int startCounter = millis();
         unsigned int currentCounter = millis();
 
@@ -457,10 +461,6 @@ bool flameDetection () {
       if (proxy::isDetectingSomething) {
         lcd::message(1, lcd::EXTINGUISHING);
         pump::extinguish(1000);
-
-        if (flame::state_isIndicatorOn){
-          digitalWrite(PIN_FLAME_INDICATOR, LOW);
-        }
 
         unsigned int startCounter = millis();
         unsigned int currentCounter = millis();

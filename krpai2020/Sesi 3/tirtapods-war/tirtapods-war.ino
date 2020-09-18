@@ -307,7 +307,6 @@ bool detectLine () {
     ping::update();
     ping::update();
     ping::update();
-    state_isInversed = true;
     return true;
   }
   if (line::isDetected && CounterRead == 3){
@@ -325,7 +324,6 @@ bool detectLine () {
     ping::update();
     ping::update();
     ping::update();
-    state_isInversed = false;
     return true;
   }
   if (line::isDetected && CounterRead == 4){
@@ -351,7 +349,7 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 400) {
+    while ((currentCounter - startCounter) < 600) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();

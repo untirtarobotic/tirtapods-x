@@ -309,24 +309,7 @@ bool detectLine () {
     ping::update();
     return true;
   }
-  if (line::isDetected && CounterRead == 3){
-    CounterRead += 1;
-    lcd::message(0, lcd::LINE_DETECTED);
-    unsigned int startCounter = millis();
-    unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 1600) {
-      lcd::message(1, lcd::MOVING_FORWARD);
-      currentCounter = millis();
-      legs::forward();
-    }
-    ping::update();
-    ping::update(); 
-    ping::update();
-    ping::update();
-    ping::update();
-    return true;
-  }
-  if (line::isDetected && CounterRead == 4){
+  if (line::isDetected && CounterRead == 4){ // masuk R1 pepet kiri 
     CounterRead += 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -341,15 +324,33 @@ bool detectLine () {
     ping::update();
     ping::update();
     ping::update();
-    state_isInversed = true;
+    state_isInversed = true; // pepet kiri
     return true;
   }
-  if (line::isDetected && CounterRead == 5){
+  // if (line::isDetected && CounterRead == 5){ //keluar dari R1 maju terus belok kanan
+  //   CounterRead += 1;
+  //   lcd::message(0, lcd::LINE_DETECTED);
+  //   unsigned int startCounter = millis();
+  //   unsigned int currentCounter = millis();
+  //   while ((currentCounter - startCounter) < 200) {
+  //     lcd::message(1, lcd::MOVING_FORWARD);
+  //     currentCounter = millis();
+  //     legs::forward();
+  //   }
+  //   ping::update();
+  //   ping::update(); 
+  //   ping::update();
+  //   ping::update();
+  //   ping::update();
+  //   state_isInversed = false;
+  //   return true;
+  // }
+  if (line::isDetected && (CounterRead==1 || CounterRead==3)){
     CounterRead += 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 600) {
+    while ((currentCounter - startCounter) < 1600) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -360,18 +361,6 @@ bool detectLine () {
     ping::update();
     ping::update();
     state_isInversed = false;
-    return true;
-  }
-  if (line::isDetected && CounterRead !=0 && CounterRead !=2 && CounterRead !=3 && CounterRead !=4 && CounterRead !=5 ){
-    CounterRead += 1;
-    lcd::message(0, lcd::LINE_DETECTED);
-    unsigned int startCounter = millis();
-    unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 1600) {
-      lcd::message(1, lcd::MOVING_FORWARD);
-      currentCounter = millis();
-      legs::forward();
-    }
     return true;
   }
   return false;

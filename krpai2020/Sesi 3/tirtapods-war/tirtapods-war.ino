@@ -7,7 +7,7 @@
 #include "lcd.h"
 #include "line.h"
 
-bool state_isInversed = false; //true = SLWR, false = SRWR
+bool state_isInversed = true; //true = SLWR, false = SRWR
 bool state_isInitialized = false;
 unsigned int state_startTime = 0;
 unsigned int state_lastSWR = 0;
@@ -135,43 +135,9 @@ void standBy () {
 }
 
 bool avoid3Ladder (bool inverse = false) {
-  if (proxy::isDetectingSomething && !ping::far_c && CurrentState==0 ) {
+  if (proxy::isDetectingSomething && CurrentState==0 ) {
     lcd::message(0, lcd::THERE_IS_OBSTACLE);
     CurrentState++;
-//    if (!legs::isNormalized) {
-//      legs::normalize();
-//      return false;
-//    }
-//
-//    while ((currentCounter - startCounter) <= 1600) {
-//      legs::rotateCWLess();
-//      ping::update();
-//      currentCounter = millis();
-//
-//      if (ping::far_c) {
-//        return false;
-//      }
-//    }
-//
-//    while ((currentCounter - startCounter) <= 4800) {
-//      legs::rotateCCWLess();
-//      ping::update();
-//      currentCounter = millis();
-//
-//      if (ping::far_c) {
-//        return false;
-//      }
-//    }
-//
-//    while ((currentCounter - startCounter) <= 6400) {
-//      legs::rotateCWLess();
-//      ping::update();
-//      currentCounter = millis();
-//
-//      if (ping::far_c) {
-//        return false;
-//      }
-//    }
     if (inverse) {
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
@@ -327,24 +293,6 @@ bool detectLine () {
     state_isInversed = true; // pepet kiri
     return true;
   }
-  // if (line::isDetected && CounterRead == 5){ //keluar dari R1 maju terus belok kanan
-  //   CounterRead += 1;
-  //   lcd::message(0, lcd::LINE_DETECTED);
-  //   unsigned int startCounter = millis();
-  //   unsigned int currentCounter = millis();
-  //   while ((currentCounter - startCounter) < 200) {
-  //     lcd::message(1, lcd::MOVING_FORWARD);
-  //     currentCounter = millis();
-  //     legs::forward();
-  //   }
-  //   ping::update();
-  //   ping::update(); 
-  //   ping::update();
-  //   ping::update();
-  //   ping::update();
-  //   state_isInversed = false;
-  //   return true;
-  // }
   if (line::isDetected && (CounterRead==1 || CounterRead==3)){
     CounterRead += 1;
     lcd::message(0, lcd::LINE_DETECTED);

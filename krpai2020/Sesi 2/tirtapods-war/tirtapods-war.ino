@@ -16,7 +16,6 @@ int CurrentState = 0;
 int CounterRead = 0;
 
 bool avoidWall(bool inverse = false);
-bool flameDetection();
 bool avoid3Ladder(bool inverse = false);
 bool getCloser2SRWR(bool inverse = false);
 void traceRoute();
@@ -25,7 +24,6 @@ void traceRouteInversed();
 void setup () {
   ping::setup();
   proxy::setup();
-  flame::setup();
   legs::setup();
   pump::setup();
   activation::setup();
@@ -34,7 +32,7 @@ void setup () {
 
   Serial.begin(9600);
 }
-// s
+
 void loop () {
   Serial.println (CounterRead);
   activation::update();
@@ -375,12 +373,12 @@ bool detectLine() {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 2100) {
+    while ((currentCounter - startCounter) < 2500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 4900) {
+    while ((currentCounter - startCounter) < 5000) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       //      avoidWall(false);
@@ -391,17 +389,17 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 8900) {
+    while ((currentCounter - startCounter) < 8700) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 13500) {
+    while ((currentCounter - startCounter) < 15500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 14200) {
+    while ((currentCounter - startCounter) < 16000) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
@@ -495,8 +493,6 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    pingupdate();
-    state_isInversed = false;
     return true;
   }
 
@@ -544,8 +540,11 @@ bool detectLine() {
       currentFakeCounter = millis();
       legs::rotateCCW();
     }
-    pingupdate();
-    state_isInversed = false;
+    while ((currentFakeCounter - startFakeCounter) < 9000) {
+      lcd::message(1, lcd::SHIFTING_RIGHT);
+      currentFakeCounter = millis();
+      legs::shiftRight();
+    }
     return true;
   }
 
@@ -595,86 +594,8 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCW();
     }
-    pingupdate();
-    state_isInversed = false;
     return true;
   }
-  return false;
-}
-
-bool flameDetection () {
-  if (flame::is_right && (ping::near_b || ping::near_a)) {
-    lcd::message(0, lcd::FIRE_ON_RIGHT);
-    lcd::message(1, lcd::SHIFTING_LEFT);
-    legs::shiftLeft();
-    return true;
-  }
-
-  if (flame::is_left && (ping::near_d || ping::near_e)) {
-    lcd::message(0, lcd::FIRE_ON_LEFT);
-    lcd::message(1, lcd::SHIFTING_RIGHT);
-    legs::shiftRight();
-    return true;
-  }
-
-  if (flame::is_right && !flame::is_left && !flame::is_center) {
-    lcd::message(0, lcd::FIRE_ON_RIGHT);
-    lcd::message(1, lcd::ROTATING_CW);
-    legs::rotateCW();
-    return true;
-  }
-
-  if (flame::is_left && !flame::is_right && !flame::is_center) {
-    lcd::message(0, lcd::FIRE_ON_LEFT);
-    lcd::message(1, lcd::ROTATING_CCW);
-    legs::rotateCCW();
-    return true;
-  }
-
-  if (flame::is_right && !flame::is_left && flame::is_center) {
-    lcd::message(0, lcd::FIRE_ON_RIGHT);
-    lcd::message(1, lcd::ROTATING_CW);
-    legs::rotateCWLess();
-    return true;
-  }
-
-  if (flame::is_left && !flame::is_right && flame::is_center) {
-    lcd::message(0, lcd::FIRE_ON_LEFT);
-    lcd::message(1, lcd::ROTATING_CCW);
-    legs::rotateCCWLess();
-    return true;
-  }
-
-  if (flame::is_center) {
-    lcd::message(0, lcd::FIRE_ON_CENTER);
-
-    if (ping::near_b) {
-      lcd::message(1, lcd::ROTATING_CCW);
-      legs::rotateCCWLess();
-    } else if (ping::near_d) {
-      lcd::message(1, lcd::ROTATING_CW);
-      legs::rotateCWLess();
-    } else {
-      if (proxy::isDetectingSomething) {
-        lcd::message(1, lcd::EXTINGUISHING);
-        pump::extinguish(1000);
-
-        unsigned int startCounter = millis();
-        unsigned int currentCounter = millis();
-
-        while ((currentCounter - startCounter) < 1650) {
-          currentCounter;
-          legs::backward();
-        }
-      } else {
-        lcd::message(1, lcd::MOVING_FORWARD);
-        legs::forward();
-      }
-    }
-
-    return true;
-  }
-
   return false;
 }
 

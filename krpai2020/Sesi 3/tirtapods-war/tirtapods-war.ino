@@ -7,7 +7,7 @@
 #include "lcd.h"
 #include "line.h"
 
-bool state_isInversed = true; //true = SLWR, false = SRWR
+bool state_isInversed = false; //true = SLWR, false = SRWR
 bool state_isInitialized = false;
 unsigned int state_startTime = 0;
 unsigned int state_lastSWR = 0;
@@ -32,12 +32,9 @@ void setup () {
   activation::setup();
   lcd::setup();
   line::setup();
-
-  Serial.begin(9600);
 }
 
 void loop () {
-  Serial.println (CounterRead);
   activation::update();
 
   if (activation::isON) {
@@ -49,7 +46,7 @@ void loop () {
 
     if (!state_isInitialized) {
       state_startTime = millis();
-      state_isInversed = ping::checkShouldFollow();
+      state_isInversed = ping::checkShouldFollow(); 
       state_isInitialized = true;
     }
 
@@ -57,6 +54,7 @@ void loop () {
     proxy::update();
     flame::update();
     line::update();
+
     //
     //    Serial.println(state_lastSWR);
     //
@@ -146,11 +144,7 @@ bool avoid3Ladder (bool inverse = false) {
         currentCounter = millis();
       }
     }
-    ping::update();
-    ping::update(); 
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     state_isInversed = false;
     return true;
   }
@@ -268,11 +262,7 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-    ping::update();
-    ping::update(); 
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     return true;
   }
   if (line::isDetected && CounterRead == 4){ // masuk R1 pepet kiri 
@@ -285,11 +275,7 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-    ping::update();
-    ping::update(); 
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     state_isInversed = true; // pepet kiri
     return true;
   }
@@ -303,11 +289,7 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-    ping::update();
-    ping::update(); 
-    ping::update();
-    ping::update();
-    ping::update();
+
     state_isInversed = false;
     return true;
   }
@@ -408,11 +390,7 @@ bool flameDetection () {
           legs::shiftRight();
         }
         CounterFire += 1;
-        ping::update();
-        ping::update(); 
-        ping::update();
-        ping::update();
-        ping::update();
+        pingupdate();
         state_isInversed = false;
   }else {
         lcd::message(1, lcd::MOVING_FORWARD);
@@ -438,11 +416,7 @@ bool flameDetection () {
           currentCounter = millis();
           legs::rotateCCW();
         }
-        ping::update();
-        ping::update(); 
-        ping::update();
-        ping::update();
-        ping::update();
+        pingupdate();
         state_isInversed = false;
       }
        
@@ -492,11 +466,7 @@ void traceRoute () {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CCW);
     legs::rotateCCW(200);
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
   }
 }
 
@@ -517,10 +487,14 @@ void traceRouteInverse () {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CW);
     legs::rotateCW(1000);
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
   }
+}
+
+void pingupdate(){
+    ping::update();
+    ping::update(); 
+    ping::update();
+    ping::update();
+    ping::update();
 }

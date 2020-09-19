@@ -21,7 +21,7 @@ bool avoid3Ladder(bool inverse = false);
 bool getCloser2SRWR(bool inverse = false);
 void traceRoute();
 void traceRouteInversed();
-// s
+
 void setup () {
   ping::setup();
   proxy::setup();
@@ -134,43 +134,9 @@ void standBy () {
 }
 
 bool avoid3Ladder (bool inverse = false) {
-  if (proxy::isDetectingSomething && !ping::far_c && CurrentState == 0 ) {
+  if (proxy::isDetectingSomething && CurrentState == 0 ) {
     lcd::message(0, lcd::THERE_IS_OBSTACLE);
     CurrentState++;
-    //    if (!legs::isNormalized) {
-    //      legs::normalize();
-    //      return false;
-    //    }
-    //
-    //    while ((currentCounter - startCounter) <= 1600) {
-    //      legs::rotateCWLess();
-    //      ping::update();
-    //      currentCounter = millis();
-    //
-    //      if (ping::far_c) {
-    //        return false;
-    //      }
-    //    }
-    //
-    //    while ((currentCounter - startCounter) <= 4800) {
-    //      legs::rotateCCWLess();
-    //      ping::update();
-    //      currentCounter = millis();
-    //
-    //      if (ping::far_c) {
-    //        return false;
-    //      }
-    //    }
-    //
-    //    while ((currentCounter - startCounter) <= 6400) {
-    //      legs::rotateCWLess();
-    //      ping::update();
-    //      currentCounter = millis();
-    //
-    //      if (ping::far_c) {
-    //        return false;
-    //      }
-    //    }
     if (inverse) {
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
@@ -330,11 +296,7 @@ bool detectLine() {
       currentFakeCounter = millis();
       legs::rotateCCW();
     }
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     state_isInversed = false;
     return true;
   }
@@ -354,11 +316,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCW();
     }
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     state_isInversed = true;
     return true;
   }
@@ -407,11 +365,7 @@ bool detectLine() {
       currentFakeCounter = millis();
       legs::rotateCCW();
     }
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     state_isInversed = false;
     return true;
   }
@@ -457,11 +411,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     state_isInversed = true;
     return true;
   }
@@ -510,11 +460,7 @@ bool detectLine() {
       currentFakeCounter = millis();
       legs::rotateCCW();
     }
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     state_isInversed = false;
     return true;
   }
@@ -549,11 +495,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     state_isInversed = false;
     return true;
   }
@@ -602,11 +544,7 @@ bool detectLine() {
       currentFakeCounter = millis();
       legs::rotateCCW();
     }
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     state_isInversed = false;
     return true;
   }
@@ -657,12 +595,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCW();
     }
-
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     state_isInversed = false;
     return true;
   }
@@ -782,11 +715,7 @@ void traceRoute () {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CCW);
     legs::rotateCCW(1000);
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
   }
 }
 
@@ -807,10 +736,13 @@ void traceRouteInverse () {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CW);
     legs::rotateCW(1000);
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
   }
+}
+void pingupdate(){
+    ping::update();
+    ping::update(); 
+    ping::update();
+    ping::update();
+    ping::update();
 }

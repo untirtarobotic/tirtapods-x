@@ -101,7 +101,7 @@ namespace ping {
 
     unsigned int currentPingValue;
     unsigned int offset = -1;
-    unsigned int offsetFar = 20;
+    unsigned int offsetFar = 22;
 
     switch (state_nextPingSensor) {
       case PING_A:

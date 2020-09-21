@@ -297,12 +297,12 @@ bool detectLine() {
       currentFakeCounter = millis();
       legs::rotateCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 8300) {
+    while ((currentFakeCounter - startFakeCounter) < 7700) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 9500) {
+    while ((currentFakeCounter - startFakeCounter) < 8900) {
       lcd::message(1, lcd::SHIFTING_RIGHT);
       currentFakeCounter = millis();
       legs::shiftRight();
@@ -521,7 +521,7 @@ bool detectLine() {
     pingupdate();
     return true;
   }
-  if (line::isDetected && CounterRead != 0 && CounterRead != 5 && CounterRead != 7) {
+  if (line::isDetected && CounterRead !=(0,5,7)) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();

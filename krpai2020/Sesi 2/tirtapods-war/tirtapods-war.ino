@@ -605,7 +605,7 @@ bool detectLine() {
     }
     return true;
   }
-  if(line::isDetectedGlue){
+  if(line::isDetectedGlue && CounterRead ==8){
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();

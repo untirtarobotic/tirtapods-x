@@ -138,11 +138,11 @@ bool avoid3Ladder (bool inverse = false) {
     if (inverse) {
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
-      while ((currentCounter - startCounter) <= (13400)) {
+      while ((currentCounter - startCounter) <= (11500)) {
         legs::forwardHigher();
         currentCounter = millis();
       }
-      while ((currentCounter - startCounter) <= (14400)) {
+      while ((currentCounter - startCounter) <= (13000)) {
         legs::rotateCCW();
         currentCounter = millis();
       }

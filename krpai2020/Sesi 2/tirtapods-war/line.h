@@ -16,7 +16,7 @@ namespace line {
     } else {
       isDetected = false;
     }
-    if (analogRead(PIN_LINE_SENSOR) >= 190 || analogRead(PIN_LINE_SENSOR2) >= 180){
+    if (analogRead(PIN_LINE_SENSOR) >= 180 || analogRead(PIN_LINE_SENSOR2) >= 200){
       isDetectedGlue = true;
     } else {
       isDetectedGlue = false;

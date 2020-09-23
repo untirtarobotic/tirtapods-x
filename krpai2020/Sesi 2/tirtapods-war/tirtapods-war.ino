@@ -562,7 +562,7 @@ bool detectLine() {
     state_isInversed = true;
     return true;
   }
-  if(line::isDetectedGlue && CounterRead == 8){
+  if(line::isDetectedGlue && CounterRead == 9){
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();

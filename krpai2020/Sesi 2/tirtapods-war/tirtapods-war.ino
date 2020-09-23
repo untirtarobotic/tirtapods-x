@@ -14,6 +14,7 @@ unsigned int state_lastSWR = 0;
 
 int CurrentState = 0;
 int CounterRead = 0;
+int CounterGlue = 0;
 
 bool avoidWall(bool inverse = false);
 bool avoid3Ladder(bool inverse = false);
@@ -146,7 +147,7 @@ bool avoid3Ladder (bool inverse = false) {
         legs::rotateCCW();
         currentCounter = millis();
       }
-      while ((currentCounter - startCounter) <= (18000)) {
+      while ((currentCounter - startCounter) <= (17500)) {
         legs::forward();
         currentCounter = millis();
       }
@@ -250,6 +251,7 @@ bool avoidWall (bool inverse = false) {
 }
 
 bool detectLine() {
+  //Masuk Room 1
   if (line::isDetected && CounterRead == 0) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -298,7 +300,8 @@ bool detectLine() {
     state_isInversed = false;
     return true;
   }
-
+  
+  //Keluar Room 1
   if (line::isDetected && CounterRead == 1) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -318,7 +321,7 @@ bool detectLine() {
     state_isInversed = true;
     return true;
   }
-
+  //Masuk Room 3
   if (line::isDetected && CounterRead == 2) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -367,7 +370,8 @@ bool detectLine() {
     state_isInversed = false;
     return true;
   }
-
+  
+  //Keluar Room 3
   if (line::isDetected && CounterRead == 3) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -383,6 +387,7 @@ bool detectLine() {
     return true;
   }
 
+  //Masuk Room 4
   if (line::isDetected && CounterRead == 5) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -431,6 +436,7 @@ bool detectLine() {
     return true;
   }
 
+  //Keluar Room 4
   if (line::isDetected && CounterRead == 6) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -464,6 +470,7 @@ bool detectLine() {
     return true;
   }
 
+  //Masuk Room 2
   if (line::isDetected && CounterRead == 7) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -503,18 +510,20 @@ bool detectLine() {
       currentFakeCounter = millis();
       legs::rotateCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 8300) {
+    while ((currentFakeCounter - startFakeCounter) < 8000) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 9000) {
+    while ((currentFakeCounter - startFakeCounter) < 8500) {
       lcd::message(1, lcd::SHIFTING_RIGHT);
       currentFakeCounter = millis();
       legs::shiftRight();
     }
     return true;
   }
+
+  //Keluar Room 2
   if (line::isDetected && CounterRead == 8) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -530,7 +539,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 5500) {
+    while ((currentCounter - startCounter) < 6500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -538,6 +547,8 @@ bool detectLine() {
     state_isInversed = true;
     return true;
   }
+  
+  //Indikator Lakban Room 3 Menuju Room 4
   if(line::isDetectedGlue && CounterRead == 4){
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -553,7 +564,12 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 11300) {
+    while ((currentCounter - startCounter) < 2600){
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
+    }
+    while ((currentCounter - startCounter) < 10600) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -562,6 +578,8 @@ bool detectLine() {
     state_isInversed = true;
     return true;
   }
+  
+  //Indikator Lakban PerEmpatan Menuju Home
   if(line::isDetectedGlue && CounterRead == 9){
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);

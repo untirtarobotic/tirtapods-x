@@ -132,7 +132,7 @@ void standBy () {
 }
 
 bool avoid3Ladder (bool inverse = false) {
-  if (proxy::isDetectingSomething && CurrentState == 0  ) {
+  if (proxy::isDetectingSomething && CurrentState == 0) {
     lcd::message(0, lcd::THERE_IS_OBSTACLE);
     CurrentState++;
     if (inverse) {
@@ -146,7 +146,7 @@ bool avoid3Ladder (bool inverse = false) {
         legs::rotateCCW();
         currentCounter = millis();
       }
-      while ((currentCounter - startCounter) <= (19000)) {
+      while ((currentCounter - startCounter) <= (18000)) {
         legs::forward();
         currentCounter = millis();
       }
@@ -358,7 +358,7 @@ bool detectLine() {
       currentFakeCounter = millis();
       legs::rotateCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 8300) {
+    while ((currentFakeCounter - startFakeCounter) < 8000) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
       legs::rotateCCW();
@@ -441,17 +441,17 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 4800) {
+    while ((currentCounter - startCounter) < 5000) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 9000) {
+    while ((currentCounter - startCounter) < 10000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 11700) {
+    while ((currentCounter - startCounter) < 12000) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
@@ -553,7 +553,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 8300) {
+    while ((currentCounter - startCounter) < 11300) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();

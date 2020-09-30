@@ -15,6 +15,7 @@ unsigned int state_lastSWR = 0;
 int CurrentState = 0;
 int CounterRead = 0;
 int CounterGlue = 0;
+int CounterFloor = 0;
 
 bool avoidWall(bool inverse = false);
 bool avoid3Ladder(bool inverse = false);
@@ -602,6 +603,50 @@ bool detectLine() {
     }
     pingupdate();
     state_isInversed = false;
+    return true;
+  }
+  //Indikator Homing
+  if(line::isDetectedFloor && CounterRead == 10){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 5000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    pingupdate();
+    return true;
+  }
+  if(line::isDetectedFloor && CounterRead == 11){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 5000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    pingupdate();
+    return true;
+  }
+  if(line::isDetectedFloor && CounterRead == 12){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 12000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();   
+    }
+    pingupdate();
+    return true;
+  }
+  if(CounterRead == 13){
+    standBy();
     return true;
   }
   if (line::isDetectedGlue){

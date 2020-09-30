@@ -4,6 +4,7 @@
 namespace line {
   bool isDetected = false;
   bool isDetectedGlue = false;
+  bool isDetectedFloor = false;
 
   void setup () {
     pinMode(PIN_LINE_SENSOR, INPUT);
@@ -20,6 +21,11 @@ namespace line {
       isDetectedGlue = true;
     } else {
       isDetectedGlue = false;
+    }
+    if (analogRead(PIN_LINE_SENSOR) >= 350 || analogRead(PIN_LINE_SENSOR2) >= 350){
+      isDetectedFloor = true;
+    } else {
+      isDetectedFloor = false;
     }
   }
 

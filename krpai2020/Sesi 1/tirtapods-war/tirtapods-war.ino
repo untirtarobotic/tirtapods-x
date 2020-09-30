@@ -24,6 +24,7 @@ void traceRoute();
 void traceRouteInversed();
 
 void setup () {
+  Serial.begin(9600);
   ping::setup();
   proxy::setup();
   flame::setup();
@@ -35,6 +36,7 @@ void setup () {
 }
 
 void loop () {
+  Serial.println(CounterRead);
   activation::update();
   if (activation::isON) {
     if (activation::isLowMove) {
@@ -258,6 +260,7 @@ bool avoidWall (bool inverse = false) {
 }
 
 bool detectLine() {
+  //Masuk Room 3
   if (line::isDetected && CounterRead == 0) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -310,6 +313,8 @@ bool detectLine() {
     pingupdate();
     return true;
   }
+  
+  //Masuk Room 2
   if (line::isDetected && CounterRead == 2) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -361,6 +366,8 @@ bool detectLine() {
     }
     return true;
   }
+
+  //Masuk Room 1
   if (line::isDetected && CounterRead == 4) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -413,6 +420,8 @@ bool detectLine() {
     pingupdate();
     return true;
   }
+  
+  //Keluar Room 1
   if (line::isDetected && CounterRead == 5 ){
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -431,6 +440,8 @@ bool detectLine() {
     state_isInversed = true;
     return true;
   }
+
+  //Masuk Room 4
   if (line::isDetected && CounterRead == 7) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -479,6 +490,8 @@ bool detectLine() {
     state_isInversed = false;
     return true;
   }
+
+  //Keluar Room 4
   if (line::isDetected && CounterRead == 8 ) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -497,6 +510,8 @@ bool detectLine() {
     pingupdate();
     return true;
   }
+
+  //Indikator Keluar Room 1 Ke Room 4
   if (line::isDetectedGlue && CounterRead == 6 ){
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -519,7 +534,49 @@ bool detectLine() {
     }
     return true;
   }
-  if (line::isDetected && CounterRead !=(0,2,5,7,8)) {
+  
+  //Indikator Keluar Room 4 Ke Home
+  if (line::isDetectedGlue && CounterRead == 9 ){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 5000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    return true;
+  }
+  if (line::isDetectedGlue && CounterRead == 10 ){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 5000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    return true;
+  }
+  if (line::isDetectedFloor && CounterRead == 11 ){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 6000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    return true;
+  }
+  if (CounterRead == 12){
+    standBy();
+    return true;
+  }
+  if (line::isDetected && CounterRead !=(0,2,5,7,8,9,10,11)) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -646,7 +703,7 @@ void traceRoute () {
   } else {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CCW);
-    legs::rotateCCW(1000);
+    legs::rotateCCW(700);
     pingupdate();
   }
 }
@@ -667,7 +724,7 @@ void traceRouteInverse () {
   } else {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CW);
-    legs::rotateCW(1000);
+    legs::rotateCW(700);
     pingupdate();
   }
 }

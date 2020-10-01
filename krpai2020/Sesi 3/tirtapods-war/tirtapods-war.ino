@@ -24,6 +24,7 @@ void traceRoute();
 void traceRouteInversed();
 
 void setup () {
+  Serial.begin(9600);
   ping::setup();
   proxy::setup();
   flame::setup();
@@ -36,6 +37,7 @@ void setup () {
 
 void loop () {
   activation::update();
+  Serial.println(CounterRead);
 
   if (activation::isON) {
     if (activation::isLowMove) {
@@ -139,8 +141,12 @@ bool avoid3Ladder (bool inverse = false) {
     if (inverse) {
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
-      while ((currentCounter - startCounter) <= (7300 + 5 * 800)) {
+      while ((currentCounter - startCounter) <= (12300)) {
         legs::forwardHigher();
+        currentCounter = millis();
+      }
+      while ((currentCounter - startCounter) <= (14300)) {
+        legs::shiftRight();
         currentCounter = millis();
       }
     }
@@ -240,6 +246,7 @@ bool avoidWall (bool inverse = false) {
 }
 
 bool detectLine () {
+  //Masuk Room 3
   if (line::isDetected && CounterRead == 0){
     CounterRead += 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -252,6 +259,7 @@ bool detectLine () {
     }
     return true;
   }
+  //Masuk Room 2
   if (line::isDetected && CounterRead == 2){
     CounterRead += 1;
     lcd::message(0, lcd::LINE_DETECTED);
@@ -265,7 +273,8 @@ bool detectLine () {
     pingupdate();
     return true;
   }
-  if (line::isDetected && CounterRead == 4){ // masuk R1 pepet kiri 
+  //Masuk Room 1
+  if (line::isDetected && CounterRead == 4){ 
     CounterRead += 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -279,7 +288,26 @@ bool detectLine () {
     state_isInversed = true; // pepet kiri
     return true;
   }
-  if (line::isDetected && (CounterRead==1 || CounterRead==3)){
+  if (line::isDetected && CounterRead == 5){ 
+    CounterRead += 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 1600) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    while ((currentCounter - startCounter) < 3100) {
+      lcd::message(1, lcd::ROTATING_CW);
+      currentCounter = millis();
+      legs::rotateCW();
+    }
+    pingupdate();
+    state_isInversed = true; // pepet kiri
+    return true;
+  }
+  if (line::isDetected && CounterRead!=(0,2,4,5,6,7,8,9,10)){
     CounterRead += 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -291,6 +319,70 @@ bool detectLine () {
     }
 
     state_isInversed = false;
+    return true;
+  }
+
+  //Indikator Room 1 ke Home
+  if(line::isDetectedGlue && CounterRead == 6){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 2100) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    while ((currentCounter - startCounter) < 3100){
+      lcd::message(1, lcd::SHIFTING_RIGHT);
+      currentCounter = millis();
+      legs::shiftRight();
+    }
+    pingupdate();
+    state_isInversed = false;
+    return true;
+  }
+  if(line::isDetectedFloor && CounterRead == 7){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 5000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    pingupdate();
+    return true;
+  }
+  if(line::isDetectedFloor && CounterRead == 8){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 5000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    pingupdate();
+    return true;
+  }
+  if(line::isDetectedFloor && CounterRead == 9){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 7500) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();   
+    }
+    pingupdate();
+    return true;
+  }
+  if(CounterRead == 10){
+    standBy();
     return true;
   }
   return false;
@@ -338,6 +430,7 @@ bool flameDetection () {
     return true;
   }
 
+  //Pemadaman Api Room 3
   if (flame::is_center && CounterFire == 0) {
     lcd::message(0, lcd::FIRE_ON_CENTER);
       if (proxy::isDetectingSomething) {
@@ -368,6 +461,7 @@ bool flameDetection () {
     return true;
   }
   
+  //Pemadaman Api Room 2
   if (flame::is_center && CounterFire == 1) {
     lcd::message(0, lcd::FIRE_ON_CENTER);
       if (proxy::isDetectingSomething) {
@@ -399,6 +493,7 @@ bool flameDetection () {
     return true;
   }
   
+  //Pemadaman Api Room 1
   if (flame::is_center && CounterFire == 2) {
     lcd::message(0, lcd::FIRE_ON_CENTER);
       if (proxy::isDetectingSomething) {
@@ -415,6 +510,10 @@ bool flameDetection () {
         while ((currentCounter - startCounter) < 8150){
           currentCounter = millis();
           legs::rotateCCW();
+        }
+        while ((currentCounter - startCounter) < 10150){
+          currentCounter = millis();
+          legs::shiftRight();
         }
         pingupdate();
         state_isInversed = false;

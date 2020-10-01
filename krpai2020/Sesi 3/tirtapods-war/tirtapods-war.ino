@@ -252,7 +252,7 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 1600) {
+    while ((currentCounter - startCounter) < 2500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -261,7 +261,7 @@ bool detectLine () {
   }
 
   //keluar room 3
-  if (line::isDetected && CounterRead = 1 ) {
+  if (line::isDetected && CounterRead == 1 ) {
     CounterRead += 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -280,7 +280,7 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 1600) {
+    while ((currentCounter - startCounter) < 2500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -290,7 +290,7 @@ bool detectLine () {
   }
 
   //keluar room 2
-  if (line::isDetected && CounterRead = 3 ) {
+  if (line::isDetected && CounterRead == 3 ) {
     CounterRead += 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -309,7 +309,7 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 1600) {
+    while ((currentCounter - startCounter) < 2500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();

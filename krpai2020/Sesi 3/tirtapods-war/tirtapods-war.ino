@@ -309,11 +309,7 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-<<<<<<< HEAD
     while ((currentCounter - startCounter) < 4000) {
-=======
-    while ((currentCounter - startCounter) < 2500) {
->>>>>>> origin/master
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();

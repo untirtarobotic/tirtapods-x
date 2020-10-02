@@ -257,6 +257,11 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
+     while ((currentCounter - startCounter) < 3200) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
+    }
     return true;
   }
 
@@ -309,10 +314,15 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 4000) {
+    while ((currentCounter - startCounter) < 4500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
+    }
+    while ((currentCounter - startCounter) < 6000) {
+      lcd::message(1, lcd::ROTATING_CW);
+      currentCounter = millis();
+      legs::rotateCW();
     }
     pingupdate();
     state_isInversed = true; // pepet kiri
@@ -346,10 +356,15 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 2100) {
+    while ((currentCounter - startCounter) < 1600) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
+    }
+     while ((currentCounter - startCounter) < 2100) {
+      lcd::message(1, lcd::ROTATING_CW);
+      currentCounter = millis();
+      legs::rotateCW();
     }
     while ((currentCounter - startCounter) < 3100) {
       lcd::message(1, lcd::SHIFTING_RIGHT);
@@ -365,7 +380,7 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 5000) {
+    while ((currentCounter - startCounter) < 4000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -378,7 +393,7 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 5000) {
+    while ((currentCounter - startCounter) < 4000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -469,6 +484,10 @@ bool flameDetection () {
       while ((currentCounter - startCounter) < 7650) {
         currentCounter = millis();
         legs::rotateCCW();
+      }
+      while ((currentCounter - startCounter) < 10000) {
+        currentCounter = millis();
+        legs::shiftRight();
       }
       CounterFire += 1;
     }

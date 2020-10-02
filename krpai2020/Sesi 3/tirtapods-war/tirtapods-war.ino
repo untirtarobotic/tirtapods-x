@@ -319,10 +319,15 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 6000) {
-      lcd::message(1, lcd::ROTATING_CW);
+    while ((currentCounter - startCounter) < 7500) {
+      lcd::message(1, lcd::SHIFTING_RIGHT);
       currentCounter = millis();
-      legs::rotateCW();
+      legs::shiftRight();
+    }
+    while ((currentCounter - startCounter) < 9000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
     }
     pingupdate();
     state_isInversed = true; // pepet kiri

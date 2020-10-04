@@ -453,26 +453,12 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 10000) {
-      lcd::message(1, lcd::MOVING_FORWARD);
-      currentCounter = millis();
-      legs::forward();
-    }
-    while ((currentCounter - startCounter) < 13000) {
-      lcd::message(1, lcd::ROTATING_CCW);
-      currentCounter = millis();
-      legs::rotateCCW();
-    }
-    while ((currentCounter - startCounter) < 16000) {
-      lcd::message(1, lcd::MOVING_FORWARD);
-      currentCounter = millis();
-      legs::forward();
-    }
+    state_isInversed = true;
     return true;
   }
 
   //Masuk Room 2
-  if (line::isDetected && CounterRead == 7) {
+  if (line::isDetected && CounterRead == 8) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -525,7 +511,7 @@ bool detectLine() {
   }
 
   //Keluar Room 2
-  if (line::isDetected && CounterRead == 8) {
+  if (line::isDetected && CounterRead == 9) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -560,22 +546,22 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 2000){
-      lcd::message(1, lcd::ROTATING_CW);
+    while ((currentCounter - startCounter) < 2200){
+      lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 6100) {
+    while ((currentCounter - startCounter) < 5500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 7100){
+    while ((currentCounter - startCounter) < 6500){
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 100) {
+    while ((currentCounter - startCounter) < 12000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -585,8 +571,32 @@ bool detectLine() {
     return true;
   }
   
+  //Indikator Keluar Room 4 Ke Room 2
+  if(line::isDetectedGlue && CounterRead == 7){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+  while ((currentCounter - startCounter) < 2000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    while ((currentCounter - startCounter) < 5000) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
+    }
+    while ((currentCounter - startCounter) < 9000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    state_isInversed = false;
+    return true;
+  }
   //Indikator Lakban PerEmpatan Menuju Home
-  if(line::isDetectedGlue && CounterRead == 9){
+  if(line::isDetectedGlue && CounterRead == 10){
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -621,25 +631,12 @@ bool detectLine() {
     return true;
   }
   //Indikator Homing
-  if(line::isDetectedFloor && CounterRead == 10){
-    CounterRead = CounterRead + 1;
-    lcd::message(0, lcd::LINE_DETECTED);
-    unsigned int startCounter = millis();
-    unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 5000) {
-      lcd::message(1, lcd::MOVING_FORWARD);
-      currentCounter = millis();
-      legs::forward();
-    }
-    pingupdate();
-    return true;
-  }
   if(line::isDetectedFloor && CounterRead == 11){
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 5000) {
+    while ((currentCounter - startCounter) < 4000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -652,7 +649,20 @@ bool detectLine() {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 7500) {
+    while ((currentCounter - startCounter) < 4000) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    pingupdate();
+    return true;
+  }
+  if(line::isDetectedFloor && CounterRead == 13){
+    CounterRead = CounterRead + 1;
+    lcd::message(0, lcd::LINE_DETECTED);
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) < 7000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();   
@@ -660,7 +670,7 @@ bool detectLine() {
     pingupdate();
     return true;
   }
-  if(CounterRead == 13){
+  if(CounterRead == 14){
     standBy();
     return true;
   }

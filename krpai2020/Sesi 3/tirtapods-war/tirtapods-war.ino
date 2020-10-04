@@ -290,6 +290,11 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
+    while ((currentCounter - startCounter) < 4500) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCW();
+    }
     pingupdate();
     return true;
   }
@@ -380,6 +385,11 @@ bool detectLine () {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
+    }
+    while ((currentCounter - startCounter) < 6600) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
     }
     pingupdate();
     state_isInversed = false;
@@ -611,7 +621,7 @@ void traceRoute () {
   } else {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CCW);
-    legs::rotateCCW(1000);
+    legs::rotateCCW(700);
     pingupdate();
   }
 }
@@ -632,7 +642,7 @@ void traceRouteInverse () {
   } else {
     lcd::message(0, lcd::NO_PATH);
     lcd::message(1, lcd::ROTATING_CW);
-    legs::rotateCW(1000);
+    legs::rotateCW(700);
     pingupdate();
   }
 }

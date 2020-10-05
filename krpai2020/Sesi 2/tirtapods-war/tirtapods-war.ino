@@ -140,12 +140,12 @@ bool avoid3Ladder (bool inverse = false) {
     if (inverse) {
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
-      while ((currentCounter - startCounter) <= (15000)) {
+      while ((currentCounter - startCounter) <= (14000)) {
         legs::forwardHigher();
         currentCounter = millis();
       }
-      while ((currentCounter - startCounter) <= (15500)) {
-        legs::rotateCCW();
+      while ((currentCounter - startCounter) <= (14700)) {
+        legs::rotateCW();
         currentCounter = millis();
       }
       while ((currentCounter - startCounter) <= (19000)) {
@@ -264,35 +264,40 @@ bool detectLine() {
       legs::forward();
     }
     while ((currentCounter - startCounter) < 5500) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
+    }
+    while ((currentCounter - startCounter) < 8000) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 8000) {
-      lcd::message(1, lcd::ROTATING_CCW);
-      currentCounter = millis();
-      legs::rotateCCW();
-    }
     while ((currentCounter - startCounter) < 9000) {
-      lcd::message(1, lcd::ROTATING_CCW);
+      lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
-      legs::rotateCCW();
+      legs::rotateCW();
       pump::menyebar();
     }
     while ((currentCounter - startCounter) < 10500) {
-      lcd::message(1, lcd::ROTATING_CCW);
+      lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
-      legs::rotateCCW();
+      legs::rotateCW();
       pump::menyebarstop();
     }
     unsigned int startFakeCounter = millis();
     unsigned int currentFakeCounter = millis();
     while ((currentFakeCounter - startFakeCounter) < 2500) {
-      lcd::message(1, lcd::ROTATING_CW);
+      lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
-      legs::rotateCW();
+      legs::rotateCCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 8300) {
+    while ((currentFakeCounter - startFakeCounter) < 3500) {
+      lcd::message(1, lcd::NORMALIZING);
+      currentFakeCounter = millis();
+      legs::normalize();
+    }
+    while ((currentFakeCounter - startFakeCounter) < 8500) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
       legs::rotateCCW();
@@ -334,35 +339,40 @@ bool detectLine() {
       legs::forward();
     }
     while ((currentCounter - startCounter) < 5000) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
+    }
+    while ((currentCounter - startCounter) < 7500) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 7500) {
-      lcd::message(1, lcd::ROTATING_CCW);
-      currentCounter = millis();
-      legs::rotateCCW();
-    }
     while ((currentCounter - startCounter) < 8500) {
-      lcd::message(1, lcd::ROTATING_CCW);
+      lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
-      legs::rotateCCW();
+      legs::rotateCW();
       pump::menyebar();
     }
     while ((currentCounter - startCounter) < 10000) {
-      lcd::message(1, lcd::ROTATING_CCW);
+      lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
-      legs::rotateCCW();
+      legs::rotateCW();
       pump::menyebarstop();
     }
     unsigned int startFakeCounter = millis();
     unsigned int currentFakeCounter = millis();
     while ((currentFakeCounter - startFakeCounter) < 2500) {
-      lcd::message(1, lcd::ROTATING_CW);
+      lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
-      legs::rotateCW();
+      legs::rotateCCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 7000) {
+    while ((currentFakeCounter - startFakeCounter) < 3500) {
+      lcd::message(1, lcd::NORMALIZING);
+      currentFakeCounter = millis();
+      legs::normalize();
+    }
+    while ((currentFakeCounter - startFakeCounter) < 8500) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
       legs::rotateCCW();
@@ -400,35 +410,40 @@ bool detectLine() {
       legs::forward();
     }
     while ((currentCounter - startCounter) < 5500) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
+    }
+    while ((currentCounter - startCounter) < 7500) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 7500) {
-      lcd::message(1, lcd::ROTATING_CCW);
-      currentCounter = millis();
-      legs::rotateCCW();
-    }
     while ((currentCounter - startCounter) < 8500) {
-      lcd::message(1, lcd::ROTATING_CCW);
+      lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
-      legs::rotateCCW();
+      legs::rotateCW();
       pump::menyebar();
     }
     while ((currentCounter - startCounter) < 10000) {
-      lcd::message(1, lcd::ROTATING_CCW);
+      lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
-      legs::rotateCCW();
+      legs::rotateCW();
       pump::menyebarstop();
     }
     unsigned int startFakeCounter = millis();
     unsigned int currentFakeCounter = millis();
     while ((currentFakeCounter - startFakeCounter) < 2500) {
-      lcd::message(1, lcd::ROTATING_CW);
+      lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
-      legs::rotateCW();
+      legs::rotateCCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 6300) {
+    while ((currentFakeCounter - startFakeCounter) < 3500) {
+      lcd::message(1, lcd::NORMALIZING);
+      currentFakeCounter = millis();
+      legs::normalize();
+    }
+    while ((currentFakeCounter - startFakeCounter) < 8500) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
       legs::rotateCCW();
@@ -469,40 +484,45 @@ bool detectLine() {
       legs::forward();
     }
     while ((currentCounter - startCounter) < 5000) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
+    }
+    while ((currentCounter - startCounter) < 7500) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 7500) {
-      lcd::message(1, lcd::ROTATING_CCW);
-      currentCounter = millis();
-      legs::rotateCCW();
-    }
     while ((currentCounter - startCounter) < 8500) {
-      lcd::message(1, lcd::ROTATING_CCW);
+      lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
-      legs::rotateCCW();
+      legs::rotateCW();
       pump::menyebar();
     }
     while ((currentCounter - startCounter) < 10000) {
-      lcd::message(1, lcd::ROTATING_CCW);
+      lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
-      legs::rotateCCW();
+      legs::rotateCW();
       pump::menyebarstop();
     }
     unsigned int startFakeCounter = millis();
     unsigned int currentFakeCounter = millis();
     while ((currentFakeCounter - startFakeCounter) < 2500) {
-      lcd::message(1, lcd::ROTATING_CW);
-      currentFakeCounter = millis();
-      legs::rotateCW();
-    }
-    while ((currentFakeCounter - startFakeCounter) < 7000) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentFakeCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentFakeCounter - startFakeCounter) < 7500) {
+    while ((currentFakeCounter - startFakeCounter) < 3500) {
+      lcd::message(1, lcd::NORMALIZING);
+      currentFakeCounter = millis();
+      legs::normalize();
+    }
+    while ((currentFakeCounter - startFakeCounter) < 8500) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentFakeCounter = millis();
+      legs::rotateCCW();
+    }
+    while ((currentFakeCounter - startFakeCounter) < 9000) {
       lcd::message(1, lcd::SHIFTING_RIGHT);
       currentFakeCounter = millis();
       legs::shiftRight();
@@ -546,8 +566,8 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 2200){
-      lcd::message(1, lcd::ROTATING_CCW);
+    while ((currentCounter - startCounter) < 1900){
+      lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
@@ -556,12 +576,12 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 6500){
-      lcd::message(1, lcd::ROTATING_CCW);
+    while ((currentCounter - startCounter) < 6300){
+      lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
-      legs::rotateCCW();
+      legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 12000) {
+    while ((currentCounter - startCounter) < 11800) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -582,12 +602,12 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 5000) {
+    while ((currentCounter - startCounter) < 4500) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 9000) {
+    while ((currentCounter - startCounter) < 7500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();

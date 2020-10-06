@@ -145,7 +145,7 @@ bool avoid3Ladder (bool inverse = false) {
         currentCounter = millis();
       }
       while ((currentCounter - startCounter) <= (14500)) {
-        legs::rotateCCW();
+        legs::rotateCW();
         currentCounter = millis();
       }
       while ((currentCounter - startCounter) <= (18000)) {
@@ -566,7 +566,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 1800){
+    while ((currentCounter - startCounter) < 1900){
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
@@ -576,7 +576,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 6000){
+    while ((currentCounter - startCounter) < 5900){
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();

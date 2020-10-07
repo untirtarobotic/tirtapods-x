@@ -141,11 +141,11 @@ bool avoid3Ladder (bool inverse = false) {
     if (inverse) {
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
-      while ((currentCounter - startCounter) <= (12800)) {
+      while ((currentCounter - startCounter) <= (11800)) {
         legs::forwardHigher();
         currentCounter = millis();
       }
-      while ((currentCounter - startCounter) <= (14800)) {
+      while ((currentCounter - startCounter) <= (13800)) {
         legs::shiftRight();
         currentCounter = millis();
       }
@@ -285,12 +285,12 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 2500) {
+    while ((currentCounter - startCounter) < 4500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 4500) {
+    while ((currentCounter - startCounter) < 6500) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCW();
@@ -324,18 +324,18 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 7500) {
+    while ((currentCounter - startCounter) < 7000) {
       lcd::message(1, lcd::SHIFTING_RIGHT);
       currentCounter = millis();
       legs::shiftRight();
     }
-    while ((currentCounter - startCounter) < 9000) {
+    while ((currentCounter - startCounter) < 8500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
     pingupdate();
-    state_isInversed = true; // pepet kiri
+    state_isInversed = false; // pepet kiri
     return true;
   }
 
@@ -381,15 +381,25 @@ bool detectLine () {
       currentCounter = millis();
       legs::shiftRight();
     }
-    while ((currentCounter - startCounter) < 4600) {
+    while ((currentCounter - startCounter) < 4100) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    while ((currentCounter - startCounter) < 5600) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 6600) {
+    while ((currentCounter - startCounter) < 7600) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
+    }
+    while ((currentCounter - startCounter) < 8100) {
+      lcd::message(1, lcd::ROTATING_CW);
+      currentCounter = millis();
+      legs::rotateCW();
     }
     pingupdate();
     state_isInversed = false;
@@ -501,11 +511,11 @@ bool flameDetection () {
         currentCounter = millis();
         legs::backward();
       }
-      while ((currentCounter - startCounter) < 7650) {
+      while ((currentCounter - startCounter) < 6150) {
         currentCounter = millis();
         legs::rotateCCW();
       }
-      while ((currentCounter - startCounter) < 10000) {
+      while ((currentCounter - startCounter) < 9000) {
         currentCounter = millis();
         legs::shiftRight();
       }
@@ -564,7 +574,7 @@ bool flameDetection () {
         currentCounter = millis();
         legs::backward();
       }
-      while ((currentCounter - startCounter) < 6650) {
+      while ((currentCounter - startCounter) < 6150) {
         currentCounter = millis();
         legs::rotateCCW();
       }

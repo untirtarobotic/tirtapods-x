@@ -18,6 +18,7 @@ int CounterFire = 0;
 
 bool avoidWall(bool inverse = false);
 bool flameDetection();
+bool scanFlame();
 bool avoid3Ladder(bool inverse = false);
 bool getCloser2SRWR(bool inverse = false);
 void traceRoute();
@@ -72,6 +73,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall(true)) return;
       if (flameDetection()) return;
+      if (scanFlame())return;
       if (!avoid3Ladder(true)) return;
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
@@ -82,6 +84,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall()) return;
       if (flameDetection()) return;
+      if (scanFlame())return;
       if (!avoid3Ladder()) return;
       if (!getCloser2SRWR()) return;
       traceRoute();
@@ -484,11 +487,9 @@ bool flameDetection () {
   }
 
 //Pemadaman Api
-  if (flame::is_center ) {
+  if (flame::is_center) {
     lcd::message(0, lcd::FIRE_ON_CENTER);
-    unsigned int startCounter = millis();
-    unsigned int currentCounter = millis();
-    if (proxy::isDetectingSomething && (flame::is_right || flame::is_left || flame::is_center)) {
+    if (proxy::isDetectingSomething) {
       lcd::message(1, lcd::EXTINGUISHING);
       pump::extinguish(1000);
 
@@ -504,38 +505,10 @@ bool flameDetection () {
         legs::backward();
       }
       CounterFire += 1;
-      
-//Searching Fire
-      while ((currentCounter - startCounter) <= 2600) {
-      legs::rotateCWLess();
-      currentCounter = millis();
-
-      if (flame::is_right) {
-        return false;
-      }
     }
-    
-    while ((currentCounter - startCounter) <= 5800) {
-      legs::rotateCCWLess();
-      currentCounter = millis();
-
-      if (flame::is_left) {
-        return false;
-      }
-    }
-
-    while ((currentCounter - startCounter) <= 7400) {
-      legs::rotateCWLess();
-      currentCounter = millis();
-
-      if (flame::is_center) {
-        return false;
-      }
-    }
-  }
     
 //Hasil Pemeriksaan Api
-   if (!flame::is_right || !flame::is_center || !flame::is_left){
+   if (flame::is_center > 800){
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
       while ((currentCounter - startCounter) < 1650) {
@@ -547,11 +520,10 @@ bool flameDetection () {
         legs::rotateCCW();
       }
       CounterFire = 0;
-      return true;
    }
    
 //Pemadaman 1 Jika Gagal
-    if (proxy::isDetectingSomething && CounterFire >= 1) {
+    if (proxy::isDetectingSomething && CounterFire > 1) {
       lcd::message(1, lcd::EXTINGUISHING);
       pump::extinguish(1000);
 
@@ -580,6 +552,37 @@ bool flameDetection () {
   }
   return false;
 }
+
+bool scanFlame (){
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) <= 2600) {
+      legs::rotateCWLess();
+      currentCounter = millis();
+
+      if (flame::is_center) {
+        return false;
+      }
+    }
+    
+    while ((currentCounter - startCounter) <= 5800) {
+      legs::rotateCCWLess();
+      currentCounter = millis();
+
+      if (flame::is_center) {
+        return false;
+      }
+    }
+
+    while ((currentCounter - startCounter) <= 7400) {
+      legs::rotateCWLess();
+      currentCounter = millis();
+
+      if (flame::is_center) {
+        return false;
+        }
+      }
+    }
 
 bool getCloser2SRWR (bool inverse = false) {
   if (inverse) {

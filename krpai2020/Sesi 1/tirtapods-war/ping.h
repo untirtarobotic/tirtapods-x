@@ -9,11 +9,11 @@
 #define ULTRA_E_ECHO 28
 #define ULTRA_E_TRIG 26
 #include <Ewma.h>
-Ewma adcFilter1(0.1); //* filter used to smooth sensor data
-Ewma adcFilter2(0.1); //? Less smoothing - faster to detect changes, but more prone to noise
-Ewma adcFilter3(0.1); //? More smoothing - less prone to noise, but slower to detect changes
-Ewma adcFilter4(0.1); 
-Ewma adcFilter5(0.1); 
+Ewma adcFilter1(0.7); //* filter used to smooth sensor data
+Ewma adcFilter2(0.7); //? Less smoothing - faster to detect changes, but more prone to noise
+Ewma adcFilter3(0.7); //? More smoothing - less prone to noise, but slower to detect changes
+Ewma adcFilter4(0.7); 
+Ewma adcFilter5(0.7); 
 
 namespace ping {
   bool near_a = false;
@@ -72,7 +72,7 @@ namespace ping {
     float pingA =adcFilter1.filter(read_ping(ULTRA_A_TRIG, ULTRA_A_ECHO));
     float pingB =adcFilter2.filter(read_ping(ULTRA_B_TRIG, ULTRA_B_ECHO));
 
-    text.concat("Ping A:");
+    text.concat("P A:");
     text.concat(pingA);
     text.concat(" B:");
     text.concat(pingB);

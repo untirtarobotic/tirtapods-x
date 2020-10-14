@@ -8,6 +8,12 @@
 #define ULTRA_D_TRIG 33
 #define ULTRA_E_ECHO 28
 #define ULTRA_E_TRIG 26
+#include <Ewma.h>
+Ewma adcFilter1(0.1); //* filter used to smooth sensor data
+Ewma adcFilter2(0.1); //? Less smoothing - faster to detect changes, but more prone to noise
+Ewma adcFilter3(0.1); //? More smoothing - less prone to noise, but slower to detect changes
+Ewma adcFilter4(0.1); 
+Ewma adcFilter5(0.1); 
 
 namespace ping {
   bool near_a = false;
@@ -63,8 +69,8 @@ namespace ping {
   String debug () {
     String text = "";
 
-    int pingA = read_ping(ULTRA_A_TRIG, ULTRA_A_ECHO);
-    int pingB = read_ping(ULTRA_B_TRIG, ULTRA_B_ECHO);
+    float pingA =adcFilter1.filter(read_ping(ULTRA_A_TRIG, ULTRA_A_ECHO));
+    float pingB =adcFilter2.filter(read_ping(ULTRA_B_TRIG, ULTRA_B_ECHO));
 
     text.concat("Ping A:");
     text.concat(pingA);
@@ -78,9 +84,9 @@ namespace ping {
   String debug1 () {
     String text = "";
 
-    int pingC = read_ping(ULTRA_C_TRIG, ULTRA_C_ECHO);
-    int pingD = read_ping(ULTRA_D_TRIG, ULTRA_D_ECHO);
-    int pingE = read_ping(ULTRA_E_TRIG, ULTRA_E_ECHO);
+    float pingC = adcFilter3.filter(read_ping(ULTRA_C_TRIG, ULTRA_C_ECHO));
+    float pingD = adcFilter4.filter(read_ping(ULTRA_D_TRIG, ULTRA_D_ECHO));
+    float pingE = adcFilter5.filter(read_ping(ULTRA_E_TRIG, ULTRA_E_ECHO));
 
     text.concat("C:");
     text.concat(pingC);

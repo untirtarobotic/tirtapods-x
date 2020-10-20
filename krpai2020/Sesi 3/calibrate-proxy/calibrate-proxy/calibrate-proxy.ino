@@ -1,4 +1,4 @@
-int OUT = 2; //pin 2 of Arduino is connected to the output of the sensor 
+int OUT = 23; //pin 2 of Arduino is connected to the output of the sensor 
  
 void setup() 
 { 

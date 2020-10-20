@@ -1,19 +1,24 @@
-#define PIN_PROXIMITY 8
+#define PIN_PROXIMITY_B 8
+#define PIN_PROXIMITY_A 23
 
 namespace proxy {
   bool isDetectingSomething = false;
 
   void setup () {
-    pinMode(PIN_PROXIMITY, INPUT);
+    pinMode(PIN_PROXIMITY_A, INPUT);
+    pinMode(PIN_PROXIMITY_B,INPUT);
   }
 
   String debug () {
-    String text = "Proxy: ";
-    text.concat(digitalRead(PIN_PROXIMITY) == LOW);
+    String text = "";
+    text.concat("A:");
+    text.concat(digitalRead(PIN_PROXIMITY_A)== LOW);
+    text.concat("B:");
+    text.concat(digitalRead(PIN_PROXIMITY_B) == LOW);
     return text;
   }
 
   void update () {
-    isDetectingSomething = digitalRead(PIN_PROXIMITY) == LOW;
+    isDetectingSomething = digitalRead(PIN_PROXIMITY_B) == LOW;
   }
 }

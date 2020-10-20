@@ -1,6 +1,6 @@
 #define PIN_START 42
 #define PIN_STOP 40
-#define PIN_SOUND_ACTIVATION 23
+// #define PIN_SOUND_ACTIVATION 23
 
 namespace activation {
   bool isON = false;
@@ -13,12 +13,12 @@ namespace activation {
   void setup () {
     pinMode(PIN_START, INPUT_PULLUP);
     pinMode(PIN_STOP, INPUT_PULLUP);
-    pinMode(PIN_SOUND_ACTIVATION, INPUT);
+    // pinMode(PIN_SOUND_ACTIVATION, INPUT);
   }
 
   String debugSoundActivation () {
     String text = "Sound Act: ";
-    text.concat(digitalRead(PIN_SOUND_ACTIVATION) == LOW);
+    // text.concat(digitalRead(PIN_SOUND_ACTIVATION) == LOW);
     return text;
   }
 

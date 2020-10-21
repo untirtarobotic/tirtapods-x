@@ -496,7 +496,7 @@ bool flameDetection () {
   //Pemadaman Api Room 3
   if (flame::is_center && CounterFire == 0) {
     lcd::message(0, lcd::FIRE_ON_CENTER);
-    if (proxy::isDetectingSomething) {
+    if (proxy::isDetectingSomething2) {
       lcd::message(1, lcd::EXTINGUISHING);
       pump::extinguish(1000);
 
@@ -531,7 +531,7 @@ bool flameDetection () {
   //Pemadaman Api Room 2
   if (flame::is_center && CounterFire == 1) {
     lcd::message(0, lcd::FIRE_ON_CENTER);
-    if (proxy::isDetectingSomething) {
+    if (proxy::isDetectingSomething2) {
       lcd::message(1, lcd::EXTINGUISHING);
       pump::extinguish(1000);
 
@@ -563,7 +563,7 @@ bool flameDetection () {
   //Pemadaman Api Room 1
   if (flame::is_center && CounterFire == 2) {
     lcd::message(0, lcd::FIRE_ON_CENTER);
-    if (proxy::isDetectingSomething) {
+    if (proxy::isDetectingSomething2) {
       lcd::message(1, lcd::EXTINGUISHING);
       pump::extinguish(1000);
 

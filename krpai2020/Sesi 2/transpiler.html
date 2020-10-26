@@ -62,8 +62,8 @@
     const leg = {
       L1: {
         teta: deg => Math.round(convert(deg, Math.PI/4, -500, 1900, false)),
-        beta: deg => Math.round(convert(deg, Math.PI/4, +520, 1430, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, -500, 2600, false))
+        beta: deg => Math.round(convert(deg, Math.PI/4, +570, 1430, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -560, 2680, false))
       },
 
       L2: {
@@ -75,7 +75,7 @@
       L3: {
         teta: deg => Math.round(convert(deg, Math.PI/4, +450, 900, false)),
         beta: deg => Math.round(convert(deg, Math.PI/4, +450, 1400, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, -440, 2560, false))
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -430, 2580, false))
       },
 
       R1: {
@@ -496,6 +496,45 @@
       ]
     }
 
+    const new_steps_lefthigher = {
+      L1: [
+        [5, 4, -7.5],
+        [5, 4, -7.5],
+        [8, 4, -3],
+        [8, 4, -7.5],
+      ],
+      L2: [
+        [8.6, 0, -3],
+        [8.6, 0, -7.5],
+        [5.6, 0, -7.5],
+        [5.6, 0, -7.5],
+      ],
+      L3: [
+        [5, 4, -7.5],
+        [5, 4, -7.5],
+        [8, 4, -3],
+        [8, 4, -7.5],
+      ],
+      R1: [
+        [5, 4, -3],
+        [5, 4, -7.5],
+        [8, 4, -7.5],
+        [8, 4, -7.5],
+      ],
+      R2: [
+        [8.6, 0, -7.5],
+        [8.6, 0, -7.5],
+        [5.6, 0, -3],
+        [5.6, 0, -7.5],
+      ],
+      R3: [
+        [5, 4, -3],
+        [5, 4, -7.5],
+        [8, 4, -7.5],
+        [8, 4, -7.5],
+      ]
+    }
+
     const new_steps_normalize = {
       L1: [
         [6, 4, -4.5],
@@ -726,6 +765,7 @@
       makeCodeSync(new_steps_backward, 'ssc_backward_sync') + `\n` +
       makeCode(new_steps_right, 'ssc_shiftRight') + `\n` +
       makeCode(new_steps_left, 'ssc_shiftLeft') + `\n` +
+      makeCode(new_steps_lefthigher, 'ssc_shiftLeftHigher') + `\n` +
       makeCode(new_steps_rotate_cw, 'ssc_rotateCW') + `\n` +
       makeCodeSync(new_steps_rotate_cw, 'ssc_rotateCW_sync') + `\n` +
       makeCode(new_steps_rotate_ccw, 'ssc_rotateCCW') + `\n` +

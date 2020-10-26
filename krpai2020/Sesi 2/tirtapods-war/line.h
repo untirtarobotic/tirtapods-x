@@ -22,7 +22,7 @@ namespace line {
     } else {
       isDetectedGlue = false;
     }
-    if (analogRead(PIN_LINE_SENSOR) >= 350 || analogRead(PIN_LINE_SENSOR2) >= 350){
+    if (analogRead(PIN_LINE_SENSOR) >= 300 || analogRead(PIN_LINE_SENSOR2) >= 300){
       isDetectedFloor = true;
     } else {
       isDetectedFloor = false;

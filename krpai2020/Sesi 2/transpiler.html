@@ -62,32 +62,32 @@
     const leg = {
       L1: {
         teta: deg => Math.round(convert(deg, Math.PI/4, -500, 1900, false)),
-        beta: deg => Math.round(convert(deg, Math.PI/4, +570, 1430, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, -560, 2680, false))
+        beta: deg => Math.round(convert(deg, Math.PI/4, +580, 1430, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -570, 2720, false))
       },
 
       L2: {
         teta: deg => Math.round(convert(deg, Math.PI/4, -450, 1450, false)),
-        beta: deg => Math.round(convert(deg, Math.PI/4, +520, 1580, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, -470, 2520, false))
+        beta: deg => Math.round(convert(deg, Math.PI/4, +530, 1570, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -500, 2550, false))
       },
 
       L3: {
         teta: deg => Math.round(convert(deg, Math.PI/4, +450, 900, false)),
-        beta: deg => Math.round(convert(deg, Math.PI/4, +450, 1400, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, -430, 2580, false))
+        beta: deg => Math.round(convert(deg, Math.PI/4, +500, 1350, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, -470, 2620, false))
       },
 
       R1: {
         teta: deg => Math.round(convert(deg, Math.PI/4, +500, 1000, false)),
-        beta: deg => Math.round(convert(deg, Math.PI/4, -510, 1450, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, +550, 300, false))
+        beta: deg => Math.round(convert(deg, Math.PI/4, -470, 1410, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, +530, 320, false))
       },
 
       R2: {
         teta: deg => Math.round(convert(deg, Math.PI/4, +470, 1400, false)),
-        beta: deg => Math.round(convert(deg, Math.PI/4, -510, 1550, false)),
-        alpha: deg => Math.round(convert(deg, Math.PI/4, +520, 230, false))
+        beta: deg => Math.round(convert(deg, Math.PI/4, -560, 1600, false)),
+        alpha: deg => Math.round(convert(deg, Math.PI/4, +500, 250, false))
       },
 
       R3: {
@@ -758,14 +758,14 @@
       makeCode(new_steps_normalize, 'ssc_normalize') + `\n` +
       makeCodeSync(new_steps_normalize, 'ssc_normalize_sync') + `\n` +
       makeCode(new_steps_forward_low, 'ssc_forward_low') + `\n` +
-      makeCode(new_steps_forward_higher, 'ssc_forward_higher', 220) + `\n` +
+      makeCode(new_steps_forward_higher, 'ssc_forward_higher', 240) + `\n` +
       makeCode(new_steps_forward, 'ssc_forward') + `\n` +
       makeCodeSync(new_steps_forward, 'ssc_forward_sync') + `\n` +
       makeCode(new_steps_backward, 'ssc_backward') + `\n` +
       makeCodeSync(new_steps_backward, 'ssc_backward_sync') + `\n` +
       makeCode(new_steps_right, 'ssc_shiftRight') + `\n` +
       makeCode(new_steps_left, 'ssc_shiftLeft') + `\n` +
-      makeCode(new_steps_lefthigher, 'ssc_shiftLeftHigher') + `\n` +
+      makeCode(new_steps_lefthigher, 'ssc_shiftLeftHigher', 240) + `\n` +
       makeCode(new_steps_rotate_cw, 'ssc_rotateCW') + `\n` +
       makeCodeSync(new_steps_rotate_cw, 'ssc_rotateCW_sync') + `\n` +
       makeCode(new_steps_rotate_ccw, 'ssc_rotateCCW') + `\n` +

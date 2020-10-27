@@ -254,7 +254,7 @@ bool avoidWall (bool inverse = false) {
 bool detectLine() {
   //Masuk Room 1
   if (line::isDetected && CounterRead == 0) {
-    CounterRead = CounterRead + 9;
+    CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
@@ -636,7 +636,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 25500) {
+    while ((currentCounter - startCounter) < 32500) {
       lcd::message(1, lcd::ROCK_AND_ROLL);
       currentCounter = millis();
       legs::shiftLeftHigher();

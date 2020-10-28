@@ -3,6 +3,7 @@
 
 namespace proxy {
   bool isDetectingSomething = false;
+  bool isDetectingSomething2 = false;
 
   void setup () {
     pinMode(PIN_PROXIMITY_A, INPUT);
@@ -20,5 +21,6 @@ namespace proxy {
 
   void update () {
     isDetectingSomething = digitalRead(PIN_PROXIMITY_B) == LOW;
+    isDetectingSomething2 = digitalRead(PIN_PROXIMITY_A) == LOW;
   }
 }

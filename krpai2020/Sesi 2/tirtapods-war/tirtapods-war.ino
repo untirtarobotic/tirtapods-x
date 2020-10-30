@@ -148,7 +148,7 @@ bool avoid3Ladder (bool inverse = false) {
         legs::rotateCW();
         currentCounter = millis();
       }
-      while ((currentCounter - startCounter) <= (18000)) {
+      while ((currentCounter - startCounter) <= (19000)) {
         legs::forward();
         currentCounter = millis();
       }
@@ -636,12 +636,20 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCW();
     }
-    unsigned int startCounterX = millis();
-    unsigned int currentCounterX = millis();
-    while ((currentCounterX - startCounterX) < 32500) {
+    while ((currentCounter - startCounter) < 6000) {
+      lcd::message(1, lcd::MOVING_BACKWARD);
+      currentCounter = millis();
+      legs::backward();
+    }
+    while ((currentCounter - startCounter) < 37000) {
       lcd::message(1, lcd::ROCK_AND_ROLL);
       currentCounter = millis();
       legs::shiftLeftHigher();
+    }
+    while ((currentCounter - startCounter) < 40000) {
+      lcd::message(1, lcd::MOVING_BACKWARD);
+      currentCounter = millis();
+      legs::backward();
     }
     pingupdate();
     state_isInversed = true;

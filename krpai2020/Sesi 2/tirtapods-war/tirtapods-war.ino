@@ -641,7 +641,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::shiftLeftHigher();
     }
-    while ((currentCounter - startCounter) < 40000) {
+    while ((currentCounter - startCounter) < 42000) {
       lcd::message(1, lcd::MOVING_BACKWARD);
       currentCounter = millis();
       legs::backward();

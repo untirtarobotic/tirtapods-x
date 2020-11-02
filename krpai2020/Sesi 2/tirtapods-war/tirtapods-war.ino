@@ -148,7 +148,7 @@ bool avoid3Ladder (bool inverse = false) {
         legs::rotateCW();
         currentCounter = millis();
       }
-      while ((currentCounter - startCounter) <= (19000)) {
+      while ((currentCounter - startCounter) <= (18000)) {
         legs::forward();
         currentCounter = millis();
       }
@@ -541,12 +541,22 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 4500) {
+    while ((currentCounter - startCounter) < 4200) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
     }
+    while ((currentCounter - startCounter) < 7200) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
     while ((currentCounter - startCounter) < 7500) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
+    }
+    while ((currentCounter - startCounter) < 8500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -576,17 +586,17 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 6300){
+    while ((currentCounter - startCounter) < 6100){
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 10200) {
+    while ((currentCounter - startCounter) < 10000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 10400) {
+    while ((currentCounter - startCounter) < 10200) {
       lcd::message(1, lcd::SHIFTING_LEFT);
       currentCounter = millis();
       legs::shiftLeft();
@@ -631,11 +641,16 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
+<<<<<<< HEAD
     while ((currentCounter - startCounter) < 2300) {
+=======
+    while ((currentCounter - startCounter) < 5800) {
+>>>>>>> origin/master
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCCW();
     }
+<<<<<<< HEAD
     while ((currentCounter - startCounter) < 3300) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
@@ -657,11 +672,18 @@ bool detectLine() {
       legs::rotateCW();
     }
     while ((currentCounter - startCounter) < 42500) {
+=======
+    while ((currentCounter - startCounter) < 39000) {
+>>>>>>> origin/master
       lcd::message(1, lcd::ROCK_AND_ROLL);
       currentCounter = millis();
       legs::shiftLeftHigher();
     }
+<<<<<<< HEAD
     while ((currentCounter - startCounter) < 45000) {
+=======
+    while ((currentCounter - startCounter) < 42000) {
+>>>>>>> origin/master
       lcd::message(1, lcd::MOVING_BACKWARD);
       currentCounter = millis();
       legs::backward();

@@ -12,8 +12,8 @@ void loop() {
 
 void newComboA () {
   // LEFT LEGS
-  Leg.println("#4P1400 #5P1430 #6P1580 T200");
-  Leg.println("#8P1450 #9P1570 #10P1550 T200");
+  Leg.println("#4P1400 #5P1430 #6P1580 T200"); //coxa, femur,tibia
+  Leg.println("#8P1450 #9P1520 #10P1500 T200");
   Leg.println(F("#12P1350 #13P1350 #14P1680 T200"));
 
   // RIGHT LEGS
@@ -27,7 +27,7 @@ void newComboA () {
 void newComboB () {
   // LEFT LEGS
   Leg.println("#4P900 #5P1950 #6P2050 T200");
-  Leg.println("#8P1000 #9P2100 #10P2050 T200");
+  Leg.println("#8P1000 #9P2080 #10P2030 T200");
   Leg.println(F("#12P900 #13P1850 #14P2150 T200"));
 
   // RIGHT LEGS

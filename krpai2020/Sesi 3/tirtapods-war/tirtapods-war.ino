@@ -366,85 +366,56 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 1600) {
+    while ((currentCounter - startCounter) < 2000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 2100) {
+     while ((currentCounter - startCounter) < 2300) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
+    }
+    while ((currentCounter - startCounter) < 4300) {
+      lcd::message(1, lcd::MOVING_FORWARD);
+      currentCounter = millis();
+      legs::forward();
+    }
+    while ((currentCounter - startCounter) < 4800) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 3100) {
-      lcd::message(1, lcd::SHIFTING_RIGHT);
-      currentCounter = millis();
-      legs::shiftRight();
-    }
-    while ((currentCounter - startCounter) < 4100) {
+    while ((currentCounter - startCounter) < 5800) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 5600) {
+    while ((currentCounter - startCounter) < 8000) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 7600) {
-      lcd::message(1, lcd::MOVING_FORWARD);
+    while ((currentCounter - startCounter) < 42200) {
+      lcd::message(1, lcd::ROCK_AND_ROLL);
       currentCounter = millis();
-      legs::forward();
+      legs::shiftLeftHigher();
     }
-    while ((currentCounter - startCounter) < 8100) {
-      lcd::message(1, lcd::ROTATING_CW);
+    while ((currentCounter - startCounter) < 42600) {
+      lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
-      legs::rotateCW();
+      legs::rotateCCW();
     }
-    pingupdate();
-    state_isInversed = false;
-    return true;
-  }
-  if (line::isDetectedFloor && CounterRead == 7) {
-    CounterRead = CounterRead + 1;
-    lcd::message(0, lcd::LINE_DETECTED);
-    unsigned int startCounter = millis();
-    unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 4000) {
-      lcd::message(1, lcd::MOVING_FORWARD);
+    while ((currentCounter - startCounter) < 46600) {
+      lcd::message(1, lcd::MOVING_BACKWARD);
       currentCounter = millis();
-      legs::forward();
+      legs::backward();
     }
     pingupdate();
+    state_isInversed = true;
     return true;
   }
-  if (line::isDetectedFloor && CounterRead == 8) {
-    CounterRead = CounterRead + 1;
-    lcd::message(0, lcd::LINE_DETECTED);
-    unsigned int startCounter = millis();
-    unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 4000) {
-      lcd::message(1, lcd::MOVING_FORWARD);
-      currentCounter = millis();
-      legs::forward();
-    }
-    pingupdate();
-    return true;
-  }
-  if (line::isDetectedFloor && CounterRead == 9) {
-    CounterRead = CounterRead + 1;
-    lcd::message(0, lcd::LINE_DETECTED);
-    unsigned int startCounter = millis();
-    unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 7500) {
-      lcd::message(1, lcd::MOVING_FORWARD);
-      currentCounter = millis();
-      legs::forward();
-    }
-    pingupdate();
-    return true;
-  }
-  if (CounterRead == 10) {
+  if (CounterRead == 7) {
     standBy();
     return true;
   }

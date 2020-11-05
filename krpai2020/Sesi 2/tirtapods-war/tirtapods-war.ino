@@ -36,7 +36,7 @@ void setup () {
 }
 
 void loop () {
-  Serial.println (CounterRead);
+  // Serial.println (CounterRead);
   activation::update();
 
   if (activation::isON) {
@@ -107,6 +107,10 @@ void loop () {
           lcd::justPrint("Press start to", "extinguish");
           pump::activate(activation::isStartPushed);
           break;
+        case 5:
+          lcd::justPrint("IMU 9DOF", "push start")
+          pump::activate(activation::isStartPushed);
+          break;
         default:
           lcd::justPrint("== DEBUG MODE ==", "Press stop again");
       }
@@ -153,11 +157,7 @@ bool avoid3Ladder (bool inverse = false) {
         currentCounter = millis();
       }
     }
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
-    ping::update();
+    pingupdate();
     return true;
   }
   return true;
@@ -169,52 +169,20 @@ bool avoidWall (bool inverse = false) {
   bool minPosFound = false;
   bool maxPosFound = false;
 
-  if (!minPosFound && ping::near_a) {
-    minPos = 0;
-    minPosFound = true;
-  }
-  if (!minPosFound && ping::near_b) {
-    minPos = 2;
-    minPosFound = true;
-  }
-  if (!minPosFound && ping::near_c) {
-    minPos = 4;
-    minPosFound = true;
-  }
-  if (!minPosFound && ping::near_d) {
-    minPos = 6;
-    minPosFound = true;
-  }
-  if (!minPosFound && ping::near_e) {
-    minPos = 8;
-    minPosFound = true;
-  }
+  if (!minPosFound && ping::near_a) { minPos = 0; minPosFound = true; }
+  if (!minPosFound && ping::near_b) { minPos = 2; minPosFound = true; }
+  if (!minPosFound && ping::near_c) { minPos = 4; minPosFound = true; }
+  if (!minPosFound && ping::near_d) { minPos = 6; minPosFound = true; }
+  if (!minPosFound && ping::near_e) { minPos = 8; minPosFound = true; }
 
-  if (!maxPosFound && ping::near_e) {
-    maxPos = 8;
-    maxPosFound = true;
-  }
-  if (!maxPosFound && ping::near_d) {
-    maxPos = 6;
-    maxPosFound = true;
-  }
-  if (!maxPosFound && ping::near_c) {
-    maxPos = 4;
-    maxPosFound = true;
-  }
-  if (!maxPosFound && ping::near_b) {
-    maxPos = 2;
-    maxPosFound = true;
-  }
-  if (!maxPosFound && ping::near_a) {
-    maxPos = 0;
-    maxPosFound = true;
-  }
+  if (!maxPosFound && ping::near_e) { maxPos = 8; maxPosFound = true; }
+  if (!maxPosFound && ping::near_d) { maxPos = 6; maxPosFound = true; }
+  if (!maxPosFound && ping::near_c) { maxPos = 4; maxPosFound = true; }
+  if (!maxPosFound && ping::near_b) { maxPos = 2; maxPosFound = true; }
+  if (!maxPosFound && ping::near_a) { maxPos = 0; maxPosFound = true; }
 
   if (!minPosFound || !maxPosFound) return true; // this means wall is successfully avoided, if it's not then continue below
-
   short int avg = (maxPos + minPos) / 2;
-
   if (avg < 1) {
     lcd::message(0, lcd::WALL_ON_RIGHT);
     lcd::message(1, lcd::SHIFTING_LEFT);
@@ -247,10 +215,8 @@ bool avoidWall (bool inverse = false) {
     lcd::message(1, lcd::SHIFTING_RIGHT);
     legs::shiftRight();
   }
-
   return false;
 }
-
 bool detectLine() {
   //Masuk Room 1
   if (line::isDetected && CounterRead == 0) {
@@ -714,7 +680,6 @@ bool detectLine() {
   }
   return false;
 }
-
 bool getCloser2SRWR (bool inverse = false) {
   if (inverse) {
     if (ping::far_e && !ping::far_d && !ping::isOnSLWR) {
@@ -755,7 +720,6 @@ void traceRoute () {
     pingupdate();
   }
 }
-
 void traceRouteInverse () {
   if (!ping::far_e && !ping::far_d) {
     lcd::message(0, lcd::PATH_ON_LEFT);

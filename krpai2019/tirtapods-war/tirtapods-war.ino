@@ -255,7 +255,6 @@ bool avoidWall (bool inverse = false) {
     lcd::message(1, lcd::SHIFTING_RIGHT);
     legs::shiftRight();
   }
-
   return false;
 }
 

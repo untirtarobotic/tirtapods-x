@@ -324,18 +324,23 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 7000) {
+    while ((currentCounter - startCounter) < 5000) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
+    }
+    while ((currentCounter - startCounter) < 7500) {
       lcd::message(1, lcd::SHIFTING_RIGHT);
       currentCounter = millis();
       legs::shiftRight();
     }
-    while ((currentCounter - startCounter) < 8500) {
+    while ((currentCounter - startCounter) < 9000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
     pingupdate();
-    state_isInversed = false; // pepet kiri
+    state_isInversed = false; // pepet kanan
     return true;
   }
 
@@ -354,6 +359,11 @@ bool detectLine () {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
+    }
+    while ((currentCounter - startCounter) < 5100) {
+      lcd::message(1, lcd::MOVING_BACKWARD);
+      currentCounter = millis();
+      legs::backward();
     }
     pingupdate();
     state_isInversed = true; // pepet kiri
@@ -396,20 +406,20 @@ bool detectLine () {
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 42200) {
+    while ((currentCounter - startCounter) < 35200) {
       lcd::message(1, lcd::ROCK_AND_ROLL);
       currentCounter = millis();
       legs::shiftLeftHigher();
     }
-    while ((currentCounter - startCounter) < 42600) {
-      lcd::message(1, lcd::ROTATING_CCW);
-      currentCounter = millis();
-      legs::rotateCCW();
-    }
-    while ((currentCounter - startCounter) < 46600) {
+    while ((currentCounter - startCounter) < 38200) {
       lcd::message(1, lcd::MOVING_BACKWARD);
       currentCounter = millis();
       legs::backward();
+    }
+    while ((currentCounter - startCounter) < 41200) {
+      lcd::message(1, lcd::ROCK_AND_ROLL);
+      currentCounter = millis();
+      legs::shiftLeftHigher();
     }
     pingupdate();
     state_isInversed = true;

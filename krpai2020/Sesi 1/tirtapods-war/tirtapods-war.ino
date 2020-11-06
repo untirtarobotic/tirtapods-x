@@ -527,7 +527,13 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCW();
     }
+    while ((currentCounter - startCounter) < 6000) {
+      lcd::message(1, lcd::MOVING_BACKWARD);
+      currentCounter = millis();
+      legs::backward();
+    }
     pingupdate();
+    state_isInversed = true;
     return true;
   }
 

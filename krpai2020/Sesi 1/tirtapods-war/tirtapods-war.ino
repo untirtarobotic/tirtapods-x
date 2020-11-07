@@ -522,12 +522,12 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 4000) {
+    while ((currentCounter - startCounter) < 4500) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 6000) {
+    while ((currentCounter - startCounter) < 6500) {
       lcd::message(1, lcd::MOVING_BACKWARD);
       currentCounter = millis();
       legs::backward();
@@ -548,27 +548,17 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 5000) {
+    while ((currentCounter - startCounter) < 5300) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 7000) {
+    while ((currentCounter - startCounter) < 7900) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 7400) {
-      lcd::message(1, lcd::ROTATING_CW);
-      currentCounter = millis();
-      legs::rotateCW();
-    }
-    while ((currentCounter - startCounter) < 8600) {
-      lcd::message(1, lcd::MOVING_FORWARD);
-      currentCounter = millis();
-      legs::forward();
-    }
-    while ((currentCounter - startCounter) < 9600) {
+    while ((currentCounter - startCounter) < 8900) {
       lcd::message(1, lcd::SHIFTING_LEFT);
       currentCounter = millis();
       legs::shiftLeft();
@@ -587,12 +577,12 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 4800) {
+    while ((currentCounter - startCounter) < 5200) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 15200) {
+    while ((currentCounter - startCounter) < 20200) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();

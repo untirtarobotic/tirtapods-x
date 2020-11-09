@@ -7,33 +7,33 @@ void setup() {
 }
 
 void loop() {
-  newComboB();
+  newComboA();
 }
 
 void newComboA () {
   // LEFT LEGS
-  Leg.println("#4P1400 #5P1430 #6P1580 T200"); //coxa, femur,tibia
-  Leg.println("#8P1450 #9P1520 #10P1500 T200");
-  Leg.println(F("#12P1350 #13P1350 #14P1680 T200"));
+  Leg.println("#4P1500 #5P1430 #6P1580 T200"); //coxa, femur,tibia
+  Leg.println("#8P1400 #9P1550 #10P1600 T200");
+  Leg.println(F("#12P1400 #13P1300 #14P1680 T200"));
 
   // RIGHT LEGS
-  Leg.println(F("#20P1500 #21P1410 #22P1380 T200"));
-  Leg.println(F("#24P1400 #25P1600 #26P1250 T200"));
-  Leg.println(F("#28P1350 #29P1400 #30P1250 T200"));
+  Leg.println(F("#20P1600 #21P1500 #22P1400 T200"));
+  Leg.println(F("#24P1450 #25P1550 #26P1200 T200"));
+  Leg.println(F("#28P1300 #29P1450 #30P1350 T200"));
 
   delay(200);
 }
 
 void newComboB () {
   // LEFT LEGS
-  Leg.println("#4P900 #5P1950 #6P2050 T200");
-  Leg.println("#8P1000 #9P2080 #10P2030 T200");
-  Leg.println(F("#12P900 #13P1850 #14P2150 T200"));
+  Leg.println("#4P950 #5P1950 #6P2100 T200");
+  Leg.println("#8P1000 #9P2080 #10P2150 T200");
+  Leg.println(F("#12P850 #13P1800 #14P2150 T200"));
 
   // RIGHT LEGS
-  Leg.println(F("#20P2000 #21P940 #22P850 T200"));
-  Leg.println(F("#24P1870 #25P1040 #26P750 T200"));
-  Leg.println(F("#28P1830 #29P900 #30P750 T200"));
+  Leg.println(F("#20P2050 #21P1000 #22P850 T200"));
+  Leg.println(F("#24P1870 #25P1040 #26P650 T200"));
+  Leg.println(F("#28P1800 #29P1000 #30P850 T200"));
 
   delay(200);
 }

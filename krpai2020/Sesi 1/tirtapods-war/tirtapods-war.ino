@@ -14,7 +14,7 @@ unsigned int state_room4Counterstart = 0;
 unsigned int state_startTime = 0;
 unsigned int state_lastSWR = 0;
 
-int CounterRead = 7;
+int CounterRead = 4;
 bool CurrentState;
 
 bool avoidWall(bool inverse = false);
@@ -264,7 +264,7 @@ bool avoidWall (bool inverse = false) {
 }
 
 bool room4counter(){
-  if (state_room4CounterIsStarted){
+  if (state_room4CounterIsStarted && CounterRead == 9){
     if ((millis() - state_room4Counterstart) > 20000){
       state_isInversed = true;
     }

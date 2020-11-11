@@ -502,7 +502,7 @@ bool detectLine() {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 2000) {
+    while ((currentCounter - startCounter) < 2500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -512,7 +512,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 8000) {
+    while ((currentCounter - startCounter) < 9000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -607,32 +607,32 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 4300) {
+    while ((currentCounter - startCounter) < 4000) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 5300) {
+    while ((currentCounter - startCounter) < 6300) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 7500) {
+    while ((currentCounter - startCounter) < 9000) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 37700) {
+    while ((currentCounter - startCounter) < 39000) {
       lcd::message(1, lcd::ROCK_AND_ROLL);
       currentCounter = millis();
       legs::shiftLeftHigher();
     }
-    while ((currentCounter - startCounter) < 41000) {
+    while ((currentCounter - startCounter) < 42000) {
       lcd::message(1, lcd::MOVING_BACKWARD);
       currentCounter = millis();
       legs::backward();
     }
-    while ((currentCounter - startCounter) < 44000) {
+    while ((currentCounter - startCounter) < 45000) {
       lcd::message(1, lcd::ROCK_AND_ROLL);
       currentCounter = millis();
       legs::shiftLeftHigher();

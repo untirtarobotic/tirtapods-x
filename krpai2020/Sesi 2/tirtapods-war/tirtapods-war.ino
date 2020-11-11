@@ -108,7 +108,7 @@ void loop () {
           pump::activate(activation::isStartPushed);
           break;
         case 5:
-          lcd::justPrint("IMU 9DOF", "push start")
+          lcd::justPrint("IMU 9DOF", "push start");
           pump::activate(activation::isStartPushed);
           break;
         default:

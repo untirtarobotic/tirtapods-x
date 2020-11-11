@@ -14,7 +14,7 @@ unsigned int state_room4Counterstart = 0;
 unsigned int state_startTime = 0;
 unsigned int state_lastSWR = 0;
 
-int CounterRead = 0;
+int CounterRead = 8;
 bool CurrentState;
 
 bool avoidWall(bool inverse = false);
@@ -67,8 +67,8 @@ void loop () {
         state_lastSWR = millis();
       }
       if (detectLine()) return;
-      if (!avoidWall(true)) return;
       if (room4counter()) return;
+      if (!avoidWall(true)) return;
       //      if (!state_wascrossedline(true)) return;
       //      if (flameDetection()) return;
       //      if (!avoidObstacle(true)) return;
@@ -79,8 +79,8 @@ void loop () {
         state_lastSWR = millis();
       }
       if (detectLine()) return;
-      if (!avoidWall()) return;
       if (room4counter()) return;
+      if (!avoidWall()) return;
       //      if (!state_wascrossedline()) return;
       //      if (flameDetection()) return;
       if (!getCloser2SRWR()) return;
@@ -264,13 +264,14 @@ bool avoidWall (bool inverse = false) {
 }
 
 bool room4counter(){
-  if (state_room4CounterIsStarted && CounterRead !=(0,1,2,3,4,5,6,7)){
-    if ((millis() - state_room4Counterstart) > 20000){
+  if (state_room4CounterIsStarted && CounterRead !=(0,1,2,3,4,5,6,7,8)){
+    unsigned startCounter = millis();
+    if ((startCounter - state_room4Counterstart) > 20000){
       pingupdate();
       state_isInversed = true;
     }
-    if ((millis() - state_room4Counterstart) > 27000){
-      standBy();
+    if ((startCounter - state_room4Counterstart) > 27000){
+      legs::standby();
       return true;
     }
   }

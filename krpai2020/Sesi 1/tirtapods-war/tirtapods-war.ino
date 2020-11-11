@@ -66,9 +66,9 @@ void loop () {
       if (ping::isOnSLWR) {
         state_lastSWR = millis();
       }
-      if (room4counter()) return;
       if (detectLine()) return;
       if (!avoidWall(true)) return;
+      if (room4counter()) return;
       //      if (!state_wascrossedline(true)) return;
       //      if (flameDetection()) return;
       //      if (!avoidObstacle(true)) return;
@@ -78,9 +78,9 @@ void loop () {
       if (ping::isOnSRWR) {
         state_lastSWR = millis();
       }
-      if (room4counter()) return;
       if (detectLine()) return;
       if (!avoidWall()) return;
+      if (room4counter()) return;
       //      if (!state_wascrossedline()) return;
       //      if (flameDetection()) return;
       if (!getCloser2SRWR()) return;
@@ -264,8 +264,13 @@ bool avoidWall (bool inverse = false) {
 }
 
 bool room4counter(){
+<<<<<<< HEAD
   if (state_room4CounterIsStarted && CounterRead !=(0,1,2,3,4,5,6,7)){
+=======
+  if (state_room4CounterIsStarted && CounterRead != (0,1,2,3,4,5,6,7,8)){
+>>>>>>> origin/master
     if ((millis() - state_room4Counterstart) > 20000){
+      pingupdate();
       state_isInversed = true;
     }
     if ((millis() - state_room4Counterstart) > 27000){

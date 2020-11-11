@@ -271,9 +271,11 @@ bool room4counter(){
       state_isInversed = true;
     }
     if ((startCounter - state_room4Counterstart) > 27000){
-      legs::standby();
-      return true;
+    CounterRead = 12;
     }
+    if (CounterRead == 12){
+    standBy();
+    return true;
   }
  return false;
 }

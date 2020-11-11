@@ -264,11 +264,7 @@ bool avoidWall (bool inverse = false) {
 }
 
 bool room4counter(){
-<<<<<<< HEAD
   if (state_room4CounterIsStarted && CounterRead !=(0,1,2,3,4,5,6,7)){
-=======
-  if (state_room4CounterIsStarted && CounterRead != (0,1,2,3,4,5,6,7,8)){
->>>>>>> origin/master
     if ((millis() - state_room4Counterstart) > 20000){
       pingupdate();
       state_isInversed = true;

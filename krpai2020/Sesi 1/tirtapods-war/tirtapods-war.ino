@@ -264,7 +264,7 @@ bool avoidWall (bool inverse = false) {
 }
 
 bool room4counter(){
-  if (state_room4CounterIsStarted && CounterRead == 9){
+  if (state_room4CounterIsStarted && CounterRead !=(0,1,2,3,4,5,6,7)){
     if ((millis() - state_room4Counterstart) > 20000){
       state_isInversed = true;
     }

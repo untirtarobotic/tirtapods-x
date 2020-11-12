@@ -13,7 +13,7 @@ unsigned int state_startTime = 0;
 unsigned int state_lastSWR = 0;
 
 int CurrentState = 0;
-int CounterRead = 9;
+int CounterRead = 0;
 int CounterGlue = 0;
 int CounterFloor = 0;
 

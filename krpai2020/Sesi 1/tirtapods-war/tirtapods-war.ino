@@ -271,6 +271,9 @@ bool room4counter(){
       state_isInversed = true;
     }
     if ((startCounter - state_room4Counterstart) > 27000){
+      CounterRead = 12;
+    }
+    if (CounterRead == 12){
       standBy();
       return true;
     }

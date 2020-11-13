@@ -512,17 +512,22 @@ bool detectLine() {
       currentCounter = millis();
       legs::rotateCCW();
     }
-    while ((currentCounter - startCounter) < 8000) {
+    while ((currentCounter - startCounter) < 7800) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
+    }
+    while ((currentCounter - startCounter) < 8200) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
     }
     state_isInversed = true;
     return true;
   }
   
   //Indikator Lakban Room 3 Menuju Room 4
-  if(line::isDetectedGlue && CounterRead == 4){
+  if(line::isDetectedFloor && CounterRead == 4){
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -607,7 +612,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 3800) {
+    while ((currentCounter - startCounter) < 3700) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();

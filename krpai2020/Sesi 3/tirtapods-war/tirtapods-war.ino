@@ -18,7 +18,7 @@ int CounterFire = 0;
 
 bool avoidWall(bool inverse = false);
 bool flameDetection();
-bool avoid3Ladder(bool inverse = false);
+void avoid3Ladder();
 bool getCloser2SRWR(bool inverse = false);
 void traceRoute();
 void traceRouteInversed();
@@ -48,7 +48,7 @@ void loop () {
 
     if (!state_isInitialized) {
       state_startTime = millis();
-      state_isInversed = ping::checkShouldFollow();
+      state_isInversed = !ping::checkShouldFollowRight();
       state_isInitialized = true;
     }
 
@@ -72,7 +72,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall(true)) return;
       if (flameDetection()) return;
-      if (!avoid3Ladder(true)) return;
+      avoid3Ladder();
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
     } else {
@@ -82,7 +82,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall()) return;
       if (flameDetection()) return;
-      if (!avoid3Ladder()) return;
+      avoid3Ladder();
       if (!getCloser2SRWR()) return;
       traceRoute();
     }
@@ -134,28 +134,25 @@ void standBy () {
   legs::normalize();
 }
 
-bool avoid3Ladder (bool inverse = false) {
+void avoid3Ladder () {
   if (proxy::isDetectingSomething && CurrentState == 0 ) {
     lcd::message(0, lcd::THERE_IS_OBSTACLE);
     CurrentState++;
-    if (inverse) {
-      unsigned int startCounter = millis();
-      unsigned int currentCounter = millis();
-      while ((currentCounter - startCounter) <= (11800)) {
-        legs::forwardHigher();
-        currentCounter = millis();
-      }
-      while ((currentCounter - startCounter) <= (13800)) {
-        legs::shiftRight();
-        currentCounter = millis();
-      }
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) <= (11800)) {
+      legs::forwardHigher();
+      currentCounter = millis();
+    }
+    while ((currentCounter - startCounter) <= (13800)) {
+      legs::shiftRight();
+      currentCounter = millis();
     }
     pingupdate();
     state_isInversed = false;
-    return true;
   }
-  return true;
 }
+
 
 bool avoidWall (bool inverse = false) {
   short int minPos = 0;
@@ -257,7 +254,7 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-     while ((currentCounter - startCounter) < 3200) {
+    while ((currentCounter - startCounter) < 3200) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
@@ -312,7 +309,7 @@ bool detectLine () {
     }
     return true;
   }
-  
+
   //Masuk Room 1
   if (line::isDetected && CounterRead == 4) {
     CounterRead += 1;
@@ -381,7 +378,7 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-     while ((currentCounter - startCounter) < 2300) {
+    while ((currentCounter - startCounter) < 2300) {
       lcd::message(1, lcd::ROTATING_CCW);
       currentCounter = millis();
       legs::rotateCCW();
@@ -477,9 +474,9 @@ bool flameDetection () {
   //Pemadaman Api Room 3
   if (flame::is_center && CounterFire == 0) {
     lcd::message(0, lcd::FIRE_ON_CENTER);
-    if (proxy::isDetectingSomething2) {
+    if (proxy::isDetectingSomething) {
       lcd::message(1, lcd::EXTINGUISHING);
-      pump::extinguish(1000);
+      //      pump::extinguish(1000);
 
       if (flame::state_isIndicatorOn) {
         digitalWrite(PIN_FLAME_INDICATOR, HIGH);
@@ -488,15 +485,27 @@ bool flameDetection () {
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
 
-      while ((currentCounter - startCounter) < 1650) {
-        currentCounter = millis();
-        legs::backward();
-      }
-      while ((currentCounter - startCounter) < 6150) {
+      while ((currentCounter - startCounter) < 600) {
         currentCounter = millis();
         legs::rotateCCW();
       }
-      while ((currentCounter - startCounter) < 9000) {
+      pump::activate(true);
+
+      while ((currentCounter - startCounter) < 1800) {
+        currentCounter = millis();
+        legs::rotateCW();
+      }
+      pump::activate(false);
+
+      while ((currentCounter - startCounter) < 3300) {
+        currentCounter = millis();
+        legs::backward();
+      }
+      while ((currentCounter - startCounter) < 4000) {
+        currentCounter = millis();
+        legs::rotateCCW();
+      }
+      while ((currentCounter - startCounter) < 8000) {
         currentCounter = millis();
         legs::shiftRight();
       }

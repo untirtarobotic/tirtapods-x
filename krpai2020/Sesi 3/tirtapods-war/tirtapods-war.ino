@@ -254,11 +254,11 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 3200) {
-      lcd::message(1, lcd::ROTATING_CCW);
-      currentCounter = millis();
-      legs::rotateCCW();
-    }
+//    while ((currentCounter - startCounter) < 3200) {
+//      lcd::message(1, lcd::ROTATING_CCW);
+//      currentCounter = millis();
+//      legs::rotateCCW();
+//    }
     return true;
   }
 
@@ -282,16 +282,16 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 3500) {
+    while ((currentCounter - startCounter) < 2500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 5500) {
-      lcd::message(1, lcd::ROTATING_CCW);
-      currentCounter = millis();
-      legs::rotateCW();
-    }
+//    while ((currentCounter - startCounter) < 5500) {
+//      lcd::message(1, lcd::ROTATING_CCW);
+//      currentCounter = millis();
+//      legs::rotateCW();
+//    }
     pingupdate();
     return true;
   }
@@ -347,17 +347,17 @@ bool detectLine () {
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-    while ((currentCounter - startCounter) < 1600) {
+    while ((currentCounter - startCounter) < 2500) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 3100) {
+    while ((currentCounter - startCounter) < 4900) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 5100) {
+    while ((currentCounter - startCounter) < 6900) {
       lcd::message(1, lcd::MOVING_BACKWARD);
       currentCounter = millis();
       legs::backward();
@@ -491,7 +491,7 @@ bool flameDetection () {
       }
       pump::activate(true);
 
-      while ((currentCounter - startCounter) < 1800) {
+      while ((currentCounter - startCounter) < 2000) {
         currentCounter = millis();
         legs::rotateCW();
       }
@@ -501,11 +501,11 @@ bool flameDetection () {
         currentCounter = millis();
         legs::backward();
       }
-      while ((currentCounter - startCounter) < 4000) {
+      while ((currentCounter - startCounter) < 9000) {
         currentCounter = millis();
         legs::rotateCCW();
       }
-      while ((currentCounter - startCounter) < 8000) {
+      while ((currentCounter - startCounter) < 11000) {
         currentCounter = millis();
         legs::shiftRight();
       }
@@ -523,12 +523,24 @@ bool flameDetection () {
     lcd::message(0, lcd::FIRE_ON_CENTER);
     if (proxy::isDetectingSomething2) {
       lcd::message(1, lcd::EXTINGUISHING);
-      pump::extinguish(1000);
+      //      pump::extinguish(1000);
 
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
 
-      while ((currentCounter - startCounter) < 3000) {
+      while ((currentCounter - startCounter) < 600) {
+        currentCounter = millis();
+        legs::rotateCCW();
+      }
+      pump::activate(true);
+
+      while ((currentCounter - startCounter) < 2000) {
+        currentCounter = millis();
+        legs::rotateCW();
+      }
+      pump::activate(false);
+
+      while ((currentCounter - startCounter) < 3300) {
         currentCounter = millis();
         legs::backward();
       }
@@ -555,20 +567,32 @@ bool flameDetection () {
     lcd::message(0, lcd::FIRE_ON_CENTER);
     if (proxy::isDetectingSomething2) {
       lcd::message(1, lcd::EXTINGUISHING);
-      pump::extinguish(1000);
+//      pump::extinguish(1000);
 
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
 
-      while ((currentCounter - startCounter) < 1650) {
-        currentCounter = millis();
-        legs::backward();
-      }
-      while ((currentCounter - startCounter) < 6150) {
+      while ((currentCounter - startCounter) < 600) {
         currentCounter = millis();
         legs::rotateCCW();
       }
-      while ((currentCounter - startCounter) < 9500) {
+      pump::activate(true);
+
+      while ((currentCounter - startCounter) < 2000) {
+        currentCounter = millis();
+        legs::rotateCW();
+      }
+      pump::activate(false);
+
+      while ((currentCounter - startCounter) < 3450) {
+        currentCounter = millis();
+        legs::backward();
+      }
+      while ((currentCounter - startCounter) < 7950) {
+        currentCounter = millis();
+        legs::rotateCCW();
+      }
+      while ((currentCounter - startCounter) < 11300) {
         currentCounter = millis();
         legs::shiftRight();
       }

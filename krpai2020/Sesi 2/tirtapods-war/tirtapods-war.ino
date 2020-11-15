@@ -18,7 +18,7 @@ int CounterGlue = 0;
 int CounterFloor = 0;
 
 bool avoidWall(bool inverse = false);
-bool avoid3Ladder(bool inverse = false);
+void avoid3Ladder();
 bool getCloser2SRWR(bool inverse = false);
 void traceRoute();
 void traceRouteInversed();
@@ -48,7 +48,7 @@ void loop () {
 
     if (!state_isInitialized) {
       state_startTime = millis();
-      state_isInversed = ping::checkShouldFollow();
+      state_isInversed = ping::checkShouldFollowLeft();
       state_isInitialized = true;
     }
 
@@ -71,7 +71,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall(true)) return;
       //      if (flameDetection()) return;
-      if (!avoid3Ladder(true)) return;
+      avoid3Ladder();
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
     } else {
@@ -81,7 +81,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall()) return;
       //      if (flameDetection()) return;
-      if (!avoid3Ladder()) return;
+      avoid3Ladder();
       if (!getCloser2SRWR()) return;
       traceRoute();
     }
@@ -137,30 +137,26 @@ void standBy () {
   legs::normalize();
 }
 
-bool avoid3Ladder (bool inverse = false) {
+void avoid3Ladder () {
   if (proxy::isDetectingSomething && CurrentState == 0) {
     lcd::message(0, lcd::THERE_IS_OBSTACLE);
     CurrentState++;
-    if (inverse) {
-      unsigned int startCounter = millis();
-      unsigned int currentCounter = millis();
-      while ((currentCounter - startCounter) <= (12300)) {
-        legs::forwardHigher();
-        currentCounter = millis();
-      }
-      while ((currentCounter - startCounter) <= (13100)) {
-        legs::rotateCCW();
-        currentCounter = millis();
-      }
-      while ((currentCounter - startCounter) <= (19000)) {
-        legs::forward();
-        currentCounter = millis();
-      }
+    unsigned int startCounter = millis();
+    unsigned int currentCounter = millis();
+    while ((currentCounter - startCounter) <= (12300)) {
+      legs::forwardHigher();
+      currentCounter = millis();
     }
-    pingupdate();
-    return true;
+    while ((currentCounter - startCounter) <= (13100)) {
+      legs::rotateCCW();
+      currentCounter = millis();
+    }
+    while ((currentCounter - startCounter) <= (19000)) {
+      legs::forward();
+      currentCounter = millis();
+    }
   }
-  return true;
+  pingupdate();
 }
 
 bool avoidWall (bool inverse = false) {
@@ -169,17 +165,47 @@ bool avoidWall (bool inverse = false) {
   bool minPosFound = false;
   bool maxPosFound = false;
 
-  if (!minPosFound && ping::near_a) { minPos = 0; minPosFound = true; }
-  if (!minPosFound && ping::near_b) { minPos = 2; minPosFound = true; }
-  if (!minPosFound && ping::near_c) { minPos = 4; minPosFound = true; }
-  if (!minPosFound && ping::near_d) { minPos = 6; minPosFound = true; }
-  if (!minPosFound && ping::near_e) { minPos = 8; minPosFound = true; }
+  if (!minPosFound && ping::near_a) {
+    minPos = 0;
+    minPosFound = true;
+  }
+  if (!minPosFound && ping::near_b) {
+    minPos = 2;
+    minPosFound = true;
+  }
+  if (!minPosFound && ping::near_c) {
+    minPos = 4;
+    minPosFound = true;
+  }
+  if (!minPosFound && ping::near_d) {
+    minPos = 6;
+    minPosFound = true;
+  }
+  if (!minPosFound && ping::near_e) {
+    minPos = 8;
+    minPosFound = true;
+  }
 
-  if (!maxPosFound && ping::near_e) { maxPos = 8; maxPosFound = true; }
-  if (!maxPosFound && ping::near_d) { maxPos = 6; maxPosFound = true; }
-  if (!maxPosFound && ping::near_c) { maxPos = 4; maxPosFound = true; }
-  if (!maxPosFound && ping::near_b) { maxPos = 2; maxPosFound = true; }
-  if (!maxPosFound && ping::near_a) { maxPos = 0; maxPosFound = true; }
+  if (!maxPosFound && ping::near_e) {
+    maxPos = 8;
+    maxPosFound = true;
+  }
+  if (!maxPosFound && ping::near_d) {
+    maxPos = 6;
+    maxPosFound = true;
+  }
+  if (!maxPosFound && ping::near_c) {
+    maxPos = 4;
+    maxPosFound = true;
+  }
+  if (!maxPosFound && ping::near_b) {
+    maxPos = 2;
+    maxPosFound = true;
+  }
+  if (!maxPosFound && ping::near_a) {
+    maxPos = 0;
+    maxPosFound = true;
+  }
 
   if (!minPosFound || !maxPosFound) return true; // this means wall is successfully avoided, if it's not then continue below
   short int avg = (maxPos + minPos) / 2;
@@ -272,7 +298,7 @@ bool detectLine() {
     state_isInversed = false;
     return true;
   }
-  
+
   //Keluar Room 1
   if (line::isDetected && CounterRead == 1) {
     CounterRead = CounterRead + 1;
@@ -347,7 +373,7 @@ bool detectLine() {
     state_isInversed = false;
     return true;
   }
-  
+
   //Keluar Room 3
   if (line::isDetected && CounterRead == 3) {
     CounterRead = CounterRead + 1;
@@ -525,9 +551,9 @@ bool detectLine() {
     state_isInversed = true;
     return true;
   }
-  
+
   //Indikator Lakban Room 3 Menuju Room 4
-  if(line::isDetectedFloor && CounterRead == 4){
+  if (line::isDetectedFloor && CounterRead == 4) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -537,7 +563,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 1900){
+    while ((currentCounter - startCounter) < 1900) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
@@ -547,10 +573,10 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 5100){
-    lcd::message(1, lcd::ROTATING_CCW);
-    currentCounter = millis();
-    legs::rotateCCW();
+    while ((currentCounter - startCounter) < 5100) {
+      lcd::message(1, lcd::ROTATING_CCW);
+      currentCounter = millis();
+      legs::rotateCCW();
     }
     while ((currentCounter - startCounter) < 9600) {
       lcd::message(1, lcd::MOVING_FORWARD);
@@ -566,14 +592,14 @@ bool detectLine() {
     state_isInversed = true;
     return true;
   }
-  
+
   //Indikator Keluar Room 4 Ke Room 2
-  if(line::isDetectedGlue && CounterRead == 7){
+  if (line::isDetectedGlue && CounterRead == 7) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
     unsigned int currentCounter = millis();
-  while ((currentCounter - startCounter) < 2000) {
+    while ((currentCounter - startCounter) < 2000) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
@@ -592,7 +618,7 @@ bool detectLine() {
     return true;
   }
   //Indikator Lakban PerEmpatan Menuju Home
-  if(line::isDetectedFloor && CounterRead == 10){
+  if (line::isDetectedFloor && CounterRead == 10) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();
@@ -647,11 +673,11 @@ bool detectLine() {
     return true;
   }
   //Indikator Homing
-  if(CounterRead == 11){
+  if (CounterRead == 11) {
     standBy();
     return true;
   }
-  if (line::isDetectedGlue){
+  if (line::isDetectedGlue) {
     line::isDetectedGlue = false;
   }
   return false;
@@ -716,10 +742,10 @@ void traceRouteInverse () {
     pingupdate();
   }
 }
-void pingupdate(){
-    ping::update();
-    ping::update(); 
-    ping::update();
-    ping::update();
-    ping::update();
+void pingupdate() {
+  ping::update();
+  ping::update();
+  ping::update();
+  ping::update();
+  ping::update();
 }

@@ -271,7 +271,7 @@ bool room4counter(){
       pingupdate();
       state_isInversed = true;
     }
-    if ((startCounter - state_room4Counterstart) > 27000){
+    if ((startCounter - state_room4Counterstart) > 28000){
       CounterRead = 12;
     }
     if (CounterRead == 12){
@@ -599,7 +599,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 9000) {
+    while ((currentCounter - startCounter) < 8000) {
       lcd::message(1, lcd::SHIFTING_LEFT);
       currentCounter = millis();
       legs::shiftLeft();

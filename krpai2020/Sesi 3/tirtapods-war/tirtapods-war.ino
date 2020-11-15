@@ -408,7 +408,7 @@ bool detectLine () {
       currentCounter = millis();
       legs::shiftLeftHigher();
     }
-    while ((currentCounter - startCounter) < 38200) {
+    while ((currentCounter - startCounter) < 39200) {
       lcd::message(1, lcd::MOVING_BACKWARD);
       currentCounter = millis();
       legs::backward();
@@ -485,7 +485,7 @@ bool flameDetection () {
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
 
-      while ((currentCounter - startCounter) < 600) {
+      while ((currentCounter - startCounter) < 400) {
         currentCounter = millis();
         legs::rotateCCW();
       }
@@ -528,7 +528,7 @@ bool flameDetection () {
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
 
-      while ((currentCounter - startCounter) < 600) {
+      while ((currentCounter - startCounter) < 400) {
         currentCounter = millis();
         legs::rotateCCW();
       }
@@ -572,7 +572,7 @@ bool flameDetection () {
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
 
-      while ((currentCounter - startCounter) < 600) {
+      while ((currentCounter - startCounter) < 400) {
         currentCounter = millis();
         legs::rotateCCW();
       }

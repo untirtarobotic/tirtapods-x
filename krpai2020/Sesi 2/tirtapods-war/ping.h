@@ -145,7 +145,7 @@ namespace ping {
     }
   }
 
-  bool checkShouldFollow() {
+  bool checkShouldFollowLeft() {
     update();
     update();
     update();

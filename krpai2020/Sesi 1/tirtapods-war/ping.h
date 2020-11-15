@@ -146,7 +146,7 @@ namespace ping {
     update();
     update();
 
-    if (ping::far_a && ping::far_b) {
+    if (ping::far_a || ping::far_b) {
       return true;
     } else {
       return false;

@@ -48,7 +48,7 @@ void loop () {
     }
     if (!state_isInitialized) {
       state_startTime = millis();
-      state_isInversed = ping::checkShouldFollowRight();
+      state_isInversed = !ping::checkShouldFollowRight();
       state_isInitialized = true;
     }
     ping::update();
@@ -83,6 +83,7 @@ void loop () {
       if (!avoidWall()) return;
       //      if (!state_wascrossedline()) return;
       //      if (flameDetection()) return;
+      //      if (!avoidObstacle(true)) return;
       if (!getCloser2SRWR()) return;
       traceRoute();
     }

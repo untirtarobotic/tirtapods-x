@@ -589,17 +589,17 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 5000) {
+    while ((currentCounter - startCounter) < 5250) {
       lcd::message(1, lcd::ROTATING_CW);
       currentCounter = millis();
       legs::rotateCW();
     }
-    while ((currentCounter - startCounter) < 7000) {
+    while ((currentCounter - startCounter) < 7250) {
       lcd::message(1, lcd::MOVING_FORWARD);
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 8000) {
+    while ((currentCounter - startCounter) < 8250) {
       lcd::message(1, lcd::SHIFTING_LEFT);
       currentCounter = millis();
       legs::shiftLeft();

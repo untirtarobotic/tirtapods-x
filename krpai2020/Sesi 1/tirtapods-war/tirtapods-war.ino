@@ -654,7 +654,7 @@ bool detectLine() {
 //    standBy();
 //    return true;
 //  }
-  if (line::isDetected && CounterRead !=(0,2,5,7,8,9,10,11)) {
+  if (line::isDetected && CounterRead !=(0,2,5,7,8,9,10,11,12)) {
     CounterRead = CounterRead + 1;
     lcd::message(0, lcd::LINE_DETECTED);
     unsigned int startCounter = millis();

@@ -155,6 +155,10 @@ void avoid3Ladder () {
       legs::forward();
       currentCounter = millis();
     }
+    while ((currentCounter - startCounter) <= (20000)) {
+      legs::shiftLeft();
+      currentCounter = millis();
+    }
   }
   pingupdate();
 }
@@ -583,7 +587,7 @@ bool detectLine() {
       currentCounter = millis();
       legs::forward();
     }
-    while ((currentCounter - startCounter) < 10600) {
+    while ((currentCounter - startCounter) < 11100) {
       lcd::message(1, lcd::SHIFTING_LEFT);
       currentCounter = millis();
       legs::shiftLeft();

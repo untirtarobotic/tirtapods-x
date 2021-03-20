@@ -19,7 +19,7 @@ void newComboA () {
   // RIGHT LEGS
   Leg.println(F("#20P1600 #21P1500 #22P1350 T200"));
   Leg.println(F("#24P1450 #25P1540 #26P1200 T200"));
-  Leg.println(F("#28P1300 #29P1450 #30P1350 T200"));
+  Leg.println(F("#28P1300 #29P1450 #30P1300 T200"));
 
   delay(200);
 }
@@ -33,7 +33,7 @@ void newComboB () {
   // RIGHT LEGS
   Leg.println(F("#20P1850 #21P1000 #22P850 T200"));
   Leg.println(F("#24P1950 #25P1040 #26P650 T200"));
-  Leg.println(F("#28P1770 #29P980 #30P900 T200"));
+  Leg.println(F("#28P1770 #29P980 #30P850 T200"));
 
   delay(200);
 }

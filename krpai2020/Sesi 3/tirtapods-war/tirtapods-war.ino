@@ -72,7 +72,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall(true)) return;
       if (flameDetection()) return;
-      avoid3Ladder();
+      //      avoid3Ladder();
       if (!getCloser2SRWR(true)) return;
       traceRouteInverse();
     } else {
@@ -82,7 +82,7 @@ void loop () {
       if (detectLine()) return;
       if (!avoidWall()) return;
       if (flameDetection()) return;
-      avoid3Ladder();
+      //      avoid3Ladder();
       if (!getCloser2SRWR()) return;
       traceRoute();
     }
@@ -254,11 +254,11 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-//    while ((currentCounter - startCounter) < 3200) {
-//      lcd::message(1, lcd::ROTATING_CCW);
-//      currentCounter = millis();
-//      legs::rotateCCW();
-//    }
+    //    while ((currentCounter - startCounter) < 3200) {
+    //      lcd::message(1, lcd::ROTATING_CCW);
+    //      currentCounter = millis();
+    //      legs::rotateCCW();
+    //    }
     return true;
   }
 
@@ -287,11 +287,11 @@ bool detectLine () {
       currentCounter = millis();
       legs::forward();
     }
-//    while ((currentCounter - startCounter) < 5500) {
-//      lcd::message(1, lcd::ROTATING_CCW);
-//      currentCounter = millis();
-//      legs::rotateCW();
-//    }
+    //    while ((currentCounter - startCounter) < 5500) {
+    //      lcd::message(1, lcd::ROTATING_CCW);
+    //      currentCounter = millis();
+    //      legs::rotateCW();
+    //    }
     pingupdate();
     return true;
   }
@@ -501,9 +501,9 @@ bool flameDetection () {
         currentCounter = millis();
         legs::backward();
       }
-      while ((currentCounter - startCounter) < 9000) {
+      while ((currentCounter - startCounter) < 9800) {
         currentCounter = millis();
-        legs::rotateCCW();
+        legs::rotateCW();
       }
       while ((currentCounter - startCounter) < 11000) {
         currentCounter = millis();
@@ -567,7 +567,7 @@ bool flameDetection () {
     lcd::message(0, lcd::FIRE_ON_CENTER);
     if (proxy::isDetectingSomething2) {
       lcd::message(1, lcd::EXTINGUISHING);
-//      pump::extinguish(1000);
+      //      pump::extinguish(1000);
 
       unsigned int startCounter = millis();
       unsigned int currentCounter = millis();
